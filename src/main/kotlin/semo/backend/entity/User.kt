@@ -11,19 +11,19 @@ import jakarta.persistence.Table
 @Table(name = "users")
 class User(
     @Column
-    var username: String,
+    var username: String?,
 
     @Column
-    var password: String,
+    var password: String?,
 
     @Column
-    var name: String,
+    var name: String?,
 
     @Column
-    var email: String,
+    var email: String?,
 
     @Column
-    var phone: String,
+    var phone: String?,
 
 ): AuditLoggingBase() {
     @Id
