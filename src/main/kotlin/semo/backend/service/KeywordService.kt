@@ -19,9 +19,11 @@ class KeywordService(
     private val keywordMapStruct: KeywordMapStruct,
 ) {
     fun getKeywords(): List<KeywordDto> {
-        return keywordMapStruct.toDtos(
-            keywordRepository.findAll().sortedWith(compareBy<Keyword> { it.priority }.thenBy { it.label }),
-        )
+        return keywordMapStruct.toDtos(keywordRepository.findAllByOrderByPriorityAscLabelAsc())
+    }
+
+    fun searchKeywords(query: String): List<KeywordDto> {
+        return keywordMapStruct.toDtos(keywordRepository.searchByLabelOrderByPriority(query.trim()))
     }
 
     fun getKeyword(keywordId: Long): KeywordDto {
