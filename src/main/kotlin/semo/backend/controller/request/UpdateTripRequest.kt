@@ -1,11 +1,12 @@
 package semo.backend.controller.request
 
 import java.time.LocalDate
+import java.util.Optional
 
 data class UpdateTripRequest(
-    val title: PatchValue<String?> = PatchValue.undefined(),
-    val startDate: PatchValue<LocalDate?> = PatchValue.undefined(),
-    val endDate: PatchValue<LocalDate?> = PatchValue.undefined(),
-    val userId: PatchValue<Long?> = PatchValue.undefined(),
-    val cityId: PatchValue<Long?> = PatchValue.undefined(),
+    val title: Optional<String>? = null,
+    val startDate: Optional<LocalDate>? = null,
+    val endDate: Optional<LocalDate>? = null,
+    val userId: Optional<Long>? = null,
+    val cityId: Optional<Long>? = null,
 )
