@@ -1,10 +1,6 @@
 spring:
   application:
     name: backend
-  datasource:
-    url: jdbc:postgresql://localhost:5432/semobackend
-    username: semo
-    password: secret
   jpa:
     hibernate:
       ddl-auto: validate
