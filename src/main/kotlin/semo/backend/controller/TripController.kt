@@ -18,6 +18,7 @@ import semo.backend.controller.response.GetTripResponse
 import semo.backend.controller.response.GetTripsResponse
 import semo.backend.controller.response.UpdateTripResponse
 import semo.backend.facade.TripFacade
+import semo.backend.security.UserId
 
 @RestController
 @RequestMapping("/trips")
@@ -43,10 +44,11 @@ class TripController(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createTrip(
+        @UserId userId: Long,
         @RequestBody request: CreateTripRequest,
     ): CreateTripResponse {
         return CreateTripResponse(
-            trip = tripFacade.createTrip(request),
+            trip = tripFacade.createTrip(userId, request),
         )
     }
 
