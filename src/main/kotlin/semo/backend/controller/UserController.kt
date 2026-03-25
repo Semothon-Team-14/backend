@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import semo.backend.config.argument.OptionalRequestBody
 import semo.backend.controller.request.CreateUserRequest
 import semo.backend.controller.request.UpdateUserRequest
 import semo.backend.controller.response.CreateUserResponse
@@ -55,7 +56,7 @@ class UserController(
     @PutMapping("/{userId}")
     fun updateUser(
         @PathVariable userId: Long,
-        @RequestBody request: UpdateUserRequest,
+        @OptionalRequestBody request: UpdateUserRequest,
     ): UpdateUserResponse {
         return UpdateUserResponse(
             user = userFacade.updateUser(userId, request),
