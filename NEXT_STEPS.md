@@ -6,7 +6,7 @@
 
 ## Save Command Behavior
 
-- When the user says `save`, create a new Markdown file in the repository root.
+- When the user says `save`, create a new Markdown file in `save-notes/`.
 - The filename must use Korea Standard Time in `YYYYMMDDHHmm.md` format.
 - The save note must summarize:
   - what was completed in the current work session
