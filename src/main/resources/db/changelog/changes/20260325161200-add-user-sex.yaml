@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260325161200-add-user-sex
+      author: codex
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: sex
+                  type: VARCHAR(20)
+        - addCheckConstraint:
+            tableName: users
+            constraintName: chk_users_sex
+            validate: true
+            checkConstraint: sex IS NULL OR sex IN ('MALE', 'FEMALE')
