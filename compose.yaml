@@ -1,13 +1,24 @@
 services:
   postgres:
-    image: 'postgres:latest'
+    image: 'postgres:17'
+    container_name: semo-postgres
     environment:
       - 'POSTGRES_DB=semobackend'
       - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=user'
+      - 'POSTGRES_USER=semo'
     ports:
-      - '5432'
+      - '5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U semo -d semobackend" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   redis:
     image: 'redis:latest'
     ports:
-      - '6379'
+      - '6379:6379'
+
+volumes:
+  postgres-data:
