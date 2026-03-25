@@ -6,3 +6,4 @@ spring:
     url: jdbc:postgresql://localhost:5432/semobackend
     username: semo
     password: secret
+
