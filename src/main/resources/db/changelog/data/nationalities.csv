@@ -1,0 +1,33 @@
+id,country_code,country_name_english,country_name_korean
+1,KR,South Korea,대한민국
+2,JP,Japan,일본
+3,CN,China,중국
+4,TW,Taiwan,대만
+5,HK,Hong Kong,홍콩
+6,SG,Singapore,싱가포르
+7,TH,Thailand,태국
+8,VN,Vietnam,베트남
+9,MY,Malaysia,말레이시아
+10,ID,Indonesia,인도네시아
+11,PH,Philippines,필리핀
+12,IN,India,인도
+13,AU,Australia,호주
+14,NZ,New Zealand,뉴질랜드
+15,US,United States,미국
+16,CA,Canada,캐나다
+17,MX,Mexico,멕시코
+18,BR,Brazil,브라질
+19,AR,Argentina,아르헨티나
+20,GB,United Kingdom,영국
+21,FR,France,프랑스
+22,DE,Germany,독일
+23,IT,Italy,이탈리아
+24,ES,Spain,스페인
+25,NL,Netherlands,네덜란드
+26,CH,Switzerland,스위스
+27,TR,Turkey,튀르키예
+28,AE,United Arab Emirates,아랍에미리트
+29,SA,Saudi Arabia,사우디아라비아
+30,EG,Egypt,이집트
+31,ZA,South Africa,남아프리카공화국
+32,KE,Kenya,케냐
