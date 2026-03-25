@@ -1,5 +1,6 @@
 package semo.backend.controller
 
+import io.swagger.v3.oas.annotations.Operation
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -40,6 +41,7 @@ class UserController(
         )
     }
 
+    @Operation(security = [])
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createUser(
