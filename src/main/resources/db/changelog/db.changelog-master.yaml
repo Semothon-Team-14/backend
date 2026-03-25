@@ -15,3 +15,5 @@ databaseChangeLog:
       file: db/changelog/changes/20260325161000-add-user-introduction-and-keywords.yaml
   - include:
       file: db/changelog/changes/20260325161100-seed-keywords.yaml
+  - include:
+      file: db/changelog/changes/20260325161200-add-user-sex.yaml
