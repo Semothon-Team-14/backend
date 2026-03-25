@@ -16,5 +16,6 @@ interface UserMapStruct : GenericMapStruct<User, UserDto> {
     @Mapping(target = "createdDateTime", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
     @Mapping(target = "updatedDateTime", ignore = true)
+    @Mapping(target = "nationality", ignore = true)
     fun toEntity(request: CreateUserRequest): User
 }
