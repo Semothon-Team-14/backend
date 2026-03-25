@@ -1,12 +1,14 @@
 package semo.backend.controller.request
 
+import java.util.Optional
+
 data class UpdateUserRequest(
-    val username: PatchValue<String?> = PatchValue.undefined(),
-    val password: PatchValue<String?> = PatchValue.undefined(),
-    val name: PatchValue<String?> = PatchValue.undefined(),
-    val email: PatchValue<String?> = PatchValue.undefined(),
-    val phone: PatchValue<String?> = PatchValue.undefined(),
-    val introduction: PatchValue<String?> = PatchValue.undefined(),
-    val nationalityId: PatchValue<Long?> = PatchValue.undefined(),
-    val keywordIds: PatchValue<List<Long>?> = PatchValue.undefined(),
+    val username: Optional<String>? = null,
+    val password: Optional<String>? = null,
+    val name: Optional<String>? = null,
+    val email: Optional<String>? = null,
+    val phone: Optional<String>? = null,
+    val introduction: Optional<String>? = null,
+    val nationalityId: Optional<Long>? = null,
+    val keywordIds: Optional<List<Long>>? = null,
 )
