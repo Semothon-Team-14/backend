@@ -1,5 +1,6 @@
 package semo.backend.service
 
+import org.openapitools.jackson.nullable.JsonNullable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import semo.backend.controller.request.CreateUserRequest
@@ -32,7 +33,11 @@ class UserService(
     @Transactional
     fun updateUser(userId: Long, request: UpdateUserRequest): UserDto {
         val user = findUserById(userId)
-        userMapStruct.updateEntityFromRequest(request, user)
+        request.username.ifPresent { user.username = it }
+        request.password.ifPresent { user.password = it }
+        request.name.ifPresent { user.name = it }
+        request.email.ifPresent { user.email = it }
+        request.phone.ifPresent { user.phone = it }
         return userMapStruct.toDto(userRepository.save(user))
     }
 
@@ -46,5 +51,13 @@ class UserService(
     private fun findUserById(userId: Long): User {
         return userRepository.findById(userId)
             .orElseThrow { UserNotFoundException(userId) }
+    }
+
+    private inline fun <T> JsonNullable<T>.ifPresent(
+        block: (T) -> Unit,
+    ) {
+        if (isPresent) {
+            block(get())
+        }
     }
 }
