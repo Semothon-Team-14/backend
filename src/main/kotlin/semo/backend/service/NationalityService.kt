@@ -18,7 +18,11 @@ class NationalityService(
     private val nationalityMapStruct: NationalityMapStruct,
 ) {
     fun getNationalities(): List<NationalityDto> {
-        return nationalityMapStruct.toDtos(nationalityRepository.findAll())
+        return nationalityMapStruct.toDtos(nationalityRepository.findAllByOrderByCountryNameEnglishAsc())
+    }
+
+    fun searchNationalities(query: String): List<NationalityDto> {
+        return nationalityMapStruct.toDtos(nationalityRepository.search(query.trim()))
     }
 
     fun getNationality(nationalityId: Long): NationalityDto {
