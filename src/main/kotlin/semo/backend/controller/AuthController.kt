@@ -1,5 +1,6 @@
 package semo.backend.controller
 
+import io.swagger.v3.oas.annotations.Operation
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -13,6 +14,7 @@ import semo.backend.facade.AuthFacade
 class AuthController(
     private val authFacade: AuthFacade,
 ) {
+    @Operation(security = [])
     @PostMapping("/login")
     fun login(
         @RequestBody request: LoginRequest,
