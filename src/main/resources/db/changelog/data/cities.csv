@@ -1,0 +1,97 @@
+id,nationality_id,city_name_english,city_name_korean
+1,1,Seoul,서울
+2,1,Busan,부산
+3,1,Daegu,대구
+4,2,Tokyo,도쿄
+5,2,Osaka,오사카
+6,2,Fukuoka,후쿠오카
+7,3,Beijing,베이징
+8,3,Shanghai,상하이
+9,3,Shenzhen,선전
+10,4,Taipei,타이베이
+11,4,Kaohsiung,가오슝
+12,4,Taichung,타이중
+13,5,Hong Kong,홍콩
+14,5,Kowloon,카오룽
+15,5,Tsim Sha Tsui,침사추이
+16,6,Singapore,싱가포르
+17,6,Jurong East,주롱이스트
+18,6,Woodlands,우드랜즈
+19,7,Bangkok,방콕
+20,7,Chiang Mai,치앙마이
+21,7,Phuket,푸껫
+22,8,Hanoi,하노이
+23,8,Ho Chi Minh City,호찌민시
+24,8,Da Nang,다낭
+25,9,Kuala Lumpur,쿠알라룸푸르
+26,9,George Town,조지타운
+27,9,Kota Kinabalu,코타키나발루
+28,10,Jakarta,자카르타
+29,10,Bali,발리
+30,10,Surabaya,수라바야
+31,11,Manila,마닐라
+32,11,Cebu,세부
+33,11,Davao,다바오
+34,12,Delhi,델리
+35,12,Mumbai,뭄바이
+36,12,Bengaluru,벵갈루루
+37,13,Sydney,시드니
+38,13,Melbourne,멜버른
+39,13,Brisbane,브리즈번
+40,14,Auckland,오클랜드
+41,14,Wellington,웰링턴
+42,14,Christchurch,크라이스트처치
+43,15,New York,뉴욕
+44,15,Los Angeles,로스앤젤레스
+45,15,San Francisco,샌프란시스코
+46,16,Toronto,토론토
+47,16,Vancouver,밴쿠버
+48,16,Montreal,몬트리올
+49,17,Mexico City,멕시코시티
+50,17,Cancun,칸쿤
+51,17,Guadalajara,과달라하라
+52,18,Sao Paulo,상파울루
+53,18,Rio de Janeiro,리우데자네이루
+54,18,Salvador,사우바도르
+55,19,Buenos Aires,부에노스아이레스
+56,19,Cordoba,코르도바
+57,19,Mendoza,멘도사
+58,20,London,런던
+59,20,Manchester,맨체스터
+60,20,Edinburgh,에든버러
+61,21,Paris,파리
+62,21,Lyon,리옹
+63,21,Nice,니스
+64,22,Berlin,베를린
+65,22,Munich,뮌헨
+66,22,Frankfurt,프랑크푸르트
+67,23,Rome,로마
+68,23,Milan,밀라노
+69,23,Venice,베네치아
+70,24,Madrid,마드리드
+71,24,Barcelona,바르셀로나
+72,24,Seville,세비야
+73,25,Amsterdam,암스테르담
+74,25,Rotterdam,로테르담
+75,25,Utrecht,위트레흐트
+76,26,Zurich,취리히
+77,26,Geneva,제네바
+78,26,Lucerne,루체른
+79,27,Istanbul,이스탄불
+80,27,Ankara,앙카라
+81,27,Antalya,안탈리아
+82,28,Dubai,두바이
+83,28,Abu Dhabi,아부다비
+84,28,Sharjah,샤르자
+85,29,Riyadh,리야드
+86,29,Jeddah,제다
+87,29,Al Khobar,알코바르
+88,30,Cairo,카이로
+89,30,Alexandria,알렉산드리아
+90,30,Giza,기자
+91,31,Cape Town,케이프타운
+92,31,Johannesburg,요하네스버그
+93,31,Durban,더반
+94,32,Nairobi,나이로비
+95,32,Mombasa,몸바사
+96,32,Kisumu,키수무
