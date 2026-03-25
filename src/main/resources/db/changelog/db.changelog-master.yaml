@@ -9,3 +9,7 @@ databaseChangeLog:
       file: db/changelog/changes/20260325141300-seed-nationalities-and-cities.yaml
   - include:
       file: db/changelog/changes/20260325150000-create-trips-table.yaml
+  - include:
+      file: db/changelog/changes/20260325161000-add-user-introduction-and-keywords.yaml
+  - include:
+      file: db/changelog/changes/20260325161100-seed-keywords.yaml
