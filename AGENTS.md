@@ -46,5 +46,6 @@
 ## Save Workflow
 
 - When the user says `save`, create a Markdown handoff note that summarizes what was completed and what should be done next.
+- Save notes must be stored under `save-notes/`, not in the repository root.
 - The save note filename must use Korea Standard Time in `YYYYMMDDHHmm.md` format.
 - Save notes should be concise and practical for teammates continuing the work.
