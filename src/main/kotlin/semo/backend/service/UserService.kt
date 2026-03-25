@@ -3,7 +3,6 @@ package semo.backend.service
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import semo.backend.controller.request.CreateUserRequest
-import semo.backend.controller.request.PatchValue
 import semo.backend.controller.request.UpdateUserRequest
 import semo.backend.entity.Keyword
 import semo.backend.entity.Nationality
@@ -16,6 +15,7 @@ import semo.backend.mapstruct.UserMapStruct
 import semo.backend.repository.jpa.KeywordRepository
 import semo.backend.repository.jpa.NationalityRepository
 import semo.backend.repository.jpa.UserRepository
+import java.util.Optional
 
 @Service
 class UserService(
@@ -44,16 +44,16 @@ class UserService(
     @Transactional
     fun updateUser(userId: Long, request: UpdateUserRequest): UserDto {
         val user = findUserById(userId)
-        request.username.ifPresent { user.username = it }
-        request.password.ifPresent { user.password = it }
-        request.name.ifPresent { user.name = it }
-        request.email.ifPresent { user.email = it }
-        request.phone.ifPresent { user.phone = it }
-        request.introduction.ifPresent { user.introduction = it }
-        request.nationalityId.ifPresent { nationalityId ->
+        request.username.applyIfProvided { user.username = it }
+        request.password.applyIfProvided { user.password = it }
+        request.name.applyIfProvided { user.name = it }
+        request.email.applyIfProvided { user.email = it }
+        request.phone.applyIfProvided { user.phone = it }
+        request.introduction.applyIfProvided { user.introduction = it }
+        request.nationalityId.applyIfProvided { nationalityId ->
             user.nationality = nationalityId?.let(::findNationalityById)
         }
-        request.keywordIds.ifPresent { keywordIds ->
+        request.keywordIds.applyIfProvided { keywordIds ->
             user.keywords = keywordIds?.let(::resolveKeywords) ?: mutableSetOf()
         }
         return userMapStruct.toDto(userRepository.save(user))
@@ -91,11 +91,11 @@ class UserService(
         return keywords.toMutableSet()
     }
 
-    private inline fun <T> PatchValue<T>.ifPresent(
+    private inline fun <T> Optional<T>?.applyIfProvided(
         block: (T?) -> Unit,
     ) {
-        if (present) {
-            block(value)
+        if (this != null) {
+            block(orElse(null))
         }
     }
 }
