@@ -18,7 +18,6 @@ For further reference, please consider the following sections:
 * [Spring Configuration Processor](https://docs.spring.io/spring-boot/4.0.4/specification/configuration-metadata/annotation-processor.html)
 * [Spring Data JDBC](https://docs.spring.io/spring-boot/4.0.4/reference/data/sql.html#data.sql.jdbc)
 * [Spring Data JPA](https://docs.spring.io/spring-boot/4.0.4/reference/data/sql.html#data.sql.jpa-and-spring-data)
-* [Spring Data Redis (Access+Driver)](https://docs.spring.io/spring-boot/4.0.4/reference/data/nosql.html#data.nosql.redis)
 * [Rest Repositories](https://docs.spring.io/spring-boot/4.0.4/how-to/data-access.html#howto.data-access.exposing-spring-data-repositories-as-rest)
 * [Spring Boot DevTools](https://docs.spring.io/spring-boot/4.0.4/reference/using/devtools.html)
 * [Docker Compose Support](https://docs.spring.io/spring-boot/4.0.4/reference/features/dev-services.html#features.dev-services.docker-compose)
@@ -41,7 +40,6 @@ The following guides illustrate how to use some features concretely:
 * [Building a RESTful Web Service with Spring Boot Actuator](https://spring.io/guides/gs/actuator-service/)
 * [Using Spring Data JDBC](https://github.com/spring-projects/spring-data-examples/tree/main/jdbc/basics)
 * [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
-* [Messaging with Redis](https://spring.io/guides/gs/messaging-redis/)
 * [Accessing JPA Data with REST](https://spring.io/guides/gs/accessing-data-rest/)
 * [Accessing Neo4j Data with REST](https://spring.io/guides/gs/accessing-neo4j-data-rest/)
 * [Accessing MongoDB Data with REST](https://spring.io/guides/gs/accessing-mongodb-data-rest/)
@@ -69,7 +67,5 @@ This project contains a Docker Compose file named `compose.yaml`.
 In this file, the following services have been defined:
 
 * postgres: [`postgres:latest`](https://hub.docker.com/_/postgres)
-* redis: [`redis:latest`](https://hub.docker.com/_/redis)
 
 Please review the tags of the used images and set them to the same as you're running in production.
-
