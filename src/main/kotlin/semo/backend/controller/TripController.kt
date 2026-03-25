@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import semo.backend.config.argument.OptionalRequestBody
 import semo.backend.controller.request.CreateTripRequest
 import semo.backend.controller.request.UpdateTripRequest
 import semo.backend.controller.response.CreateTripResponse
@@ -55,7 +56,7 @@ class TripController(
     @PutMapping("/{tripId}")
     fun updateTrip(
         @PathVariable tripId: Long,
-        @RequestBody request: UpdateTripRequest,
+        @OptionalRequestBody request: UpdateTripRequest,
     ): UpdateTripResponse {
         return UpdateTripResponse(
             trip = tripFacade.updateTrip(tripId, request),
