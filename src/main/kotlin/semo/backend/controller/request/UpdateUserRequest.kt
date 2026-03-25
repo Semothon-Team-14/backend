@@ -8,4 +8,7 @@ data class UpdateUserRequest(
     val name: JsonNullable<String?> = JsonNullable.undefined(),
     val email: JsonNullable<String?> = JsonNullable.undefined(),
     val phone: JsonNullable<String?> = JsonNullable.undefined(),
+    val introduction: JsonNullable<String?> = JsonNullable.undefined(),
+    val nationalityId: JsonNullable<Long?> = JsonNullable.undefined(),
+    val keywordIds: JsonNullable<List<Long>?> = JsonNullable.undefined(),
 )
