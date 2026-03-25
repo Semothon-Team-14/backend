@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260325154000-seed-admin-user
+      author: codex
+      preConditions:
+        - onFail: MARK_RAN
+        - sqlCheck:
+            expectedResult: "0"
+            sql: SELECT COUNT(*) FROM users WHERE username = 'admin'
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: admin
+              - column:
+                  name: password
+                  value: admin
+              - column:
+                  name: name
+                  value: admin
+              - column:
+                  name: nationality_id
+                  valueNumeric: 1
+              - column:
+                  name: created_by
+                  value: system
+              - column:
+                  name: created_date_time
+                  valueDate: 2026-03-25T15:40:00
+              - column:
+                  name: updated_by
+                  value: system
+              - column:
+                  name: updated_date_time
+                  valueDate: 2026-03-25T15:40:00
