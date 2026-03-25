@@ -6,6 +6,5 @@ data class CreateTripRequest(
     val title: String,
     val startDate: LocalDate,
     val endDate: LocalDate,
-    val userId: Long,
     val cityId: Long,
 )
