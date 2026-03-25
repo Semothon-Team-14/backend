@@ -49,6 +49,7 @@ class UserService(
         request.name.applyIfProvided { user.name = it }
         request.email.applyIfProvided { user.email = it }
         request.phone.applyIfProvided { user.phone = it }
+        request.sex.applyIfProvided { user.sex = it }
         request.introduction.applyIfProvided { user.introduction = it }
         request.nationalityId.applyIfProvided { nationalityId ->
             user.nationality = nationalityId?.let(::findNationalityById)
