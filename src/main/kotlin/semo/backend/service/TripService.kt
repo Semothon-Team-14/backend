@@ -3,7 +3,6 @@ package semo.backend.service
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import semo.backend.controller.request.CreateTripRequest
-import semo.backend.controller.request.PatchValue
 import semo.backend.controller.request.UpdateTripRequest
 import semo.backend.dto.TripDto
 import semo.backend.entity.City
@@ -16,6 +15,7 @@ import semo.backend.mapstruct.TripMapStruct
 import semo.backend.repository.jpa.CityRepository
 import semo.backend.repository.jpa.TripRepository
 import semo.backend.repository.jpa.UserRepository
+import java.util.Optional
 
 @Service
 class TripService(
@@ -43,11 +43,11 @@ class TripService(
     @Transactional
     fun updateTrip(tripId: Long, request: UpdateTripRequest): TripDto {
         val trip = findTripById(tripId)
-        request.title.ifPresent { trip.title = it }
-        request.startDate.ifPresent { trip.startDate = it }
-        request.endDate.ifPresent { trip.endDate = it }
-        request.userId.ifPresent { userId -> trip.user = userId?.let(::findUserById) }
-        request.cityId.ifPresent { cityId -> trip.city = cityId?.let(::findCityById) }
+        request.title.applyIfProvided { trip.title = it }
+        request.startDate.applyIfProvided { trip.startDate = it }
+        request.endDate.applyIfProvided { trip.endDate = it }
+        request.userId.applyIfProvided { userId -> trip.user = userId?.let(::findUserById) }
+        request.cityId.applyIfProvided { cityId -> trip.city = cityId?.let(::findCityById) }
         return tripMapStruct.toDto(tripRepository.save(trip))
     }
 
@@ -73,11 +73,11 @@ class TripService(
             .orElseThrow { CityNotFoundException(cityId) }
     }
 
-    private inline fun <T> PatchValue<T>.ifPresent(
+    private inline fun <T> Optional<T>?.applyIfProvided(
         block: (T?) -> Unit,
     ) {
-        if (present) {
-            block(value)
+        if (this != null) {
+            block(orElse(null))
         }
     }
 }
