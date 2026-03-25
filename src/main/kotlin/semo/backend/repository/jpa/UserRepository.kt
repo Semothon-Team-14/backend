@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository
 import semo.backend.entity.User
 
 @Repository
-interface UserRepository : JpaRepository<User, Long>
+interface UserRepository : JpaRepository<User, Long> {
+    fun findByUsername(username: String): User?
+}
