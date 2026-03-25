@@ -5,4 +5,11 @@ import org.springframework.stereotype.Repository
 import semo.backend.entity.Keyword
 
 @Repository
-interface KeywordRepository : JpaRepository<Keyword, Long>
+interface KeywordRepository : JpaRepository<Keyword, Long> {
+    fun existsByLabel(label: String): Boolean
+
+    fun existsByLabelAndIdNot(
+        label: String,
+        id: Long,
+    ): Boolean
+}
