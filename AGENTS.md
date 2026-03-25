@@ -37,6 +37,7 @@
 - For schema changes, prefer Liquibase changelogs over JPA auto-DDL and keep table names explicit.
 - Use custom exceptions only; prefer reusable base exception types that carry HTTP status and reason metadata.
 - Put `@Transactional` on service-layer write operations that mutate database state.
+- For partial update APIs, support three states per field: omitted means no change, explicit null means set null, and a concrete value means update to that value.
 
 ## Save Workflow
 
