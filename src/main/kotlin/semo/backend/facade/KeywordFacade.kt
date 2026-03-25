@@ -14,6 +14,10 @@ class KeywordFacade(
         return keywordService.getKeywords()
     }
 
+    fun searchKeywords(query: String): List<KeywordDto> {
+        return keywordService.searchKeywords(query)
+    }
+
     fun getKeyword(keywordId: Long): KeywordDto {
         return keywordService.getKeyword(keywordId)
     }
