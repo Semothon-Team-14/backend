@@ -9,8 +9,5 @@ databaseChangeLog:
               - column:
                   name: sex
                   type: VARCHAR(20)
-        - addCheckConstraint:
-            tableName: users
-            constraintName: chk_users_sex
-            validate: true
-            checkConstraint: sex IS NULL OR sex IN ('MALE', 'FEMALE')
+        - sql:
+            sql: ALTER TABLE users ADD CONSTRAINT chk_users_sex CHECK (sex IS NULL OR sex IN ('MALE', 'FEMALE'))
