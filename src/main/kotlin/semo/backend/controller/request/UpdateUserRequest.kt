@@ -1,14 +1,12 @@
 package semo.backend.controller.request
 
-import org.openapitools.jackson.nullable.JsonNullable
-
 data class UpdateUserRequest(
-    val username: JsonNullable<String?> = JsonNullable.undefined(),
-    val password: JsonNullable<String?> = JsonNullable.undefined(),
-    val name: JsonNullable<String?> = JsonNullable.undefined(),
-    val email: JsonNullable<String?> = JsonNullable.undefined(),
-    val phone: JsonNullable<String?> = JsonNullable.undefined(),
-    val introduction: JsonNullable<String?> = JsonNullable.undefined(),
-    val nationalityId: JsonNullable<Long?> = JsonNullable.undefined(),
-    val keywordIds: JsonNullable<List<Long>?> = JsonNullable.undefined(),
+    val username: PatchValue<String?> = PatchValue.undefined(),
+    val password: PatchValue<String?> = PatchValue.undefined(),
+    val name: PatchValue<String?> = PatchValue.undefined(),
+    val email: PatchValue<String?> = PatchValue.undefined(),
+    val phone: PatchValue<String?> = PatchValue.undefined(),
+    val introduction: PatchValue<String?> = PatchValue.undefined(),
+    val nationalityId: PatchValue<Long?> = PatchValue.undefined(),
+    val keywordIds: PatchValue<List<Long>?> = PatchValue.undefined(),
 )
