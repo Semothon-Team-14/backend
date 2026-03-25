@@ -30,7 +30,6 @@ repositories {
 }
 
 dependencies {
-    implementation("org.openapitools:jackson-databind-nullable:0.2.6")
     implementation("org.mapstruct:mapstruct:1.6.3")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.2")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
