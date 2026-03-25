@@ -42,6 +42,7 @@
 - When adding, changing, or removing entity columns, always inspect and update the related APIs, request/response DTOs, service/facade logic, mappings, and Liquibase scripts together.
 - Name Liquibase changelog files with `yyyyMMddHHmmss` timestamps so migrations stay ordered and team changes are less likely to collide.
 - When adding a new entity, create the related CRUD layers, exceptions, mappings, and schema changes together unless the task explicitly says otherwise.
+- When authentication rules change, update the security filter chain, login flow, related exceptions, and required seed data together.
 
 ## Save Workflow
 
