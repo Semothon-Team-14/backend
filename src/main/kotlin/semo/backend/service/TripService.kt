@@ -1,9 +1,9 @@
 package semo.backend.service
 
-import org.openapitools.jackson.nullable.JsonNullable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import semo.backend.controller.request.CreateTripRequest
+import semo.backend.controller.request.PatchValue
 import semo.backend.controller.request.UpdateTripRequest
 import semo.backend.dto.TripDto
 import semo.backend.entity.City
@@ -73,11 +73,11 @@ class TripService(
             .orElseThrow { CityNotFoundException(cityId) }
     }
 
-    private inline fun <T> JsonNullable<T>.ifPresent(
+    private inline fun <T> PatchValue<T>.ifPresent(
         block: (T) -> Unit,
     ) {
-        if (isPresent) {
-            block(get())
+        if (this is PatchValue.Defined) {
+            block(value)
         }
     }
 }
