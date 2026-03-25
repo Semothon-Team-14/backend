@@ -1,0 +1,81 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-create-nationalities-and-cities
+      author: codex
+      changes:
+        - createTable:
+            tableName: nationalities
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_nationalities
+                    nullable: false
+              - column:
+                  name: country_code
+                  type: VARCHAR(2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: country_name_english
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: country_name_korean
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: nationalities
+            columnNames: country_code
+            constraintName: uq_nationalities_country_code
+        - createTable:
+            tableName: cities
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_cities
+                    nullable: false
+              - column:
+                  name: nationality_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: city_name_english
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: city_name_korean
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: cities
+            baseColumnNames: nationality_id
+            constraintName: fk_cities_nationality
+            referencedTableName: nationalities
+            referencedColumnNames: id
+        - addUniqueConstraint:
+            tableName: cities
+            columnNames: nationality_id,city_name_english
+            constraintName: uq_cities_nationality_city_name_english
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: nationality_id
+                  type: BIGINT
+        - addForeignKeyConstraint:
+            baseTableName: users
+            baseColumnNames: nationality_id
+            constraintName: fk_users_nationality
+            referencedTableName: nationalities
+            referencedColumnNames: id
