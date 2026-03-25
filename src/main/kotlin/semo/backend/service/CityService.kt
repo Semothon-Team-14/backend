@@ -13,7 +13,7 @@ import semo.backend.exception.nationality.NationalityNotFoundException
 import semo.backend.mapstruct.CityMapStruct
 import semo.backend.repository.jpa.CityRepository
 import semo.backend.repository.jpa.NationalityRepository
-import java.util.Optional
+import semo.backend.util.applyIfProvided
 
 @Service
 class CityService(
@@ -97,13 +97,5 @@ class CityService(
 
     private fun normalizeCityName(cityName: String): String {
         return cityName.trim()
-    }
-
-    private inline fun <T> Optional<T>?.applyIfProvided(
-        block: (T?) -> Unit,
-    ) {
-        if (this != null) {
-            block(orElse(null))
-        }
     }
 }
