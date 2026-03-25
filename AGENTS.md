@@ -27,6 +27,14 @@
 - Never revert or overwrite user changes unless the user explicitly requests it.
 - Preserve unrelated tracked and untracked changes and limit edits, staging, commits, and pushes to the files required for the current task.
 
+## Code Conventions To Remember
+
+- Follow the existing `controller -> facade -> service -> repository` flow for backend features.
+- Controllers should wrap facade results in response objects.
+- Facade and service layers should return DTOs or simple values, not JPA entities.
+- JPA entities should stay internal to persistence-facing logic.
+- Keep sensitive data such as passwords out of outward-facing DTOs and responses.
+
 ## Save Workflow
 
 - When the user says `save`, create a Markdown handoff note that summarizes what was completed and what should be done next.
