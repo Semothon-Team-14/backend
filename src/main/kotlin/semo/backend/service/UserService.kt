@@ -1,11 +1,12 @@
 package semo.backend.service
 
-import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import semo.backend.controller.request.CreateUserRequest
 import semo.backend.controller.request.UpdateUserRequest
 import semo.backend.dto.UserDto
 import semo.backend.entity.User
+import semo.backend.exception.user.UserNotFoundException
 import semo.backend.mapstruct.UserMapStruct
 import semo.backend.repository.jpa.UserRepository
 
@@ -22,17 +23,20 @@ class UserService(
         return userMapStruct.toDto(findUserById(userId))
     }
 
+    @Transactional
     fun createUser(request: CreateUserRequest): UserDto {
         val savedUser = userRepository.save(userMapStruct.toEntity(request))
         return userMapStruct.toDto(savedUser)
     }
 
+    @Transactional
     fun updateUser(userId: Long, request: UpdateUserRequest): UserDto {
         val user = findUserById(userId)
         userMapStruct.updateEntityFromRequest(request, user)
         return userMapStruct.toDto(userRepository.save(user))
     }
 
+    @Transactional
     fun deleteUser(userId: Long): Long {
         val user = findUserById(userId)
         userRepository.delete(user)
@@ -41,6 +45,6 @@ class UserService(
 
     private fun findUserById(userId: Long): User {
         return userRepository.findById(userId)
-            .orElseThrow { EntityNotFoundException("User not found for id=$userId") }
+            .orElseThrow { UserNotFoundException(userId) }
     }
 }
