@@ -74,9 +74,9 @@ class TripService(
     }
 
     private inline fun <T> PatchValue<T>.ifPresent(
-        block: (T) -> Unit,
+        block: (T?) -> Unit,
     ) {
-        if (this is PatchValue.Defined) {
+        if (present) {
             block(value)
         }
     }
