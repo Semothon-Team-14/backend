@@ -30,11 +30,6 @@ logs/
 !.env.example
 *.local
 
-# Spring Boot local config overrides
-application-local.yml
-application-local.yaml
-application-local.properties
-
 # Kotlin / Java
 *.class
 hs_err_pid*
