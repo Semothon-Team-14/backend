@@ -2,6 +2,8 @@ package semo.backend.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
@@ -11,6 +13,7 @@ import jakarta.persistence.JoinTable
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.ManyToMany
 import jakarta.persistence.Table
+import semo.backend.enums.Sex
 
 @Entity
 @Table(name = "users")
@@ -29,6 +32,10 @@ class User(
 
     @Column
     var phone: String?,
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    var sex: Sex? = null,
 
     @Column(columnDefinition = "TEXT")
     var introduction: String? = null,
