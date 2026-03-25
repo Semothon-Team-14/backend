@@ -38,6 +38,7 @@
 - Use custom exceptions only; prefer reusable base exception types that carry HTTP status and reason metadata.
 - Put `@Transactional` on service-layer write operations that mutate database state.
 - For partial update APIs, support three states per field: omitted means no change, explicit null means set null, and a concrete value means update to that value.
+- For partial update APIs, prefer `@OptionalRequestBody` plus `Optional<T>?` request fields over custom patch wrapper types.
 - Prefer Liquibase `loadData` with versioned seed files for stable reference data such as countries and cities.
 - When adding, changing, or removing entity columns, always inspect and update the related APIs, request/response DTOs, service/facade logic, mappings, and Liquibase scripts together.
 - Name Liquibase changelog files with `yyyyMMddHHmmss` timestamps so migrations stay ordered and team changes are less likely to collide.
