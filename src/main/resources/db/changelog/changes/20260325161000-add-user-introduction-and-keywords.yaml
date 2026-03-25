@@ -1,0 +1,68 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260325161000-add-user-introduction-and-keywords
+      author: codex
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: introduction
+                  type: TEXT
+        - createTable:
+            tableName: keywords
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_keywords
+                    nullable: false
+              - column:
+                  name: label
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: priority
+                  type: INT
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: keywords
+            columnNames: label
+            constraintName: uq_keywords_label
+        - addCheckConstraint:
+            tableName: keywords
+            constraintName: ck_keywords_priority_range
+            checkConstraint: priority >= 1 AND priority <= 10
+        - createTable:
+            tableName: user_keywords
+            columns:
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: keyword_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: user_keywords
+            columnNames: user_id, keyword_id
+            constraintName: pk_user_keywords
+        - addForeignKeyConstraint:
+            baseTableName: user_keywords
+            baseColumnNames: user_id
+            constraintName: fk_user_keywords_user
+            referencedTableName: users
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: user_keywords
+            baseColumnNames: keyword_id
+            constraintName: fk_user_keywords_keyword
+            referencedTableName: keywords
+            referencedColumnNames: id
