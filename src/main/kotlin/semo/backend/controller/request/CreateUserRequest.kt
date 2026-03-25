@@ -6,4 +6,7 @@ data class CreateUserRequest(
     val name: String,
     val email: String,
     val phone: String,
+    val introduction: String? = null,
+    val nationalityId: Long? = null,
+    val keywordIds: List<Long> = emptyList(),
 )
