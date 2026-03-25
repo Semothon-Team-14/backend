@@ -15,7 +15,7 @@ import semo.backend.mapstruct.TripMapStruct
 import semo.backend.repository.jpa.CityRepository
 import semo.backend.repository.jpa.TripRepository
 import semo.backend.repository.jpa.UserRepository
-import java.util.Optional
+import semo.backend.util.applyIfProvided
 
 @Service
 class TripService(
@@ -71,13 +71,5 @@ class TripService(
     private fun findCityById(cityId: Long): City {
         return cityRepository.findById(cityId)
             .orElseThrow { CityNotFoundException(cityId) }
-    }
-
-    private inline fun <T> Optional<T>?.applyIfProvided(
-        block: (T?) -> Unit,
-    ) {
-        if (this != null) {
-            block(orElse(null))
-        }
     }
 }
