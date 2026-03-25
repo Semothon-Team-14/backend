@@ -85,11 +85,20 @@ jobs:
             rm -f "/tmp/$IMAGE_ARCHIVE"
 
             for attempt in $(seq 1 24); do
+              container_status=$(sudo docker inspect -f '{{.State.Status}}' "$CONTAINER_NAME" 2>/dev/null || true)
+              if [ "$container_status" = "exited" ] || [ "$container_status" = "dead" ]; then
+                sudo docker ps -a
+                sudo docker logs "$CONTAINER_NAME"
+                exit 1
+              fi
+
               if curl -fsS "http://127.0.0.1:8080/swagger-ui.html" >/dev/null; then
                 exit 0
               fi
               sleep 5
             done
 
+            sudo docker ps -a
+            sudo docker inspect "$CONTAINER_NAME" || true
             sudo docker logs "$CONTAINER_NAME"
             exit 1
