@@ -1,0 +1,62 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260325150000-create-trips-table
+      author: codex
+      changes:
+        - createTable:
+            tableName: trips
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_trips
+                    nullable: false
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+              - column:
+                  name: start_date
+                  type: DATE
+              - column:
+                  name: end_date
+                  type: DATE
+              - column:
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  name: city_id
+                  type: BIGINT
+              - column:
+                  name: created_by
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_by
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: trips
+            baseColumnNames: user_id
+            constraintName: fk_trips_user
+            referencedTableName: users
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: trips
+            baseColumnNames: city_id
+            constraintName: fk_trips_city
+            referencedTableName: cities
+            referencedColumnNames: id
