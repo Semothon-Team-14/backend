@@ -1,9 +1,9 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/changes/001-create-users-table.yaml
+      file: db/changelog/changes/20260325141000-create-users-table.yaml
   - include:
-      file: db/changelog/changes/002-make-user-fields-nullable.yaml
+      file: db/changelog/changes/20260325141100-make-user-fields-nullable.yaml
   - include:
-      file: db/changelog/changes/003-create-nationalities-and-cities.yaml
+      file: db/changelog/changes/20260325141200-create-nationalities-and-cities.yaml
   - include:
-      file: db/changelog/changes/004-seed-nationalities-and-cities.yaml
+      file: db/changelog/changes/20260325141300-seed-nationalities-and-cities.yaml
