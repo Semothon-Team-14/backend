@@ -38,6 +38,7 @@
 - Use custom exceptions only; prefer reusable base exception types that carry HTTP status and reason metadata.
 - Put `@Transactional` on service-layer write operations that mutate database state.
 - For partial update APIs, support three states per field: omitted means no change, explicit null means set null, and a concrete value means update to that value.
+- Prefer Liquibase `loadData` with versioned seed files for stable reference data such as countries and cities.
 
 ## Save Workflow
 
