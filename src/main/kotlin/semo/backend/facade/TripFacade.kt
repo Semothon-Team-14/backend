@@ -18,8 +18,8 @@ class TripFacade(
         return tripService.getTrip(tripId)
     }
 
-    fun createTrip(request: CreateTripRequest): TripDto {
-        return tripService.createTrip(request)
+    fun createTrip(userId: Long, request: CreateTripRequest): TripDto {
+        return tripService.createTrip(userId, request)
     }
 
     fun updateTrip(tripId: Long, request: UpdateTripRequest): TripDto {
