@@ -11,7 +11,7 @@ import semo.backend.exception.keyword.InvalidKeywordPriorityException
 import semo.backend.exception.keyword.KeywordNotFoundException
 import semo.backend.mapstruct.KeywordMapStruct
 import semo.backend.repository.jpa.KeywordRepository
-import java.util.Optional
+import semo.backend.util.applyIfProvided
 
 @Service
 class KeywordService(
@@ -98,13 +98,5 @@ class KeywordService(
 
     private fun normalizeLabel(label: String): String {
         return label.trim()
-    }
-
-    private inline fun <T> Optional<T>?.applyIfProvided(
-        block: (T?) -> Unit,
-    ) {
-        if (this != null) {
-            block(orElse(null))
-        }
     }
 }
