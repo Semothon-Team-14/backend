@@ -1,0 +1,16 @@
+.git
+.github
+.gradle
+.idea
+.kotlin
+build
+out
+logs
+save-notes
+*.iml
+*.ipr
+*.iws
+.DS_Store
+README.md
+HELP.md
+NEXT_STEPS.md
