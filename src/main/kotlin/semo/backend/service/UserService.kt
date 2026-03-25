@@ -5,15 +5,23 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import semo.backend.controller.request.CreateUserRequest
 import semo.backend.controller.request.UpdateUserRequest
+import semo.backend.entity.Keyword
+import semo.backend.entity.Nationality
 import semo.backend.dto.UserDto
 import semo.backend.entity.User
+import semo.backend.exception.keyword.KeywordNotFoundException
+import semo.backend.exception.nationality.NationalityNotFoundException
 import semo.backend.exception.user.UserNotFoundException
 import semo.backend.mapstruct.UserMapStruct
+import semo.backend.repository.jpa.KeywordRepository
+import semo.backend.repository.jpa.NationalityRepository
 import semo.backend.repository.jpa.UserRepository
 
 @Service
 class UserService(
     private val userRepository: UserRepository,
+    private val nationalityRepository: NationalityRepository,
+    private val keywordRepository: KeywordRepository,
     private val userMapStruct: UserMapStruct,
 ) {
     fun getUsers(): List<UserDto> {
@@ -26,7 +34,10 @@ class UserService(
 
     @Transactional
     fun createUser(request: CreateUserRequest): UserDto {
-        val savedUser = userRepository.save(userMapStruct.toEntity(request))
+        val user = userMapStruct.toEntity(request)
+        user.nationality = request.nationalityId?.let(::findNationalityById)
+        user.keywords = resolveKeywords(request.keywordIds)
+        val savedUser = userRepository.save(user)
         return userMapStruct.toDto(savedUser)
     }
 
@@ -38,6 +49,13 @@ class UserService(
         request.name.ifPresent { user.name = it }
         request.email.ifPresent { user.email = it }
         request.phone.ifPresent { user.phone = it }
+        request.introduction.ifPresent { user.introduction = it }
+        request.nationalityId.ifPresent { nationalityId ->
+            user.nationality = nationalityId?.let(::findNationalityById)
+        }
+        request.keywordIds.ifPresent { keywordIds ->
+            user.keywords = keywordIds?.let(::resolveKeywords) ?: mutableSetOf()
+        }
         return userMapStruct.toDto(userRepository.save(user))
     }
 
@@ -51,6 +69,26 @@ class UserService(
     private fun findUserById(userId: Long): User {
         return userRepository.findById(userId)
             .orElseThrow { UserNotFoundException(userId) }
+    }
+
+    private fun findNationalityById(nationalityId: Long): Nationality {
+        return nationalityRepository.findById(nationalityId)
+            .orElseThrow { NationalityNotFoundException(nationalityId) }
+    }
+
+    private fun resolveKeywords(keywordIds: List<Long>): MutableSet<Keyword> {
+        if (keywordIds.isEmpty()) {
+            return mutableSetOf()
+        }
+
+        val keywords = keywordRepository.findAllById(keywordIds)
+        val foundKeywordIds = keywords.map { it.id }.toSet()
+        val missingKeywordIds = keywordIds.filterNot(foundKeywordIds::contains)
+        if (missingKeywordIds.isNotEmpty()) {
+            throw KeywordNotFoundException(missingKeywordIds)
+        }
+
+        return keywords.toMutableSet()
     }
 
     private inline fun <T> JsonNullable<T>.ifPresent(
