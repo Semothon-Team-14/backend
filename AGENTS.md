@@ -34,6 +34,7 @@
 - Facade and service layers should return DTOs or simple values, not JPA entities.
 - JPA entities should stay internal to persistence-facing logic.
 - Keep sensitive data such as passwords out of outward-facing DTOs and responses.
+- For schema changes, prefer Liquibase changelogs over JPA auto-DDL and keep table names explicit.
 
 ## Save Workflow
 
