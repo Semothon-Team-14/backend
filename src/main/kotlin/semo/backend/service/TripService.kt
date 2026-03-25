@@ -33,9 +33,9 @@ class TripService(
     }
 
     @Transactional
-    fun createTrip(request: CreateTripRequest): TripDto {
+    fun createTrip(userId: Long, request: CreateTripRequest): TripDto {
         val trip = tripMapStruct.toEntity(request)
-        trip.user = findUserById(request.userId)
+        trip.user = findUserById(userId)
         trip.city = findCityById(request.cityId)
         return tripMapStruct.toDto(tripRepository.save(trip))
     }
