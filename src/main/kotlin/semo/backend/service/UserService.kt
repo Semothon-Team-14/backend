@@ -15,7 +15,7 @@ import semo.backend.mapstruct.UserMapStruct
 import semo.backend.repository.jpa.KeywordRepository
 import semo.backend.repository.jpa.NationalityRepository
 import semo.backend.repository.jpa.UserRepository
-import java.util.Optional
+import semo.backend.util.applyIfProvided
 
 @Service
 class UserService(
@@ -89,13 +89,5 @@ class UserService(
         }
 
         return keywords.toMutableSet()
-    }
-
-    private inline fun <T> Optional<T>?.applyIfProvided(
-        block: (T?) -> Unit,
-    ) {
-        if (this != null) {
-            block(orElse(null))
-        }
     }
 }
