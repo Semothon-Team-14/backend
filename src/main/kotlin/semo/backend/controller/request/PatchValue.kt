@@ -10,17 +10,14 @@ import com.fasterxml.jackson.databind.deser.ContextualDeserializer
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 
 @JsonDeserialize(using = PatchValueDeserializer::class)
-sealed class PatchValue<out T> {
-    data object Undefined : PatchValue<Nothing>()
-
-    data class Defined<T>(
-        val value: T,
-    ) : PatchValue<T>()
-
+data class PatchValue<T>(
+    val present: Boolean,
+    val value: T?,
+) {
     companion object {
-        fun <T> undefined(): PatchValue<T> = Undefined
+        fun <T> undefined(): PatchValue<T> = PatchValue(present = false, value = null)
 
-        fun <T> of(value: T): PatchValue<T> = Defined(value)
+        fun <T> of(value: T?): PatchValue<T> = PatchValue(present = true, value = value)
     }
 }
 
