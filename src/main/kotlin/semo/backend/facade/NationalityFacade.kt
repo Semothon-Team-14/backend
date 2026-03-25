@@ -14,6 +14,10 @@ class NationalityFacade(
         return nationalityService.getNationalities()
     }
 
+    fun searchNationalities(query: String): List<NationalityDto> {
+        return nationalityService.searchNationalities(query)
+    }
+
     fun getNationality(nationalityId: Long): NationalityDto {
         return nationalityService.getNationality(nationalityId)
     }
