@@ -36,6 +36,6 @@ abstract class UserMapStruct : GenericMapStruct<User, UserDto> {
     @Mapping(target = "updatedBy", ignore = true)
     @Mapping(target = "updatedDateTime", ignore = true)
     @Mapping(target = "nationality", ignore = true)
-    @Mapping(target = "keywords", ignore = true)
+    @Mapping(target = "keywords", expression = "java(new java.util.LinkedHashSet<>())")
     abstract fun toEntity(request: CreateUserRequest): User
 }
