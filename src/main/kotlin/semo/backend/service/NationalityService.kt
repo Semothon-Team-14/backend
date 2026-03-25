@@ -10,7 +10,7 @@ import semo.backend.exception.nationality.DuplicateNationalityCountryCodeExcepti
 import semo.backend.exception.nationality.NationalityNotFoundException
 import semo.backend.mapstruct.NationalityMapStruct
 import semo.backend.repository.jpa.NationalityRepository
-import java.util.Optional
+import semo.backend.util.applyIfProvided
 
 @Service
 class NationalityService(
@@ -91,13 +91,5 @@ class NationalityService(
 
     private fun normalizeCountryCode(countryCode: String): String {
         return countryCode.trim().uppercase()
-    }
-
-    private inline fun <T> Optional<T>?.applyIfProvided(
-        block: (T?) -> Unit,
-    ) {
-        if (this != null) {
-            block(orElse(null))
-        }
     }
 }
