@@ -40,6 +40,7 @@
 - For partial update APIs, support three states per field: omitted means no change, explicit null means set null, and a concrete value means update to that value.
 - Prefer Liquibase `loadData` with versioned seed files for stable reference data such as countries and cities.
 - When adding, changing, or removing entity columns, always inspect and update the related APIs, request/response DTOs, service/facade logic, mappings, and Liquibase scripts together.
+- Name Liquibase changelog files with `yyyyMMddHHmmss` timestamps so migrations stay ordered and team changes are less likely to collide.
 
 ## Save Workflow
 
