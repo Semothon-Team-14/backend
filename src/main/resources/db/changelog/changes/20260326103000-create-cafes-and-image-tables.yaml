@@ -1,0 +1,120 @@
+databaseChangeLog:
+  - changeSet:
+      id: 010-create-cafes-and-image-tables
+      author: codex
+      changes:
+        - createTable:
+            tableName: cafes
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_cafes
+                    nullable: false
+              - column:
+                  name: city_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone_number
+                  type: VARCHAR(50)
+              - column:
+                  name: address
+                  type: VARCHAR(500)
+              - column:
+                  name: food_category
+                  type: VARCHAR(255)
+              - column:
+                  name: latitude
+                  type: DECIMAL(10,7)
+              - column:
+                  name: longitude
+                  type: DECIMAL(10,7)
+        - addForeignKeyConstraint:
+            baseTableName: cafes
+            baseColumnNames: city_id
+            constraintName: fk_cafes_city
+            referencedTableName: cities
+            referencedColumnNames: id
+        - createTable:
+            tableName: restaurant_images
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_restaurant_images
+                    nullable: false
+              - column:
+                  name: restaurant_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: image_url
+                  type: VARCHAR(1000)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: s3_key
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: main_image
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: restaurant_images
+            baseColumnNames: restaurant_id
+            constraintName: fk_restaurant_images_restaurant
+            referencedTableName: restaurants
+            referencedColumnNames: id
+        - createTable:
+            tableName: cafe_images
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_cafe_images
+                    nullable: false
+              - column:
+                  name: cafe_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: image_url
+                  type: VARCHAR(1000)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: s3_key
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: main_image
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: cafe_images
+            baseColumnNames: cafe_id
+            constraintName: fk_cafe_images_cafe
+            referencedTableName: cafes
+            referencedColumnNames: id
