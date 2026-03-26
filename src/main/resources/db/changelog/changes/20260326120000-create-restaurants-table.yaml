@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: 009-create-restaurants-table
+      author: codex
+      changes:
+        - createTable:
+            tableName: restaurants
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_restaurants
+                    nullable: false
+              - column:
+                  name: city_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone_number
+                  type: VARCHAR(50)
+              - column:
+                  name: address
+                  type: VARCHAR(500)
+              - column:
+                  name: food_category
+                  type: VARCHAR(255)
+              - column:
+                  name: latitude
+                  type: DECIMAL(10,7)
+              - column:
+                  name: longitude
+                  type: DECIMAL(10,7)
+        - addForeignKeyConstraint:
+            baseTableName: restaurants
+            baseColumnNames: city_id
+            constraintName: fk_restaurants_city
+            referencedTableName: cities
+            referencedColumnNames: id
