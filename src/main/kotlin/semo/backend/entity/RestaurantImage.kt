@@ -16,9 +16,6 @@ class RestaurantImage(
     @Column(name = "image_url", nullable = false)
     var imageUrl: String,
 
-    @Column(name = "s3_key", nullable = false)
-    var s3Key: String,
-
     @Column(name = "main_image", nullable = false)
     var mainImage: Boolean,
 
