@@ -6,7 +6,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller
 import semo.backend.controller.request.SendChatMessageRequest
-import semo.backend.dto.ChatMessageDto
+import semo.backend.dto.ChatMessageDeliveryDto
 import semo.backend.facade.ChatMessageFacade
 
 @Controller
@@ -21,11 +21,11 @@ class ChatWebSocketController(
         authentication: Authentication,
     ) {
         val userId = authentication.principal.toString().toLong()
-        val message = chatMessageFacade.sendChatMessage(userId, chatRoomId, request)
-        simpMessagingTemplate.convertAndSend("/topic/chatrooms/$chatRoomId", ChatMessagePayload(message))
+        val delivery = chatMessageFacade.sendChatMessage(userId, chatRoomId, request)
+        simpMessagingTemplate.convertAndSend("/topic/chatrooms/$chatRoomId", ChatMessagePayload(delivery))
     }
 
     data class ChatMessagePayload(
-        val message: ChatMessageDto,
+        val delivery: ChatMessageDeliveryDto,
     )
 }
