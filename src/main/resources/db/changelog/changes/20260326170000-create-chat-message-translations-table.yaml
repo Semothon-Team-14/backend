@@ -1,0 +1,56 @@
+databaseChangeLog:
+  - changeSet:
+      id: 012-create-chat-message-translations-table
+      author: codex
+      changes:
+        - createTable:
+            tableName: chat_message_translations
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_chat_message_translations
+                    nullable: false
+              - column:
+                  name: chat_message_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: translated_content
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: chat_message_translations
+            baseColumnNames: chat_message_id
+            constraintName: fk_chat_message_translations_chat_message
+            referencedTableName: chat_messages
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: chat_message_translations
+            baseColumnNames: user_id
+            constraintName: fk_chat_message_translations_user
+            referencedTableName: users
+            referencedColumnNames: id
+        - addUniqueConstraint:
+            tableName: chat_message_translations
+            columnNames: chat_message_id,user_id
+            constraintName: uq_chat_message_translations_chat_message_user
