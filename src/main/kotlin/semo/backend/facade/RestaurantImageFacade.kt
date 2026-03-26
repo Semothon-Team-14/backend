@@ -1,7 +1,7 @@
 package semo.backend.facade
 
 import org.springframework.stereotype.Service
-import org.springframework.web.multipart.MultipartFile
+import semo.backend.controller.request.CreateRestaurantImageRequest
 import semo.backend.controller.request.UpdateRestaurantImageRequest
 import semo.backend.dto.RestaurantImageDto
 import semo.backend.service.RestaurantImageService
@@ -20,10 +20,9 @@ class RestaurantImageFacade(
 
     fun createRestaurantImage(
         restaurantId: Long,
-        file: MultipartFile,
-        mainImage: Boolean,
+        request: CreateRestaurantImageRequest,
     ): RestaurantImageDto {
-        return restaurantImageService.createRestaurantImage(restaurantId, file, mainImage)
+        return restaurantImageService.createRestaurantImage(restaurantId, request)
     }
 
     fun updateRestaurantImage(
