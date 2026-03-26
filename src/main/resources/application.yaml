@@ -10,7 +10,8 @@ spring:
 app:
   openai:
     api-key: ${OPENAI_API_KEY:}
-    translation-model: ${OPENAI_TRANSLATION_MODEL:gpt-5-mini}
+    translation-model: ${OPENAI_TRANSLATION_MODEL:gpt-4o-mini}
+    base-url: ${OPENAI_BASE_URL:https://api.openai.com/v1}
 
 springdoc:
   api-docs:
