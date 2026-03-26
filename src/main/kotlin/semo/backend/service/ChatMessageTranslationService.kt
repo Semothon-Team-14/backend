@@ -31,8 +31,17 @@ class ChatMessageTranslationService(
         chatMessageId: Long,
         request: UpsertChatMessageTranslationRequest,
     ): ChatMessageTranslationDto {
-        val translatedContent = request.translatedContent.trim()
-        if (translatedContent.isBlank()) {
+        return upsertChatMessageTranslation(userId, chatMessageId, request.translatedContent)
+    }
+
+    @Transactional
+    fun upsertChatMessageTranslation(
+        userId: Long,
+        chatMessageId: Long,
+        translatedContent: String,
+    ): ChatMessageTranslationDto {
+        val normalizedTranslatedContent = translatedContent.trim()
+        if (normalizedTranslatedContent.isBlank()) {
             throw EmptyChatTranslationContentException()
         }
 
@@ -41,13 +50,13 @@ class ChatMessageTranslationService(
         val now = LocalDateTime.now()
         val translation = chatMessageTranslationRepository.findByChatMessageIdAndUserId(chatMessageId, userId)
             ?.apply {
-                this.translatedContent = translatedContent
+                this.translatedContent = normalizedTranslatedContent
                 this.updatedDateTime = now
             }
             ?: ChatMessageTranslation(
                 chatMessage = chatMessage,
                 user = user,
-                translatedContent = translatedContent,
+                translatedContent = normalizedTranslatedContent,
                 createdDateTime = now,
                 updatedDateTime = now,
             )
