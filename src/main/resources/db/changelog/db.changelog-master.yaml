@@ -23,3 +23,5 @@ databaseChangeLog:
       file: db/changelog/changes/20260326103000-create-cafes-and-image-tables.yaml
   - include:
       file: db/changelog/changes/20260326150000-create-chat-tables.yaml
+  - include:
+      file: db/changelog/changes/20260326170000-create-chat-message-translations-table.yaml
