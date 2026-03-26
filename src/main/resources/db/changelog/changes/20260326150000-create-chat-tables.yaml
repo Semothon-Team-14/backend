@@ -1,0 +1,116 @@
+databaseChangeLog:
+  - changeSet:
+      id: 011-create-chat-tables
+      author: codex
+      changes:
+        - createTable:
+            tableName: chat_rooms
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_chat_rooms
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: direct_chat
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: chat_participants
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_chat_participants
+                    nullable: false
+              - column:
+                  name: chat_room_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: joined_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: chat_participants
+            baseColumnNames: chat_room_id
+            constraintName: fk_chat_participants_chat_room
+            referencedTableName: chat_rooms
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: chat_participants
+            baseColumnNames: user_id
+            constraintName: fk_chat_participants_user
+            referencedTableName: users
+            referencedColumnNames: id
+        - addUniqueConstraint:
+            tableName: chat_participants
+            columnNames: chat_room_id,user_id
+            constraintName: uq_chat_participants_chat_room_user
+        - createTable:
+            tableName: chat_messages
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_chat_messages
+                    nullable: false
+              - column:
+                  name: chat_room_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sender_user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: content
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: chat_messages
+            baseColumnNames: chat_room_id
+            constraintName: fk_chat_messages_chat_room
+            referencedTableName: chat_rooms
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: chat_messages
+            baseColumnNames: sender_user_id
+            constraintName: fk_chat_messages_sender_user
+            referencedTableName: users
+            referencedColumnNames: id
