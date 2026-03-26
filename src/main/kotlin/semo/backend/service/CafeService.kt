@@ -13,7 +13,6 @@ import semo.backend.mapstruct.CafeMapStruct
 import semo.backend.repository.jpa.CafeImageRepository
 import semo.backend.repository.jpa.CafeRepository
 import semo.backend.repository.jpa.CityRepository
-import semo.backend.storage.S3StorageService
 import semo.backend.util.applyIfProvided
 
 @Service
@@ -22,7 +21,6 @@ class CafeService(
     private val cityRepository: CityRepository,
     private val cafeImageRepository: CafeImageRepository,
     private val cafeMapStruct: CafeMapStruct,
-    private val s3StorageService: S3StorageService,
 ) {
     fun getCafes(cityId: Long): List<CafeDto> {
         findCityById(cityId)
@@ -64,7 +62,6 @@ class CafeService(
     fun deleteCafe(cityId: Long, cafeId: Long): Long {
         val cafe = findCafeByCityIdAndCafeId(cityId, cafeId)
         val images = cafeImageRepository.findAllByCafeIdOrderByIdAsc(cafeId)
-        images.forEach { image -> s3StorageService.delete(image.s3Key) }
         if (images.isNotEmpty()) {
             cafeImageRepository.deleteAll(images)
         }
