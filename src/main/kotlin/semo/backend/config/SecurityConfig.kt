@@ -34,6 +34,8 @@ class SecurityConfig(
                         "/swagger-ui/**",
                         "/api-docs",
                         "/api-docs/**",
+                        "/ws-chat",
+                        "/ws-chat/**",
                         "/error",
                     )
                     .permitAll()
