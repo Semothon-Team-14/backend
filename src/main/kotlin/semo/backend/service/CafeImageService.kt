@@ -2,7 +2,7 @@ package semo.backend.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.multipart.MultipartFile
+import semo.backend.controller.request.CreateCafeImageRequest
 import semo.backend.controller.request.UpdateCafeImageRequest
 import semo.backend.dto.CafeImageDto
 import semo.backend.entity.Cafe
@@ -10,7 +10,6 @@ import semo.backend.entity.CafeImage
 import semo.backend.exception.cafeimage.CafeImageNotFoundException
 import semo.backend.mapstruct.CafeImageMapStruct
 import semo.backend.repository.jpa.CafeImageRepository
-import semo.backend.storage.S3StorageService
 import semo.backend.util.applyIfProvided
 
 @Service
@@ -18,7 +17,6 @@ class CafeImageService(
     private val cafeService: CafeService,
     private val cafeImageRepository: CafeImageRepository,
     private val cafeImageMapStruct: CafeImageMapStruct,
-    private val s3StorageService: S3StorageService,
 ) {
     fun getCafeImages(cafeId: Long): List<CafeImageDto> {
         cafeService.findCafeById(cafeId)
@@ -32,19 +30,16 @@ class CafeImageService(
     @Transactional
     fun createCafeImage(
         cafeId: Long,
-        file: MultipartFile,
-        mainImage: Boolean,
+        request: CreateCafeImageRequest,
     ): CafeImageDto {
         val cafe = cafeService.findCafeById(cafeId)
-        val storageObject = s3StorageService.upload("cafes/$cafeId/images", file)
         val cafeImage = CafeImage(
-            imageUrl = storageObject.url,
-            s3Key = storageObject.key,
-            mainImage = mainImage,
+            imageUrl = request.imageUrl.trim(),
+            mainImage = request.mainImage,
             cafe = cafe,
         )
         val savedImage = cafeImageRepository.save(cafeImage)
-        if (mainImage) {
+        if (request.mainImage) {
             clearOtherMainImages(cafe, savedImage.id)
         }
         return cafeImageMapStruct.toDto(savedImage)
@@ -57,6 +52,9 @@ class CafeImageService(
         request: UpdateCafeImageRequest,
     ): CafeImageDto {
         val cafeImage = findCafeImage(cafeId, imageId)
+        request.imageUrl.applyIfProvided { imageUrl ->
+            cafeImage.imageUrl = imageUrl?.trim() ?: cafeImage.imageUrl
+        }
         request.mainImage.applyIfProvided { mainImage ->
             cafeImage.mainImage = mainImage ?: cafeImage.mainImage
             if (cafeImage.mainImage) {
@@ -69,7 +67,6 @@ class CafeImageService(
     @Transactional
     fun deleteCafeImage(cafeId: Long, imageId: Long): Long {
         val cafeImage = findCafeImage(cafeId, imageId)
-        s3StorageService.delete(cafeImage.s3Key)
         cafeImageRepository.delete(cafeImage)
         return imageId
     }
