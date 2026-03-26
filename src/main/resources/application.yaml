@@ -7,6 +7,11 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
 
+app:
+  openai:
+    api-key: ${OPENAI_API_KEY:}
+    translation-model: ${OPENAI_TRANSLATION_MODEL:gpt-5-mini}
+
 springdoc:
   api-docs:
     path: /api-docs
