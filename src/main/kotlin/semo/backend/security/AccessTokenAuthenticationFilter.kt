@@ -22,7 +22,9 @@ class AccessTokenAuthenticationFilter(
             path == "/swagger-ui.html" ||
             path.startsWith("/swagger-ui/") ||
             path == "/api-docs" ||
-            path.startsWith("/api-docs/")
+            path.startsWith("/api-docs/") ||
+            path == "/ws-chat" ||
+            path.startsWith("/ws-chat/")
     }
 
     override fun doFilterInternal(
