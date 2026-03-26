@@ -17,3 +17,5 @@ databaseChangeLog:
       file: db/changelog/changes/20260325161100-seed-keywords.yaml
   - include:
       file: db/changelog/changes/20260325161200-add-user-sex.yaml
+  - include:
+      file: db/changelog/changes/20260326120000-create-restaurants-table.yaml
