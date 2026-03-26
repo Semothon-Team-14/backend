@@ -65,11 +65,6 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: s3_key
-                  type: VARCHAR(500)
-                  constraints:
-                    nullable: false
-              - column:
                   name: main_image
                   type: BOOLEAN
                   defaultValueBoolean: false
@@ -99,11 +94,6 @@ databaseChangeLog:
               - column:
                   name: image_url
                   type: VARCHAR(1000)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: s3_key
-                  type: VARCHAR(500)
                   constraints:
                     nullable: false
               - column:
