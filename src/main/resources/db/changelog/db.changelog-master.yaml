@@ -21,3 +21,5 @@ databaseChangeLog:
       file: db/changelog/changes/20260326120000-create-restaurants-table.yaml
   - include:
       file: db/changelog/changes/20260326103000-create-cafes-and-image-tables.yaml
+  - include:
+      file: db/changelog/changes/20260326150000-create-chat-tables.yaml
