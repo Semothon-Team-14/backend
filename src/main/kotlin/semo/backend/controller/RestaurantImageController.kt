@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.multipart.MultipartFile
 import semo.backend.config.argument.OptionalRequestBody
+import semo.backend.controller.request.CreateRestaurantImageRequest
 import semo.backend.controller.request.UpdateRestaurantImageRequest
 import semo.backend.controller.response.CreateRestaurantImageResponse
 import semo.backend.controller.response.DeleteRestaurantImageResponse
@@ -48,11 +48,10 @@ class RestaurantImageController(
     @ResponseStatus(HttpStatus.CREATED)
     fun createRestaurantImage(
         @PathVariable restaurantId: Long,
-        @RequestParam("file") file: MultipartFile,
-        @RequestParam("mainImage", required = false, defaultValue = "false") mainImage: Boolean,
+        @RequestBody request: CreateRestaurantImageRequest,
     ): CreateRestaurantImageResponse {
         return CreateRestaurantImageResponse(
-            image = restaurantImageFacade.createRestaurantImage(restaurantId, file, mainImage),
+            image = restaurantImageFacade.createRestaurantImage(restaurantId, request),
         )
     }
 
