@@ -38,3 +38,4 @@ replay_pid*
 # Script outputs
 scripts/places_seed/output/
 scripts/places_seed/.venv/
+scripts/places_seed/__pycache__/
