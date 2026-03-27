@@ -34,3 +34,7 @@ logs/
 *.class
 hs_err_pid*
 replay_pid*
+
+# Script outputs
+scripts/places_seed/output/
+scripts/places_seed/.venv/
