@@ -6,6 +6,7 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
+from database_writer import DatabaseConfig, sync_places_to_database
 from google_places_client import GooglePlacesClient, GooglePlacesError
 from seed_writer import (
     SeedPlace,
@@ -21,6 +22,11 @@ DEFAULT_CITIES_CSV = (
     / "src/main/resources/db/changelog/data/cities.csv"
 )
 DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parent / "output"
+DEFAULT_DB_HOST = "localhost"
+DEFAULT_DB_PORT = 5432
+DEFAULT_DB_NAME = "semobackend"
+DEFAULT_DB_USERNAME = "semo"
+DEFAULT_DB_PASSWORD = "secret"
 
 
 @dataclass(frozen=True)
@@ -69,8 +75,51 @@ def main() -> int:
         max_retries=args.max_retries,
         timeout_seconds=args.timeout_seconds,
     )
-    cities = read_cities(args.cities_csv)
+    generated_outputs = fetch_seed_data(client=client, cities_csv=args.cities_csv, args=args)
 
+    if args.dry_run:
+        for config, places in generated_outputs:
+            print(f"{config.label}: {len(places)} rows ready")
+        return 0
+
+    places_by_label = {config.label: places for config, places in generated_outputs}
+    if not args.skip_database:
+        sync_places_to_database(
+            database_config=DatabaseConfig(
+                host=args.db_host,
+                port=args.db_port,
+                database=args.db_name,
+                username=args.db_user,
+                password=args.db_password,
+            ),
+            cafes=places_by_label["cafes"],
+            restaurants=places_by_label["restaurants"],
+        )
+        print("Inserted cafes, cafe_images, restaurants, and restaurant_images into the database.")
+
+    if args.write_csv:
+        for config, places in generated_outputs:
+            place_output_path = args.output_dir / config.output_csv_name
+            image_output_path = args.output_dir / config.image_csv_name
+            write_place_csv(place_output_path, places)
+            write_image_csv(
+                image_output_path,
+                places=places,
+                parent_column_name=config.image_parent_column_name,
+            )
+            print(f"Wrote {place_output_path}")
+            print(f"Wrote {image_output_path}")
+
+    return 0
+
+
+def fetch_seed_data(
+    *,
+    client: GooglePlacesClient,
+    cities_csv: Path,
+    args: argparse.Namespace,
+) -> list[tuple[PlaceCategoryConfig, list[SeedPlace]]]:
+    cities = read_cities(cities_csv)
     generated_outputs: list[tuple[PlaceCategoryConfig, list[SeedPlace]]] = []
     next_starting_ids = {
         "cafes": 1,
@@ -96,7 +145,7 @@ def main() -> int:
                     f"Failed to fetch {config.label} for {city.name_english}: {error}",
                     file=sys.stderr,
                 )
-                return 1
+                raise SystemExit(1) from error
 
             city_places = build_seed_places(
                 city_id=city.id,
@@ -114,37 +163,20 @@ def main() -> int:
                     ),
                     file=sys.stderr,
                 )
-                return 1
+                raise SystemExit(1)
 
             all_places.extend(city_places)
             next_starting_ids[config.label] += len(city_places)
 
         generated_outputs.append((config, all_places))
 
-    if args.dry_run:
-        for config, places in generated_outputs:
-            print(f"{config.label}: {len(places)} rows ready")
-        return 0
-
-    for config, places in generated_outputs:
-        place_output_path = args.output_dir / config.output_csv_name
-        image_output_path = args.output_dir / config.image_csv_name
-        write_place_csv(place_output_path, places)
-        write_image_csv(
-            image_output_path,
-            places=places,
-            parent_column_name=config.image_parent_column_name,
-        )
-        print(f"Wrote {place_output_path}")
-        print(f"Wrote {image_output_path}")
-
-    return 0
+    return generated_outputs
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Generate cafe and restaurant seed CSVs for every city using the Google Places API."
+            "Generate cafe and restaurant seed data for every city using the Google Places API."
         )
     )
     parser.add_argument(
@@ -161,7 +193,7 @@ def parse_args() -> argparse.Namespace:
         "--output-dir",
         type=Path,
         default=DEFAULT_OUTPUT_DIR,
-        help=f"Directory for generated CSV files. Defaults to {DEFAULT_OUTPUT_DIR}.",
+        help=f"Directory for generated CSV files when --write-csv is enabled. Defaults to {DEFAULT_OUTPUT_DIR}.",
     )
     parser.add_argument(
         "--places-per-city",
@@ -201,7 +233,43 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--dry-run",
         action="store_true",
-        help="Fetch and validate data without writing CSV files.",
+        help="Fetch and validate data without writing to the database or CSV files.",
+    )
+    parser.add_argument(
+        "--write-csv",
+        action="store_true",
+        help="Also write CSV snapshots alongside inserting into the database.",
+    )
+    parser.add_argument(
+        "--skip-database",
+        action="store_true",
+        help="Skip database writes and only fetch data or optionally write CSV files.",
+    )
+    parser.add_argument(
+        "--db-host",
+        default=os.getenv("PLACES_DB_HOST", DEFAULT_DB_HOST),
+        help=f"PostgreSQL host. Defaults to {DEFAULT_DB_HOST}.",
+    )
+    parser.add_argument(
+        "--db-port",
+        type=int,
+        default=int(os.getenv("PLACES_DB_PORT", str(DEFAULT_DB_PORT))),
+        help=f"PostgreSQL port. Defaults to {DEFAULT_DB_PORT}.",
+    )
+    parser.add_argument(
+        "--db-name",
+        default=os.getenv("PLACES_DB_NAME", DEFAULT_DB_NAME),
+        help=f"PostgreSQL database name. Defaults to {DEFAULT_DB_NAME}.",
+    )
+    parser.add_argument(
+        "--db-user",
+        default=os.getenv("PLACES_DB_USER", DEFAULT_DB_USERNAME),
+        help=f"PostgreSQL username. Defaults to {DEFAULT_DB_USERNAME}.",
+    )
+    parser.add_argument(
+        "--db-password",
+        default=os.getenv("PLACES_DB_PASSWORD", DEFAULT_DB_PASSWORD),
+        help="PostgreSQL password. Defaults to the local profile password.",
     )
     return parser.parse_args()
 
