@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import semo.backend.enums.QuickMatchStatus
+import semo.backend.enums.QuickMatchTargetType
 import java.time.LocalDateTime
 
 @Entity
@@ -27,6 +28,10 @@ class QuickMatch(
 
     @Column(name = "message", length = 500)
     var message: String? = null,
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "target_type", nullable = false, length = 20)
+    var targetType: QuickMatchTargetType,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 30)
