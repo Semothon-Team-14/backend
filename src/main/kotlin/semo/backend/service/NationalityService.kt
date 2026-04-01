@@ -7,6 +7,7 @@ import semo.backend.controller.request.UpdateNationalityRequest
 import semo.backend.dto.NationalityDto
 import semo.backend.entity.Nationality
 import semo.backend.exception.nationality.DuplicateNationalityCountryCodeException
+import semo.backend.exception.nationality.InvalidNationalityCountryCodeException
 import semo.backend.exception.nationality.NationalityNotFoundException
 import semo.backend.mapstruct.NationalityMapStruct
 import semo.backend.repository.jpa.NationalityRepository
@@ -91,6 +92,14 @@ class NationalityService(
     }
 
     private fun normalizeCountryCode(countryCode: String): String {
-        return countryCode.trim().uppercase()
+        val normalized = countryCode.trim().uppercase()
+        if (!COUNTRY_CODE_REGEX.matches(normalized)) {
+            throw InvalidNationalityCountryCodeException(countryCode)
+        }
+        return normalized
+    }
+
+    companion object {
+        private val COUNTRY_CODE_REGEX = Regex("^[A-Z]{2}$")
     }
 }
