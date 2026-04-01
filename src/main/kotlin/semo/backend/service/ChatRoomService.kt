@@ -19,6 +19,7 @@ import semo.backend.repository.jpa.UserRepository
 import java.time.LocalDateTime
 
 @Service
+@Transactional(readOnly = true)
 class ChatRoomService(
     private val chatRoomRepository: ChatRoomRepository,
     private val chatParticipantRepository: ChatParticipantRepository,
