@@ -25,3 +25,5 @@ databaseChangeLog:
       file: db/changelog/changes/20260326150000-create-chat-tables.yaml
   - include:
       file: db/changelog/changes/20260326170000-create-chat-message-translations-table.yaml
+  - include:
+      file: db/changelog/changes/20260401135000-sync-sequences-after-seed-data.yaml
