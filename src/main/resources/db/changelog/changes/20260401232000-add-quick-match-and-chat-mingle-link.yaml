@@ -1,0 +1,141 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260401232000-add-quick-match-and-chat-mingle-link
+      author: codex
+      changes:
+        - addColumn:
+            tableName: chat_rooms
+            columns:
+              - column:
+                  name: mingle_id
+                  type: BIGINT
+        - addForeignKeyConstraint:
+            baseTableName: chat_rooms
+            baseColumnNames: mingle_id
+            constraintName: fk_chat_rooms_mingle
+            referencedTableName: mingles
+            referencedColumnNames: id
+        - addUniqueConstraint:
+            tableName: chat_rooms
+            columnNames: mingle_id
+            constraintName: uq_chat_rooms_mingle
+        - createTable:
+            tableName: quick_matches
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_quick_matches
+                    nullable: false
+              - column:
+                  name: requester_user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: city_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: message
+                  type: VARCHAR(500)
+              - column:
+                  name: status
+                  type: VARCHAR(30)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: accepted_by_user_id
+                  type: BIGINT
+              - column:
+                  name: mingle_id
+                  type: BIGINT
+              - column:
+                  name: created_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: quick_matches
+            baseColumnNames: requester_user_id
+            constraintName: fk_quick_matches_requester_user
+            referencedTableName: users
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: quick_matches
+            baseColumnNames: city_id
+            constraintName: fk_quick_matches_city
+            referencedTableName: cities
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: quick_matches
+            baseColumnNames: accepted_by_user_id
+            constraintName: fk_quick_matches_accepted_by_user
+            referencedTableName: users
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: quick_matches
+            baseColumnNames: mingle_id
+            constraintName: fk_quick_matches_mingle
+            referencedTableName: mingles
+            referencedColumnNames: id
+        - createTable:
+            tableName: quick_match_responses
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_quick_match_responses
+                    nullable: false
+              - column:
+                  name: quick_match_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: responder_user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(30)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: quick_match_responses
+            baseColumnNames: quick_match_id
+            constraintName: fk_quick_match_responses_quick_match
+            referencedTableName: quick_matches
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            baseTableName: quick_match_responses
+            baseColumnNames: responder_user_id
+            constraintName: fk_quick_match_responses_responder_user
+            referencedTableName: users
+            referencedColumnNames: id
+        - addUniqueConstraint:
+            tableName: quick_match_responses
+            columnNames: quick_match_id,responder_user_id
+            constraintName: uq_quick_match_responses_match_user
