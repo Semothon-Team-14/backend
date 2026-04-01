@@ -14,6 +14,7 @@ import semo.backend.exception.nationality.NationalityNotFoundException
 import semo.backend.exception.user.UserNotFoundException
 import semo.backend.mapstruct.UserMapStruct
 import semo.backend.repository.jpa.KeywordRepository
+import semo.backend.repository.jpa.LocalRepository
 import semo.backend.repository.jpa.MinglerRepository
 import semo.backend.repository.jpa.NationalityRepository
 import semo.backend.repository.jpa.QuickMatchRepository
@@ -32,6 +33,7 @@ class UserService(
     private val entityManager: EntityManager,
     private val savedCafeRepository: SavedCafeRepository,
     private val savedRestaurantRepository: SavedRestaurantRepository,
+    private val localRepository: LocalRepository,
     private val minglerRepository: MinglerRepository,
     private val quickMatchRepository: QuickMatchRepository,
     private val quickMatchResponseRepository: QuickMatchResponseRepository,
@@ -77,6 +79,7 @@ class UserService(
         val user = findUserById(userId)
         savedCafeRepository.deleteAllByUserId(userId)
         savedRestaurantRepository.deleteAllByUserId(userId)
+        localRepository.deleteAllByUserId(userId)
         minglerRepository.deleteAllByUserId(userId)
         quickMatchResponseRepository.deleteAllByResponderUserId(userId)
         quickMatchRepository.deleteAllByRequesterUserIdOrAcceptedByUserId(userId, userId)
