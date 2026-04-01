@@ -13,6 +13,7 @@ import semo.backend.mapstruct.RestaurantMapStruct
 import semo.backend.repository.jpa.CityRepository
 import semo.backend.repository.jpa.RestaurantImageRepository
 import semo.backend.repository.jpa.RestaurantRepository
+import semo.backend.repository.jpa.SavedRestaurantRepository
 import semo.backend.util.applyIfProvided
 
 @Service
@@ -21,6 +22,7 @@ class RestaurantService(
     private val cityRepository: CityRepository,
     private val restaurantImageRepository: RestaurantImageRepository,
     private val restaurantMapStruct: RestaurantMapStruct,
+    private val savedRestaurantRepository: SavedRestaurantRepository,
 ) {
     fun getRestaurants(cityId: Long): List<RestaurantDto> {
         findCityById(cityId)
@@ -61,6 +63,7 @@ class RestaurantService(
     @Transactional
     fun deleteRestaurant(cityId: Long, restaurantId: Long): Long {
         val restaurant = findRestaurantByCityIdAndRestaurantId(cityId, restaurantId)
+        savedRestaurantRepository.deleteAllByRestaurantId(restaurantId)
         val images = restaurantImageRepository.findAllByRestaurantIdOrderByIdAsc(restaurantId)
         if (images.isNotEmpty()) {
             restaurantImageRepository.deleteAll(images)
