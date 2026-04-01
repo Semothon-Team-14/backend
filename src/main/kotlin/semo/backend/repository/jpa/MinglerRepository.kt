@@ -8,7 +8,11 @@ import semo.backend.entity.Mingler
 interface MinglerRepository : JpaRepository<Mingler, Long> {
     fun findAllByUserIdOrderByCreatedDateTimeDesc(userId: Long): List<Mingler>
 
+    fun findAllByMingleIdOrderByCreatedDateTimeDesc(mingleId: Long): List<Mingler>
+
     fun findByIdAndUserId(minglerId: Long, userId: Long): Mingler?
+
+    fun findByMingleIdAndUserId(mingleId: Long, userId: Long): Mingler?
 
     fun existsByMingleIdAndUserId(mingleId: Long, userId: Long): Boolean
 
