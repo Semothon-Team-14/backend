@@ -61,6 +61,20 @@ class MinglerService(
     }
 
     @Transactional
+    fun ensureJoinedMingle(userId: Long, mingleId: Long): Mingler {
+        val existing = minglerRepository.findByMingleIdAndUserId(mingleId, userId)
+        if (existing != null) {
+            return existing
+        }
+        return minglerRepository.save(
+            Mingler(
+                mingle = mingleService.findMingleById(mingleId),
+                user = findUserById(userId),
+            ),
+        )
+    }
+
+    @Transactional
     fun updateMingler(userId: Long, minglerId: Long, request: UpdateMinglerRequest): MinglerDto {
         val mingler = findMingler(userId, minglerId)
         request.mingleId.applyIfProvided { mingleId ->
@@ -89,6 +103,13 @@ class MinglerService(
         val minglerId = mingler.id
         minglerRepository.delete(mingler)
         return minglerId
+    }
+
+    fun validateMingler(userId: Long, mingleId: Long): Mingler {
+        findUserById(userId)
+        mingleService.findMingleById(mingleId)
+        return minglerRepository.findByMingleIdAndUserId(mingleId, userId)
+            ?: throw MinglerMembershipNotFoundException(userId, mingleId)
     }
 
     @Transactional
