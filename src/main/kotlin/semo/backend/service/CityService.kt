@@ -5,12 +5,14 @@ import org.springframework.transaction.annotation.Transactional
 import semo.backend.controller.request.CreateCityRequest
 import semo.backend.controller.request.UpdateCityRequest
 import semo.backend.dto.CityDto
+import semo.backend.dto.NationalityCitiesDto
 import semo.backend.entity.City
 import semo.backend.entity.Nationality
 import semo.backend.exception.city.CityNotFoundException
 import semo.backend.exception.city.DuplicateCityNameEnglishException
 import semo.backend.exception.nationality.NationalityNotFoundException
 import semo.backend.mapstruct.CityMapStruct
+import semo.backend.mapstruct.NationalityMapStruct
 import semo.backend.repository.jpa.CityRepository
 import semo.backend.repository.jpa.NationalityRepository
 import semo.backend.util.applyIfProvided
@@ -21,6 +23,7 @@ class CityService(
     private val cityRepository: CityRepository,
     private val nationalityRepository: NationalityRepository,
     private val cityMapStruct: CityMapStruct,
+    private val nationalityMapStruct: NationalityMapStruct,
 ) {
     fun getCities(nationalityId: Long): List<CityDto> {
         findNationalityById(nationalityId)
@@ -29,6 +32,18 @@ class CityService(
 
     fun getCity(nationalityId: Long, cityId: Long): CityDto {
         return cityMapStruct.toDto(findCityByNationalityIdAndCityId(nationalityId, cityId))
+    }
+
+    fun getCitiesByNationality(): List<NationalityCitiesDto> {
+        val nationalities = nationalityRepository.findAllByOrderByCountryNameEnglishAsc()
+        return nationalities.map { nationality ->
+            NationalityCitiesDto(
+                nationality = nationalityMapStruct.toDto(nationality),
+                cities = cityMapStruct.toDtos(
+                    cityRepository.findAllByNationalityIdOrderByCityNameEnglishAsc(nationality.id),
+                ),
+            )
+        }
     }
 
     @Transactional
