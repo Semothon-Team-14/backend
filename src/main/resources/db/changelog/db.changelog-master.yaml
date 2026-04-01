@@ -37,3 +37,5 @@ databaseChangeLog:
       file: db/changelog/changes/20260401195000-clear-static-place-seed-data.yaml
   - include:
       file: db/changelog/changes/20260401221000-create-mingles-and-minglers-tables.yaml
+  - include:
+      file: db/changelog/changes/20260401232000-add-quick-match-and-chat-mingle-link.yaml
