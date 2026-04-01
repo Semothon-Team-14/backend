@@ -27,3 +27,7 @@ databaseChangeLog:
       file: db/changelog/changes/20260326170000-create-chat-message-translations-table.yaml
   - include:
       file: db/changelog/changes/20260401135000-sync-sequences-after-seed-data.yaml
+  - include:
+      file: db/changelog/changes/20260401144000-seed-major-city-places.yaml
+  - include:
+      file: db/changelog/changes/20260401144100-sync-place-sequences-after-major-city-seed.yaml
