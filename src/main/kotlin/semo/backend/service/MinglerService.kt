@@ -8,6 +8,7 @@ import semo.backend.dto.MinglerDto
 import semo.backend.entity.Mingler
 import semo.backend.entity.User
 import semo.backend.exception.mingler.MinglerDuplicateException
+import semo.backend.exception.mingler.MinglerMembershipNotFoundException
 import semo.backend.exception.mingler.MinglerMingleRequiredException
 import semo.backend.exception.mingler.MinglerNotFoundException
 import semo.backend.exception.user.UserNotFoundException
@@ -26,6 +27,11 @@ class MinglerService(
     fun getMinglers(userId: Long): List<MinglerDto> {
         findUserById(userId)
         return minglerMapStruct.toDtos(minglerRepository.findAllByUserIdOrderByCreatedDateTimeDesc(userId))
+    }
+
+    fun getMinglersByMingle(mingleId: Long): List<MinglerDto> {
+        mingleService.findMingleById(mingleId)
+        return minglerMapStruct.toDtos(minglerRepository.findAllByMingleIdOrderByCreatedDateTimeDesc(mingleId))
     }
 
     fun getMingler(userId: Long, minglerId: Long): MinglerDto {
@@ -47,6 +53,14 @@ class MinglerService(
     }
 
     @Transactional
+    fun joinMingle(userId: Long, mingleId: Long): MinglerDto {
+        return createMingler(
+            userId = userId,
+            request = CreateMinglerRequest(mingleId = mingleId),
+        )
+    }
+
+    @Transactional
     fun updateMingler(userId: Long, minglerId: Long, request: UpdateMinglerRequest): MinglerDto {
         val mingler = findMingler(userId, minglerId)
         request.mingleId.applyIfProvided { mingleId ->
@@ -62,6 +76,17 @@ class MinglerService(
     @Transactional
     fun deleteMingler(userId: Long, minglerId: Long): Long {
         val mingler = findMingler(userId, minglerId)
+        minglerRepository.delete(mingler)
+        return minglerId
+    }
+
+    @Transactional
+    fun leaveMingle(userId: Long, mingleId: Long): Long {
+        findUserById(userId)
+        mingleService.findMingleById(mingleId)
+        val mingler = minglerRepository.findByMingleIdAndUserId(mingleId, userId)
+            ?: throw MinglerMembershipNotFoundException(userId, mingleId)
+        val minglerId = mingler.id
         minglerRepository.delete(mingler)
         return minglerId
     }
