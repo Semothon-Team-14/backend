@@ -10,8 +10,8 @@ import semo.backend.service.MingleService
 class MingleFacade(
     private val mingleService: MingleService,
 ) {
-    fun getMingles(): List<MingleDto> {
-        return mingleService.getMingles()
+    fun getMingles(cityId: Long?): List<MingleDto> {
+        return mingleService.getMingles(cityId)
     }
 
     fun getMingle(mingleId: Long): MingleDto {
