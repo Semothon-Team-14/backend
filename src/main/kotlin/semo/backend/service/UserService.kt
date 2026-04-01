@@ -25,6 +25,7 @@ import semo.backend.repository.jpa.UserRepository
 import semo.backend.util.applyIfProvided
 
 @Service
+@Transactional(readOnly = true)
 class UserService(
     private val userRepository: UserRepository,
     private val nationalityRepository: NationalityRepository,
