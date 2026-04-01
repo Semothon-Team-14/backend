@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260401144100-sync-place-sequences-after-major-city-seed
+      author: codex
+      changes:
+        - sql:
+            dbms: postgresql
+            sql: |
+              SELECT setval('cafes_id_seq', COALESCE((SELECT MAX(id) FROM cafes), 1), true);
+              SELECT setval('cafe_images_id_seq', COALESCE((SELECT MAX(id) FROM cafe_images), 1), true);
+              SELECT setval('restaurants_id_seq', COALESCE((SELECT MAX(id) FROM restaurants), 1), true);
+              SELECT setval('restaurant_images_id_seq', COALESCE((SELECT MAX(id) FROM restaurant_images), 1), true);
