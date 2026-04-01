@@ -15,6 +15,7 @@ import semo.backend.controller.response.CreateQuickMatchResponse
 import semo.backend.controller.response.DeclineQuickMatchResponse
 import semo.backend.controller.response.GetQuickMatchResponse
 import semo.backend.controller.response.GetQuickMatchesResponse
+import semo.backend.enums.QuickMatchTargetType
 import semo.backend.facade.QuickMatchFacade
 import semo.backend.security.UserId
 
@@ -26,9 +27,10 @@ class QuickMatchController(
     @GetMapping
     fun getQuickMatches(
         @RequestParam(required = false) cityId: Long?,
+        @RequestParam(required = false) targetType: QuickMatchTargetType?,
     ): GetQuickMatchesResponse {
         return GetQuickMatchesResponse(
-            quickMatches = quickMatchFacade.getQuickMatches(cityId),
+            quickMatches = quickMatchFacade.getQuickMatches(cityId, targetType),
         )
     }
 
