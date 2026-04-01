@@ -6,6 +6,7 @@ data class ChatRoomDto(
     val id: Long,
     val name: String?,
     val directChat: Boolean,
+    val mingleId: Long?,
     val participantUserIds: List<Long>,
     val createdDateTime: LocalDateTime,
     val updatedDateTime: LocalDateTime,
