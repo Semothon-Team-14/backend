@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260401135000-sync-sequences-after-seed-data
+      author: codex
+      changes:
+        - sql:
+            dbms: postgresql
+            sql: |
+              SELECT setval('nationalities_id_seq', COALESCE((SELECT MAX(id) FROM nationalities), 1), true);
+              SELECT setval('cities_id_seq', COALESCE((SELECT MAX(id) FROM cities), 1), true);
+              SELECT setval('keywords_id_seq', COALESCE((SELECT MAX(id) FROM keywords), 1), true);
