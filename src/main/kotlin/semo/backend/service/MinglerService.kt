@@ -18,6 +18,7 @@ import semo.backend.repository.jpa.UserRepository
 import semo.backend.util.applyIfProvided
 
 @Service
+@Transactional(readOnly = true)
 class MinglerService(
     private val minglerRepository: MinglerRepository,
     private val userRepository: UserRepository,
