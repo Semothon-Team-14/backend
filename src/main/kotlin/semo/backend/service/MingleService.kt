@@ -20,6 +20,7 @@ import semo.backend.repository.jpa.QuickMatchResponseRepository
 import semo.backend.util.applyIfProvided
 
 @Service
+@Transactional(readOnly = true)
 class MingleService(
     private val mingleRepository: MingleRepository,
     private val minglerRepository: MinglerRepository,
