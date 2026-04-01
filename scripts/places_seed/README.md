@@ -1,6 +1,6 @@
 # Places Seed Scripts
 
-This directory contains Python scripts for generating cafe and restaurant seed data from the Google Places API and inserting it into the local PostgreSQL database.
+This directory contains Python scripts for generating cafe and restaurant seed data from the Google Places API, uploading place photos to S3, and inserting the resulting rows into the local PostgreSQL database.
 
 This is a local-only seed job. It is not intended to run as part of the main production deploy flow.
 
@@ -13,17 +13,23 @@ Running the generator inserts rows into these tables:
 - `restaurants`
 - `restaurant_images`
 
-Optionally, it can also write these files to `scripts/places_seed/output/`:
+The current default run targets 10 major cities already present in `src/main/resources/db/changelog/data/cities.csv`:
 
-- `cafes.csv`
-- `cafe_images.csv`
-- `restaurants.csv`
-- `restaurant_images.csv`
+- Seoul
+- Tokyo
+- Hong Kong
+- Singapore
+- Bangkok
+- New York
+- Toronto
+- London
+- Paris
+- Dubai
 
-Each city from `src/main/resources/db/changelog/data/cities.csv` is processed, and the script requires:
+For each city, the script stores:
 
-- 5 cafes per city
-- 5 restaurants per city
+- 5 cafes
+- 5 restaurants
 - 3 photos per cafe or restaurant
 
 If a city does not have enough usable Google Places results, the run fails instead of writing partial data.
@@ -33,6 +39,7 @@ If a city does not have enough usable Google Places results, the run fails inste
 - Python 3.10+
 - Install dependencies with `pip install -r scripts/places_seed/requirements.txt`
 - A Google Places API key with Places API access enabled
+- AWS credentials and bucket settings configured locally
 - A local PostgreSQL database matching the backend local profile
 
 ## Usage
@@ -43,22 +50,16 @@ Set the API key:
 export GOOGLE_PLACES_API_KEY="your-api-key"
 ```
 
-Preview the fetch without touching the database:
+Preview the fetch without touching the database or S3:
 
 ```bash
-python3 scripts/places_seed/generate_places_seed.py --dry-run
+python3 scripts/places_seed/generate_places_seed.py --dry-run --skip-s3-upload
 ```
 
-Run the local seed job and insert directly into PostgreSQL:
+Run the local seed job, upload photos to S3, and insert directly into PostgreSQL:
 
 ```bash
 python3 scripts/places_seed/generate_places_seed.py
-```
-
-Also write CSV snapshots:
-
-```bash
-python3 scripts/places_seed/generate_places_seed.py --write-csv
 ```
 
 Use custom local database settings:
@@ -76,7 +77,6 @@ python3 scripts/places_seed/generate_places_seed.py \
 
 - By default the script truncates and reloads `cafes`, `cafe_images`, `restaurants`, and `restaurant_images`.
 - The default database connection values match `src/main/resources/application-local.yaml` and `compose.yaml`.
-- Use `--skip-database --write-csv` if you only want CSV output.
-- The generated place CSVs match the current `cafes` and `restaurants` table columns.
-- The generated image CSVs match the current `cafe_images` and `restaurant_images` table columns.
-- Image URLs are Google Places photo media URLs built from the returned photo references.
+- Progress is tracked in `scripts/places_seed/output/google_places_progress.json`, so reruns can continue without repeating finished city/category work.
+- Image URLs stored in the database are public S3 object URLs, not Google media URLs.
+- Use `--reset-progress` if you need to discard prior partial progress and start over.
