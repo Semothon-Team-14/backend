@@ -1,12 +1,28 @@
 spring:
   application:
     name: backend
+  messages:
+    encoding: UTF-8
   jpa:
     open-in-view: false
     hibernate:
       ddl-auto: validate
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
+  servlet:
+    encoding:
+      enabled: true
+      force: true
+      charset: UTF-8
+
+server:
+  tomcat:
+    uri-encoding: UTF-8
+
+logging:
+  charset:
+    console: UTF-8
+    file: UTF-8
 
 app:
   openai:
