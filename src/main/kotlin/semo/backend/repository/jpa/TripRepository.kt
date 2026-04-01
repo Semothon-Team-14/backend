@@ -25,4 +25,23 @@ interface TripRepository : JpaRepository<Trip, Long> {
         @Param("targetDate") targetDate: LocalDate,
         @Param("excludeUserId") excludeUserId: Long,
     ): List<Long>
+
+    @Query(
+        """
+        select (count(trip) > 0)
+        from Trip trip
+        where trip.user.id = :userId
+          and (:excludeTripId is null or trip.id <> :excludeTripId)
+          and trip.startDate is not null
+          and trip.endDate is not null
+          and trip.startDate <= :endDate
+          and trip.endDate >= :startDate
+        """,
+    )
+    fun existsDateOverlapByUserId(
+        @Param("userId") userId: Long,
+        @Param("startDate") startDate: LocalDate,
+        @Param("endDate") endDate: LocalDate,
+        @Param("excludeTripId") excludeTripId: Long? = null,
+    ): Boolean
 }
