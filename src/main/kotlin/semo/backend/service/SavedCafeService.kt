@@ -20,6 +20,7 @@ import semo.backend.repository.jpa.UserRepository
 import semo.backend.util.applyIfProvided
 
 @Service
+@Transactional(readOnly = true)
 class SavedCafeService(
     private val savedCafeRepository: SavedCafeRepository,
     private val userRepository: UserRepository,
