@@ -1,0 +1,110 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260401221000-create-mingles-and-minglers-tables
+      author: codex
+      changes:
+        - createTable:
+            tableName: mingles
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_mingles
+                    nullable: false
+              - column:
+                  name: city_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: title
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: VARCHAR(1000)
+              - column:
+                  name: created_by
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_by
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: mingles
+            baseColumnNames: city_id
+            constraintName: fk_mingles_city
+            referencedTableName: cities
+            referencedColumnNames: id
+        - createTable:
+            tableName: minglers
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_minglers
+                    nullable: false
+              - column:
+                  name: mingle_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_by
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: minglers
+            baseColumnNames: mingle_id
+            constraintName: fk_minglers_mingle
+            referencedTableName: mingles
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: minglers
+            baseColumnNames: user_id
+            constraintName: fk_minglers_user
+            referencedTableName: users
+            referencedColumnNames: id
+        - addUniqueConstraint:
+            tableName: minglers
+            columnNames: mingle_id,user_id
+            constraintName: uq_minglers_mingle_user
