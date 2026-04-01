@@ -6,6 +6,8 @@ import semo.backend.entity.ChatParticipant
 
 @Repository
 interface ChatParticipantRepository : JpaRepository<ChatParticipant, Long> {
+    fun findByChatRoomIdAndUserId(chatRoomId: Long, userId: Long): ChatParticipant?
+
     fun existsByChatRoomIdAndUserId(
         chatRoomId: Long,
         userId: Long,
