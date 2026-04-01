@@ -12,6 +12,7 @@ interface ChatRoomMapStruct : GenericMapStruct<ChatRoom, ChatRoomDto> {
             id = entity.id,
             name = entity.name,
             directChat = entity.directChat,
+            mingleId = entity.mingle?.id,
             participantUserIds = entity.participants.map { it.user.id }.sorted(),
             createdDateTime = entity.createdDateTime,
             updatedDateTime = entity.updatedDateTime,
