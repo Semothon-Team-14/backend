@@ -13,6 +13,7 @@ import semo.backend.mapstruct.CafeMapStruct
 import semo.backend.repository.jpa.CafeImageRepository
 import semo.backend.repository.jpa.CafeRepository
 import semo.backend.repository.jpa.CityRepository
+import semo.backend.repository.jpa.SavedCafeRepository
 import semo.backend.util.applyIfProvided
 
 @Service
@@ -21,6 +22,7 @@ class CafeService(
     private val cityRepository: CityRepository,
     private val cafeImageRepository: CafeImageRepository,
     private val cafeMapStruct: CafeMapStruct,
+    private val savedCafeRepository: SavedCafeRepository,
 ) {
     fun getCafes(cityId: Long): List<CafeDto> {
         findCityById(cityId)
@@ -61,6 +63,7 @@ class CafeService(
     @Transactional
     fun deleteCafe(cityId: Long, cafeId: Long): Long {
         val cafe = findCafeByCityIdAndCafeId(cityId, cafeId)
+        savedCafeRepository.deleteAllByCafeId(cafeId)
         val images = cafeImageRepository.findAllByCafeIdOrderByIdAsc(cafeId)
         if (images.isNotEmpty()) {
             cafeImageRepository.deleteAll(images)
