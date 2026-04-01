@@ -7,6 +7,7 @@ import semo.backend.dto.ChatMessageDeliveryDto
 import semo.backend.dto.ChatMessageTranslationDto
 
 @Service
+@Transactional(readOnly = true)
 class ChatRealtimeMessageService(
     private val chatMessageService: ChatMessageService,
     private val chatRoomService: ChatRoomService,
