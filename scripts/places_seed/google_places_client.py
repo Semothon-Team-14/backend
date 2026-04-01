@@ -17,6 +17,7 @@ class GooglePlacesError(RuntimeError):
 
 @dataclass(frozen=True)
 class PlacePhoto:
+    name: str
     url: str
 
 
@@ -60,7 +61,6 @@ class GooglePlacesClient:
             "pageSize": page_size,
             "includedType": place_type,
             "strictTypeFiltering": True,
-            "rankPreference": "POPULARITY",
         }
         data = self._post_json(TEXT_SEARCH_URL, payload)
         places = data.get("places", [])
@@ -69,7 +69,10 @@ class GooglePlacesClient:
     def _to_place_result(self, place: dict, photo_limit: int) -> PlaceResult:
         location = place.get("location") or {}
         photos = tuple(
-            PlacePhoto(url=self._build_photo_media_url(photo["name"]))
+            PlacePhoto(
+                name=photo["name"],
+                url=self._build_photo_media_url(photo["name"]),
+            )
             for photo in place.get("photos", [])[:photo_limit]
             if photo.get("name")
         )
