@@ -16,6 +16,8 @@ import semo.backend.mapstruct.UserMapStruct
 import semo.backend.repository.jpa.KeywordRepository
 import semo.backend.repository.jpa.MinglerRepository
 import semo.backend.repository.jpa.NationalityRepository
+import semo.backend.repository.jpa.QuickMatchRepository
+import semo.backend.repository.jpa.QuickMatchResponseRepository
 import semo.backend.repository.jpa.SavedCafeRepository
 import semo.backend.repository.jpa.SavedRestaurantRepository
 import semo.backend.repository.jpa.UserRepository
@@ -31,6 +33,8 @@ class UserService(
     private val savedCafeRepository: SavedCafeRepository,
     private val savedRestaurantRepository: SavedRestaurantRepository,
     private val minglerRepository: MinglerRepository,
+    private val quickMatchRepository: QuickMatchRepository,
+    private val quickMatchResponseRepository: QuickMatchResponseRepository,
 ) {
     fun getUsers(): List<UserDto> {
         return userMapStruct.toDtos(userRepository.findAll())
@@ -74,6 +78,8 @@ class UserService(
         savedCafeRepository.deleteAllByUserId(userId)
         savedRestaurantRepository.deleteAllByUserId(userId)
         minglerRepository.deleteAllByUserId(userId)
+        quickMatchResponseRepository.deleteAllByResponderUserId(userId)
+        quickMatchRepository.deleteAllByRequesterUserIdOrAcceptedByUserId(userId, userId)
         entityManager.createNativeQuery(
             """
             delete from chat_message_translations
