@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260401144000-seed-major-city-places
+      author: codex
+      changes:
+        - loadData:
+            file: db/changelog/data/cafes_major_cities.csv
+            tableName: cafes
+        - loadData:
+            file: db/changelog/data/cafe_images_major_cities.csv
+            tableName: cafe_images
+        - loadData:
+            file: db/changelog/data/restaurants_major_cities.csv
+            tableName: restaurants
+        - loadData:
+            file: db/changelog/data/restaurant_images_major_cities.csv
+            tableName: restaurant_images
