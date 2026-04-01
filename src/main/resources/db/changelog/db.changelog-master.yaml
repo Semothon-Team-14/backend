@@ -33,3 +33,5 @@ databaseChangeLog:
       file: db/changelog/changes/20260401144100-sync-place-sequences-after-major-city-seed.yaml
   - include:
       file: db/changelog/changes/20260401173000-create-saved-place-tables.yaml
+  - include:
+      file: db/changelog/changes/20260401195000-clear-static-place-seed-data.yaml
