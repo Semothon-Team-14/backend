@@ -24,8 +24,14 @@ class MingleService(
     private val cityRepository: CityRepository,
     private val mingleMapStruct: MingleMapStruct,
 ) {
-    fun getMingles(): List<MingleDto> {
-        return mingleMapStruct.toDtos(mingleRepository.findAll())
+    fun getMingles(cityId: Long?): List<MingleDto> {
+        val mingles = if (cityId == null) {
+            mingleRepository.findAll()
+        } else {
+            findCityById(cityId)
+            mingleRepository.findAllByCityIdOrderByCreatedDateTimeDesc(cityId)
+        }
+        return mingleMapStruct.toDtos(mingles)
     }
 
     fun getMingle(mingleId: Long): MingleDto {
