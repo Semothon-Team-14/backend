@@ -1,0 +1,121 @@
+id,city_id,name,phone_number,address,food_category,latitude,longitude
+10001,1,Seoul Central Roastery,+101-555-0001,"100 Central Road, Seoul",Specialty Cafe,37.5493000,126.9588000
+10002,1,Seoul Riverside Brew House,+101-555-0002,"101 Riverside Road, Seoul",Dessert Cafe,37.5536000,126.9636000
+10003,1,Seoul Market Coffee Studio,+101-555-0003,"102 Market Road, Seoul",Brunch Cafe,37.5579000,126.9684000
+10004,1,Seoul Garden Bean Atelier,+101-555-0004,"103 Garden Road, Seoul",Bakery Cafe,37.5622000,126.9732000
+10005,1,Seoul Station Dessert Loft,+101-555-0005,"104 Station Road, Seoul",Coffee Lab,37.5665000,126.9780000
+10006,1,Seoul Harbor Cafe Terrace,+101-555-0006,"105 Harbor Road, Seoul",Tea Cafe,37.5708000,126.9828000
+10007,1,Seoul Hill Mocha Lab,+101-555-0007,"106 Hill Road, Seoul",Garden Cafe,37.5751000,126.9876000
+10008,1,Seoul Square Bakery Lounge,+101-555-0008,"107 Square Road, Seoul",Late Night Cafe,37.5794000,126.9924000
+10009,1,Seoul Park Espresso Bar,+101-555-0009,"108 Park Road, Seoul",Roastery,37.5837000,126.9972000
+10010,1,Seoul Avenue Tea Room,+101-555-0010,"109 Avenue Road, Seoul",Signature Dessert Cafe,37.5880000,127.0020000
+10011,4,Tokyo Central Roastery,+104-555-0001,"100 Central Road, Tokyo",Specialty Cafe,35.6590000,139.6311000
+10012,4,Tokyo Riverside Brew House,+104-555-0002,"101 Riverside Road, Tokyo",Dessert Cafe,35.6633000,139.6359000
+10013,4,Tokyo Market Coffee Studio,+104-555-0003,"102 Market Road, Tokyo",Brunch Cafe,35.6676000,139.6407000
+10014,4,Tokyo Garden Bean Atelier,+104-555-0004,"103 Garden Road, Tokyo",Bakery Cafe,35.6719000,139.6455000
+10015,4,Tokyo Station Dessert Loft,+104-555-0005,"104 Station Road, Tokyo",Coffee Lab,35.6762000,139.6503000
+10016,4,Tokyo Harbor Cafe Terrace,+104-555-0006,"105 Harbor Road, Tokyo",Tea Cafe,35.6805000,139.6551000
+10017,4,Tokyo Hill Mocha Lab,+104-555-0007,"106 Hill Road, Tokyo",Garden Cafe,35.6848000,139.6599000
+10018,4,Tokyo Square Bakery Lounge,+104-555-0008,"107 Square Road, Tokyo",Late Night Cafe,35.6891000,139.6647000
+10019,4,Tokyo Park Espresso Bar,+104-555-0009,"108 Park Road, Tokyo",Roastery,35.6934000,139.6695000
+10020,4,Tokyo Avenue Tea Room,+104-555-0010,"109 Avenue Road, Tokyo",Signature Dessert Cafe,35.6977000,139.6743000
+10021,7,Beijing Central Roastery,+107-555-0001,"100 Central Road, Beijing",Specialty Cafe,39.8870000,116.3882000
+10022,7,Beijing Riverside Brew House,+107-555-0002,"101 Riverside Road, Beijing",Dessert Cafe,39.8913000,116.3930000
+10023,7,Beijing Market Coffee Studio,+107-555-0003,"102 Market Road, Beijing",Brunch Cafe,39.8956000,116.3978000
+10024,7,Beijing Garden Bean Atelier,+107-555-0004,"103 Garden Road, Beijing",Bakery Cafe,39.8999000,116.4026000
+10025,7,Beijing Station Dessert Loft,+107-555-0005,"104 Station Road, Beijing",Coffee Lab,39.9042000,116.4074000
+10026,7,Beijing Harbor Cafe Terrace,+107-555-0006,"105 Harbor Road, Beijing",Tea Cafe,39.9085000,116.4122000
+10027,7,Beijing Hill Mocha Lab,+107-555-0007,"106 Hill Road, Beijing",Garden Cafe,39.9128000,116.4170000
+10028,7,Beijing Square Bakery Lounge,+107-555-0008,"107 Square Road, Beijing",Late Night Cafe,39.9171000,116.4218000
+10029,7,Beijing Park Espresso Bar,+107-555-0009,"108 Park Road, Beijing",Roastery,39.9214000,116.4266000
+10030,7,Beijing Avenue Tea Room,+107-555-0010,"109 Avenue Road, Beijing",Signature Dessert Cafe,39.9257000,116.4314000
+10031,8,Shanghai Central Roastery,+108-555-0001,"100 Central Road, Shanghai",Specialty Cafe,31.2132000,121.4545000
+10032,8,Shanghai Riverside Brew House,+108-555-0002,"101 Riverside Road, Shanghai",Dessert Cafe,31.2175000,121.4593000
+10033,8,Shanghai Market Coffee Studio,+108-555-0003,"102 Market Road, Shanghai",Brunch Cafe,31.2218000,121.4641000
+10034,8,Shanghai Garden Bean Atelier,+108-555-0004,"103 Garden Road, Shanghai",Bakery Cafe,31.2261000,121.4689000
+10035,8,Shanghai Station Dessert Loft,+108-555-0005,"104 Station Road, Shanghai",Coffee Lab,31.2304000,121.4737000
+10036,8,Shanghai Harbor Cafe Terrace,+108-555-0006,"105 Harbor Road, Shanghai",Tea Cafe,31.2347000,121.4785000
+10037,8,Shanghai Hill Mocha Lab,+108-555-0007,"106 Hill Road, Shanghai",Garden Cafe,31.2390000,121.4833000
+10038,8,Shanghai Square Bakery Lounge,+108-555-0008,"107 Square Road, Shanghai",Late Night Cafe,31.2433000,121.4881000
+10039,8,Shanghai Park Espresso Bar,+108-555-0009,"108 Park Road, Shanghai",Roastery,31.2476000,121.4929000
+10040,8,Shanghai Avenue Tea Room,+108-555-0010,"109 Avenue Road, Shanghai",Signature Dessert Cafe,31.2519000,121.4977000
+10041,13,Hong Kong Central Roastery,+113-555-0001,"100 Central Road, Hong Kong",Specialty Cafe,22.3021000,114.1502000
+10042,13,Hong Kong Riverside Brew House,+113-555-0002,"101 Riverside Road, Hong Kong",Dessert Cafe,22.3064000,114.1550000
+10043,13,Hong Kong Market Coffee Studio,+113-555-0003,"102 Market Road, Hong Kong",Brunch Cafe,22.3107000,114.1598000
+10044,13,Hong Kong Garden Bean Atelier,+113-555-0004,"103 Garden Road, Hong Kong",Bakery Cafe,22.3150000,114.1646000
+10045,13,Hong Kong Station Dessert Loft,+113-555-0005,"104 Station Road, Hong Kong",Coffee Lab,22.3193000,114.1694000
+10046,13,Hong Kong Harbor Cafe Terrace,+113-555-0006,"105 Harbor Road, Hong Kong",Tea Cafe,22.3236000,114.1742000
+10047,13,Hong Kong Hill Mocha Lab,+113-555-0007,"106 Hill Road, Hong Kong",Garden Cafe,22.3279000,114.1790000
+10048,13,Hong Kong Square Bakery Lounge,+113-555-0008,"107 Square Road, Hong Kong",Late Night Cafe,22.3322000,114.1838000
+10049,13,Hong Kong Park Espresso Bar,+113-555-0009,"108 Park Road, Hong Kong",Roastery,22.3365000,114.1886000
+10050,13,Hong Kong Avenue Tea Room,+113-555-0010,"109 Avenue Road, Hong Kong",Signature Dessert Cafe,22.3408000,114.1934000
+10051,16,Singapore Central Roastery,+116-555-0001,"100 Central Road, Singapore",Specialty Cafe,1.3349000,103.8006000
+10052,16,Singapore Riverside Brew House,+116-555-0002,"101 Riverside Road, Singapore",Dessert Cafe,1.3392000,103.8054000
+10053,16,Singapore Market Coffee Studio,+116-555-0003,"102 Market Road, Singapore",Brunch Cafe,1.3435000,103.8102000
+10054,16,Singapore Garden Bean Atelier,+116-555-0004,"103 Garden Road, Singapore",Bakery Cafe,1.3478000,103.8150000
+10055,16,Singapore Station Dessert Loft,+116-555-0005,"104 Station Road, Singapore",Coffee Lab,1.3521000,103.8198000
+10056,16,Singapore Harbor Cafe Terrace,+116-555-0006,"105 Harbor Road, Singapore",Tea Cafe,1.3564000,103.8246000
+10057,16,Singapore Hill Mocha Lab,+116-555-0007,"106 Hill Road, Singapore",Garden Cafe,1.3607000,103.8294000
+10058,16,Singapore Square Bakery Lounge,+116-555-0008,"107 Square Road, Singapore",Late Night Cafe,1.3650000,103.8342000
+10059,16,Singapore Park Espresso Bar,+116-555-0009,"108 Park Road, Singapore",Roastery,1.3693000,103.8390000
+10060,16,Singapore Avenue Tea Room,+116-555-0010,"109 Avenue Road, Singapore",Signature Dessert Cafe,1.3736000,103.8438000
+10061,19,Bangkok Central Roastery,+119-555-0001,"100 Central Road, Bangkok",Specialty Cafe,13.7391000,100.4826000
+10062,19,Bangkok Riverside Brew House,+119-555-0002,"101 Riverside Road, Bangkok",Dessert Cafe,13.7434000,100.4874000
+10063,19,Bangkok Market Coffee Studio,+119-555-0003,"102 Market Road, Bangkok",Brunch Cafe,13.7477000,100.4922000
+10064,19,Bangkok Garden Bean Atelier,+119-555-0004,"103 Garden Road, Bangkok",Bakery Cafe,13.7520000,100.4970000
+10065,19,Bangkok Station Dessert Loft,+119-555-0005,"104 Station Road, Bangkok",Coffee Lab,13.7563000,100.5018000
+10066,19,Bangkok Harbor Cafe Terrace,+119-555-0006,"105 Harbor Road, Bangkok",Tea Cafe,13.7606000,100.5066000
+10067,19,Bangkok Hill Mocha Lab,+119-555-0007,"106 Hill Road, Bangkok",Garden Cafe,13.7649000,100.5114000
+10068,19,Bangkok Square Bakery Lounge,+119-555-0008,"107 Square Road, Bangkok",Late Night Cafe,13.7692000,100.5162000
+10069,19,Bangkok Park Espresso Bar,+119-555-0009,"108 Park Road, Bangkok",Roastery,13.7735000,100.5210000
+10070,19,Bangkok Avenue Tea Room,+119-555-0010,"109 Avenue Road, Bangkok",Signature Dessert Cafe,13.7778000,100.5258000
+10071,22,Hanoi Central Roastery,+122-555-0001,"100 Central Road, Hanoi",Specialty Cafe,21.0106000,105.8150000
+10072,22,Hanoi Riverside Brew House,+122-555-0002,"101 Riverside Road, Hanoi",Dessert Cafe,21.0149000,105.8198000
+10073,22,Hanoi Market Coffee Studio,+122-555-0003,"102 Market Road, Hanoi",Brunch Cafe,21.0192000,105.8246000
+10074,22,Hanoi Garden Bean Atelier,+122-555-0004,"103 Garden Road, Hanoi",Bakery Cafe,21.0235000,105.8294000
+10075,22,Hanoi Station Dessert Loft,+122-555-0005,"104 Station Road, Hanoi",Coffee Lab,21.0278000,105.8342000
+10076,22,Hanoi Harbor Cafe Terrace,+122-555-0006,"105 Harbor Road, Hanoi",Tea Cafe,21.0321000,105.8390000
+10077,22,Hanoi Hill Mocha Lab,+122-555-0007,"106 Hill Road, Hanoi",Garden Cafe,21.0364000,105.8438000
+10078,22,Hanoi Square Bakery Lounge,+122-555-0008,"107 Square Road, Hanoi",Late Night Cafe,21.0407000,105.8486000
+10079,22,Hanoi Park Espresso Bar,+122-555-0009,"108 Park Road, Hanoi",Roastery,21.0450000,105.8534000
+10080,22,Hanoi Avenue Tea Room,+122-555-0010,"109 Avenue Road, Hanoi",Signature Dessert Cafe,21.0493000,105.8582000
+10081,23,Ho Chi Minh City Central Roastery,+123-555-0001,"100 Central Road, Ho Chi Minh City",Specialty Cafe,10.8059000,106.6105000
+10082,23,Ho Chi Minh City Riverside Brew House,+123-555-0002,"101 Riverside Road, Ho Chi Minh City",Dessert Cafe,10.8102000,106.6153000
+10083,23,Ho Chi Minh City Market Coffee Studio,+123-555-0003,"102 Market Road, Ho Chi Minh City",Brunch Cafe,10.8145000,106.6201000
+10084,23,Ho Chi Minh City Garden Bean Atelier,+123-555-0004,"103 Garden Road, Ho Chi Minh City",Bakery Cafe,10.8188000,106.6249000
+10085,23,Ho Chi Minh City Station Dessert Loft,+123-555-0005,"104 Station Road, Ho Chi Minh City",Coffee Lab,10.8231000,106.6297000
+10086,23,Ho Chi Minh City Harbor Cafe Terrace,+123-555-0006,"105 Harbor Road, Ho Chi Minh City",Tea Cafe,10.8274000,106.6345000
+10087,23,Ho Chi Minh City Hill Mocha Lab,+123-555-0007,"106 Hill Road, Ho Chi Minh City",Garden Cafe,10.8317000,106.6393000
+10088,23,Ho Chi Minh City Square Bakery Lounge,+123-555-0008,"107 Square Road, Ho Chi Minh City",Late Night Cafe,10.8360000,106.6441000
+10089,23,Ho Chi Minh City Park Espresso Bar,+123-555-0009,"108 Park Road, Ho Chi Minh City",Roastery,10.8403000,106.6489000
+10090,23,Ho Chi Minh City Avenue Tea Room,+123-555-0010,"109 Avenue Road, Ho Chi Minh City",Signature Dessert Cafe,10.8446000,106.6537000
+10091,25,Kuala Lumpur Central Roastery,+125-555-0001,"100 Central Road, Kuala Lumpur",Specialty Cafe,3.1218000,101.6677000
+10092,25,Kuala Lumpur Riverside Brew House,+125-555-0002,"101 Riverside Road, Kuala Lumpur",Dessert Cafe,3.1261000,101.6725000
+10093,25,Kuala Lumpur Market Coffee Studio,+125-555-0003,"102 Market Road, Kuala Lumpur",Brunch Cafe,3.1304000,101.6773000
+10094,25,Kuala Lumpur Garden Bean Atelier,+125-555-0004,"103 Garden Road, Kuala Lumpur",Bakery Cafe,3.1347000,101.6821000
+10095,25,Kuala Lumpur Station Dessert Loft,+125-555-0005,"104 Station Road, Kuala Lumpur",Coffee Lab,3.1390000,101.6869000
+10096,25,Kuala Lumpur Harbor Cafe Terrace,+125-555-0006,"105 Harbor Road, Kuala Lumpur",Tea Cafe,3.1433000,101.6917000
+10097,25,Kuala Lumpur Hill Mocha Lab,+125-555-0007,"106 Hill Road, Kuala Lumpur",Garden Cafe,3.1476000,101.6965000
+10098,25,Kuala Lumpur Square Bakery Lounge,+125-555-0008,"107 Square Road, Kuala Lumpur",Late Night Cafe,3.1519000,101.7013000
+10099,25,Kuala Lumpur Park Espresso Bar,+125-555-0009,"108 Park Road, Kuala Lumpur",Roastery,3.1562000,101.7061000
+10100,25,Kuala Lumpur Avenue Tea Room,+125-555-0010,"109 Avenue Road, Kuala Lumpur",Signature Dessert Cafe,3.1605000,101.7109000
+10101,31,Manila Central Roastery,+131-555-0001,"100 Central Road, Manila",Specialty Cafe,14.5823000,120.9650000
+10102,31,Manila Riverside Brew House,+131-555-0002,"101 Riverside Road, Manila",Dessert Cafe,14.5866000,120.9698000
+10103,31,Manila Market Coffee Studio,+131-555-0003,"102 Market Road, Manila",Brunch Cafe,14.5909000,120.9746000
+10104,31,Manila Garden Bean Atelier,+131-555-0004,"103 Garden Road, Manila",Bakery Cafe,14.5952000,120.9794000
+10105,31,Manila Station Dessert Loft,+131-555-0005,"104 Station Road, Manila",Coffee Lab,14.5995000,120.9842000
+10106,31,Manila Harbor Cafe Terrace,+131-555-0006,"105 Harbor Road, Manila",Tea Cafe,14.6038000,120.9890000
+10107,31,Manila Hill Mocha Lab,+131-555-0007,"106 Hill Road, Manila",Garden Cafe,14.6081000,120.9938000
+10108,31,Manila Square Bakery Lounge,+131-555-0008,"107 Square Road, Manila",Late Night Cafe,14.6124000,120.9986000
+10109,31,Manila Park Espresso Bar,+131-555-0009,"108 Park Road, Manila",Roastery,14.6167000,121.0034000
+10110,31,Manila Avenue Tea Room,+131-555-0010,"109 Avenue Road, Manila",Signature Dessert Cafe,14.6210000,121.0082000
+10111,37,Sydney Central Roastery,+137-555-0001,"100 Central Road, Sydney",Specialty Cafe,-33.8860000,151.1901000
+10112,37,Sydney Riverside Brew House,+137-555-0002,"101 Riverside Road, Sydney",Dessert Cafe,-33.8817000,151.1949000
+10113,37,Sydney Market Coffee Studio,+137-555-0003,"102 Market Road, Sydney",Brunch Cafe,-33.8774000,151.1997000
+10114,37,Sydney Garden Bean Atelier,+137-555-0004,"103 Garden Road, Sydney",Bakery Cafe,-33.8731000,151.2045000
+10115,37,Sydney Station Dessert Loft,+137-555-0005,"104 Station Road, Sydney",Coffee Lab,-33.8688000,151.2093000
+10116,37,Sydney Harbor Cafe Terrace,+137-555-0006,"105 Harbor Road, Sydney",Tea Cafe,-33.8645000,151.2141000
+10117,37,Sydney Hill Mocha Lab,+137-555-0007,"106 Hill Road, Sydney",Garden Cafe,-33.8602000,151.2189000
+10118,37,Sydney Square Bakery Lounge,+137-555-0008,"107 Square Road, Sydney",Late Night Cafe,-33.8559000,151.2237000
+10119,37,Sydney Park Espresso Bar,+137-555-0009,"108 Park Road, Sydney",Roastery,-33.8516000,151.2285000
+10120,37,Sydney Avenue Tea Room,+137-555-0010,"109 Avenue Road, Sydney",Signature Dessert Cafe,-33.8473000,151.2333000
