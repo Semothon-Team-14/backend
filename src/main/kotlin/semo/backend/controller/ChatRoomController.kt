@@ -12,6 +12,7 @@ import semo.backend.controller.request.InitializeChatRoomRequest
 import semo.backend.controller.response.GetChatRoomResponse
 import semo.backend.controller.response.GetChatRoomsResponse
 import semo.backend.controller.response.InitializeChatRoomResponse
+import semo.backend.controller.response.JoinMingleChatRoomResponse
 import semo.backend.facade.ChatRoomFacade
 import semo.backend.security.UserId
 
@@ -47,6 +48,16 @@ class ChatRoomController(
     ): InitializeChatRoomResponse {
         return InitializeChatRoomResponse(
             chatRoom = chatRoomFacade.initializeChatRoom(userId, request),
+        )
+    }
+
+    @PostMapping("/mingles/{mingleId}/join")
+    fun joinMingleChatRoom(
+        @UserId userId: Long,
+        @PathVariable mingleId: Long,
+    ): JoinMingleChatRoomResponse {
+        return JoinMingleChatRoomResponse(
+            chatRoom = chatRoomFacade.joinMingleChatRoom(userId, mingleId),
         )
     }
 }
