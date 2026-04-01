@@ -39,6 +39,12 @@ def read_cities(cities_csv_path: Path) -> list[City]:
         ]
 
 
+def read_cities_by_ids(cities_csv_path: Path, city_ids: list[int]) -> list[City]:
+    city_ids_by_order = {city_id: index for index, city_id in enumerate(city_ids)}
+    cities = [city for city in read_cities(cities_csv_path) if city.id in city_ids_by_order]
+    return sorted(cities, key=lambda city: city_ids_by_order[city.id])
+
+
 def build_seed_places(
     *,
     city_id: int,
