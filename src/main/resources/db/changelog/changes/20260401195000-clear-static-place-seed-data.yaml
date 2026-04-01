@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260401195000-clear-static-place-seed-data
+      author: codex
+      changes:
+        - sql:
+            dbms: postgresql
+            sql: |
+              TRUNCATE TABLE cafe_images, restaurant_images, cafes, restaurants RESTART IDENTITY CASCADE;
