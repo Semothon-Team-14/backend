@@ -1,12 +1,13 @@
 package semo.backend.service
 
+import jakarta.persistence.EntityManager
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import semo.backend.controller.request.CreateUserRequest
 import semo.backend.controller.request.UpdateUserRequest
-import semo.backend.entity.Keyword
 import semo.backend.entity.Nationality
 import semo.backend.dto.UserDto
+import semo.backend.entity.Keyword
 import semo.backend.entity.User
 import semo.backend.exception.keyword.KeywordNotFoundException
 import semo.backend.exception.nationality.NationalityNotFoundException
@@ -23,6 +24,7 @@ class UserService(
     private val nationalityRepository: NationalityRepository,
     private val keywordRepository: KeywordRepository,
     private val userMapStruct: UserMapStruct,
+    private val entityManager: EntityManager,
 ) {
     fun getUsers(): List<UserDto> {
         return userMapStruct.toDtos(userRepository.findAll())
@@ -63,6 +65,64 @@ class UserService(
     @Transactional
     fun deleteUser(userId: Long): Long {
         val user = findUserById(userId)
+        entityManager.createNativeQuery(
+            """
+            delete from chat_message_translations
+            where user_id = :userId
+               or chat_message_id in (
+                   select id
+                   from chat_messages
+                   where sender_user_id = :userId
+               )
+            """.trimIndent(),
+        )
+            .setParameter("userId", userId)
+            .executeUpdate()
+        entityManager.createNativeQuery(
+            """
+            delete from chat_messages
+            where sender_user_id = :userId
+            """.trimIndent(),
+        )
+            .setParameter("userId", userId)
+            .executeUpdate()
+        entityManager.createNativeQuery(
+            """
+            delete from chat_participants
+            where user_id = :userId
+            """.trimIndent(),
+        )
+            .setParameter("userId", userId)
+            .executeUpdate()
+        entityManager.createNativeQuery(
+            """
+            delete from trips
+            where user_id = :userId
+            """.trimIndent(),
+        )
+            .setParameter("userId", userId)
+            .executeUpdate()
+        entityManager.createNativeQuery(
+            """
+            delete from user_keywords
+            where user_id = :userId
+            """.trimIndent(),
+        )
+            .setParameter("userId", userId)
+            .executeUpdate()
+        entityManager.createNativeQuery(
+            """
+            delete from chat_rooms
+            where not exists (
+                select 1
+                from chat_participants
+                where chat_participants.chat_room_id = chat_rooms.id
+            )
+            """.trimIndent(),
+        )
+            .executeUpdate()
+        entityManager.flush()
+        entityManager.refresh(user)
         userRepository.delete(user)
         return userId
     }
