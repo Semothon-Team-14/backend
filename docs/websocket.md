@@ -1,0 +1,143 @@
+# WebSocket (STOMP) Guide
+
+## Endpoint
+- WebSocket endpoint: `/ws-chat`
+- STOMP application prefix: `/app`
+- STOMP broker prefix: `/topic`
+
+## Authentication
+- A valid JWT access token is required in the STOMP `CONNECT` frame native header:
+  - header name: `accessToken`
+- If `accessToken` is missing or invalid, connection/authentication fails.
+
+Example CONNECT headers:
+```text
+accept-version:1.2
+host:localhost
+accessToken:<JWT_ACCESS_TOKEN>
+```
+
+## Chat Messaging
+Publish:
+- destination: `/app/chatrooms/{chatRoomId}/messages`
+- payload:
+```json
+{
+  "content": "Hello from websocket"
+}
+```
+
+Subscribe:
+- destination: `/topic/chatrooms/{chatRoomId}`
+- event payload:
+```json
+{
+  "delivery": {
+    "message": {
+      "id": 1,
+      "chatRoomId": 10,
+      "senderUserId": 3,
+      "content": "Hello from websocket",
+      "createdDateTime": "2026-04-01T17:00:00"
+    },
+    "translations": [
+      {
+        "id": 101,
+        "chatMessageId": 1,
+        "userId": 5,
+        "translatedContent": "웹소켓에서 보낸 인사",
+        "createdDateTime": "2026-04-01T17:00:00",
+        "updatedDateTime": "2026-04-01T17:00:00"
+      }
+    ]
+  }
+}
+```
+
+## Quick Match Alerts
+Created/accepted quick-match alerts are published by city and by user.
+
+City subscriptions:
+- `/topic/cities/{cityId}/quick-matches` (all target types)
+- `/topic/cities/{cityId}/quick-matches/minglers`
+- `/topic/cities/{cityId}/quick-matches/locals`
+- `/topic/cities/{cityId}/quick-matches/any`
+
+User subscription:
+- `/topic/users/{userId}/quick-matches`
+
+City event payload:
+```json
+{
+  "eventType": "QUICK_MATCH_CREATED",
+  "targetType": "ANY",
+  "quickMatch": {
+    "id": 20,
+    "requesterUserId": 3,
+    "cityId": 1,
+    "message": "Coffee tonight?",
+    "targetType": "ANY",
+    "status": "PENDING",
+    "acceptedByUserId": null,
+    "mingleId": null,
+    "createdDateTime": "2026-04-01T17:00:00",
+    "updatedDateTime": "2026-04-01T17:00:00"
+  },
+  "targetUserIds": [5, 8, 12]
+}
+```
+
+User event payload:
+```json
+{
+  "eventType": "QUICK_MATCH_ACCEPTED",
+  "quickMatch": {
+    "id": 20,
+    "requesterUserId": 3,
+    "cityId": 1,
+    "message": "Coffee tonight?",
+    "targetType": "ANY",
+    "status": "ACCEPTED",
+    "acceptedByUserId": 8,
+    "mingleId": 4,
+    "createdDateTime": "2026-04-01T17:00:00",
+    "updatedDateTime": "2026-04-01T17:02:00"
+  }
+}
+```
+
+## Minimal JavaScript Client Example
+```javascript
+import { Client } from "@stomp/stompjs";
+
+const client = new Client({
+  brokerURL: "ws://localhost:8080/ws-chat",
+  connectHeaders: {
+    accessToken: "<JWT_ACCESS_TOKEN>",
+  },
+  reconnectDelay: 5000,
+});
+
+client.onConnect = () => {
+  client.subscribe("/topic/chatrooms/10", (frame) => {
+    console.log("chat:", JSON.parse(frame.body));
+  });
+
+  client.subscribe("/topic/cities/1/quick-matches/any", (frame) => {
+    console.log("quick-match any:", JSON.parse(frame.body));
+  });
+
+  client.publish({
+    destination: "/app/chatrooms/10/messages",
+    body: JSON.stringify({ content: "Hello from STOMP client" }),
+  });
+};
+
+client.activate();
+```
+
+## Related REST APIs
+- Read chat history: `GET /chatrooms/{chatRoomId}/messages`
+- Create quick-match: `POST /quick-matches`
+- Accept quick-match: `POST /quick-matches/{quickMatchId}/accept`
+- Decline quick-match: `POST /quick-matches/{quickMatchId}/decline`
