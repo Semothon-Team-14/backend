@@ -30,6 +30,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Service
+@Transactional(readOnly = true)
 class QuickMatchService(
     private val quickMatchRepository: QuickMatchRepository,
     private val quickMatchResponseRepository: QuickMatchResponseRepository,
