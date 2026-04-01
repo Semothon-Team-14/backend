@@ -18,6 +18,7 @@ import semo.backend.repository.jpa.UserRepository
 import semo.backend.util.applyIfProvided
 
 @Service
+@Transactional(readOnly = true)
 class TripService(
     private val tripRepository: TripRepository,
     private val userRepository: UserRepository,
