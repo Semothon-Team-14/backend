@@ -9,6 +9,7 @@ import semo.backend.entity.City
 import semo.backend.entity.Trip
 import semo.backend.entity.User
 import semo.backend.exception.city.CityNotFoundException
+import semo.backend.exception.trip.TripDateOverlapException
 import semo.backend.exception.trip.TripNotFoundException
 import semo.backend.exception.user.UserNotFoundException
 import semo.backend.mapstruct.TripMapStruct
@@ -16,6 +17,7 @@ import semo.backend.repository.jpa.CityRepository
 import semo.backend.repository.jpa.TripRepository
 import semo.backend.repository.jpa.UserRepository
 import semo.backend.util.applyIfProvided
+import java.time.LocalDate
 
 @Service
 @Transactional(readOnly = true)
@@ -36,7 +38,9 @@ class TripService(
     @Transactional
     fun createTrip(userId: Long, request: CreateTripRequest): TripDto {
         val trip = tripMapStruct.toEntity(request)
-        trip.user = findUserById(userId)
+        val user = findUserById(userId)
+        validateNoDateOverlap(user.id, request.startDate, request.endDate)
+        trip.user = user
         trip.city = findCityById(request.cityId)
         return tripMapStruct.toDto(tripRepository.save(trip))
     }
@@ -44,6 +48,20 @@ class TripService(
     @Transactional
     fun updateTrip(tripId: Long, request: UpdateTripRequest): TripDto {
         val trip = findTripById(tripId)
+        var nextStartDate = trip.startDate
+        var nextEndDate = trip.endDate
+        var nextUserId = trip.user?.id
+        request.startDate.applyIfProvided { nextStartDate = it }
+        request.endDate.applyIfProvided { nextEndDate = it }
+        request.userId.applyIfProvided { nextUserId = it }
+        if (nextUserId != null && nextStartDate != null && nextEndDate != null) {
+            validateNoDateOverlap(
+                userId = nextUserId!!,
+                startDate = nextStartDate!!,
+                endDate = nextEndDate!!,
+                excludeTripId = trip.id,
+            )
+        }
         request.title.applyIfProvided { trip.title = it }
         request.startDate.applyIfProvided { trip.startDate = it }
         request.endDate.applyIfProvided { trip.endDate = it }
@@ -72,5 +90,16 @@ class TripService(
     private fun findCityById(cityId: Long): City {
         return cityRepository.findById(cityId)
             .orElseThrow { CityNotFoundException(cityId) }
+    }
+
+    private fun validateNoDateOverlap(
+        userId: Long,
+        startDate: LocalDate,
+        endDate: LocalDate,
+        excludeTripId: Long? = null,
+    ) {
+        if (tripRepository.existsDateOverlapByUserId(userId, startDate, endDate, excludeTripId)) {
+            throw TripDateOverlapException(userId, startDate, endDate)
+        }
     }
 }
