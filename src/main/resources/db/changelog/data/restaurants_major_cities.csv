@@ -1,0 +1,121 @@
+id,city_id,name,phone_number,address,food_category,latitude,longitude
+30001,1,Seoul Central Kitchen,+201-777-0001,"200 Central Street, Seoul",Korean,37.5461000,126.9964000
+30002,1,Seoul Riverside Table,+201-777-0002,"201 Riverside Street, Seoul",Korean,37.5512000,126.9918000
+30003,1,Seoul Market Dining Room,+201-777-0003,"202 Market Street, Seoul",Korean,37.5563000,126.9872000
+30004,1,Seoul Garden Bistro,+201-777-0004,"203 Garden Street, Seoul",Korean,37.5614000,126.9826000
+30005,1,Seoul Station House,+201-777-0005,"204 Station Street, Seoul",Korean,37.5665000,126.9780000
+30006,1,Seoul Harbor Grill,+201-777-0006,"205 Harbor Street, Seoul",Korean Fusion,37.5716000,126.9734000
+30007,1,Seoul Hill Club,+201-777-0007,"206 Hill Street, Seoul",Korean Fusion,37.5767000,126.9688000
+30008,1,Seoul Square Canteen,+201-777-0008,"207 Square Street, Seoul",Korean Fusion,37.5818000,126.9642000
+30009,1,Seoul Park Atelier,+201-777-0009,"208 Park Street, Seoul",Korean Fusion,37.5869000,126.9596000
+30010,1,Seoul Avenue Social,+201-777-0010,"209 Avenue Street, Seoul",Korean Fusion,37.5920000,126.9550000
+30011,4,Tokyo Central Kitchen,+204-777-0001,"200 Central Street, Tokyo",Japanese,35.6558000,139.6687000
+30012,4,Tokyo Riverside Table,+204-777-0002,"201 Riverside Street, Tokyo",Japanese,35.6609000,139.6641000
+30013,4,Tokyo Market Dining Room,+204-777-0003,"202 Market Street, Tokyo",Japanese,35.6660000,139.6595000
+30014,4,Tokyo Garden Bistro,+204-777-0004,"203 Garden Street, Tokyo",Japanese,35.6711000,139.6549000
+30015,4,Tokyo Station House,+204-777-0005,"204 Station Street, Tokyo",Japanese,35.6762000,139.6503000
+30016,4,Tokyo Harbor Grill,+204-777-0006,"205 Harbor Street, Tokyo",Japanese Fusion,35.6813000,139.6457000
+30017,4,Tokyo Hill Club,+204-777-0007,"206 Hill Street, Tokyo",Japanese Fusion,35.6864000,139.6411000
+30018,4,Tokyo Square Canteen,+204-777-0008,"207 Square Street, Tokyo",Japanese Fusion,35.6915000,139.6365000
+30019,4,Tokyo Park Atelier,+204-777-0009,"208 Park Street, Tokyo",Japanese Fusion,35.6966000,139.6319000
+30020,4,Tokyo Avenue Social,+204-777-0010,"209 Avenue Street, Tokyo",Japanese Fusion,35.7017000,139.6273000
+30021,7,Beijing Central Kitchen,+207-777-0001,"200 Central Street, Beijing",Northern Chinese,39.8838000,116.4258000
+30022,7,Beijing Riverside Table,+207-777-0002,"201 Riverside Street, Beijing",Northern Chinese,39.8889000,116.4212000
+30023,7,Beijing Market Dining Room,+207-777-0003,"202 Market Street, Beijing",Northern Chinese,39.8940000,116.4166000
+30024,7,Beijing Garden Bistro,+207-777-0004,"203 Garden Street, Beijing",Northern Chinese,39.8991000,116.4120000
+30025,7,Beijing Station House,+207-777-0005,"204 Station Street, Beijing",Northern Chinese,39.9042000,116.4074000
+30026,7,Beijing Harbor Grill,+207-777-0006,"205 Harbor Street, Beijing",Northern Chinese Fusion,39.9093000,116.4028000
+30027,7,Beijing Hill Club,+207-777-0007,"206 Hill Street, Beijing",Northern Chinese Fusion,39.9144000,116.3982000
+30028,7,Beijing Square Canteen,+207-777-0008,"207 Square Street, Beijing",Northern Chinese Fusion,39.9195000,116.3936000
+30029,7,Beijing Park Atelier,+207-777-0009,"208 Park Street, Beijing",Northern Chinese Fusion,39.9246000,116.3890000
+30030,7,Beijing Avenue Social,+207-777-0010,"209 Avenue Street, Beijing",Northern Chinese Fusion,39.9297000,116.3844000
+30031,8,Shanghai Central Kitchen,+208-777-0001,"200 Central Street, Shanghai",Shanghainese,31.2100000,121.4921000
+30032,8,Shanghai Riverside Table,+208-777-0002,"201 Riverside Street, Shanghai",Shanghainese,31.2151000,121.4875000
+30033,8,Shanghai Market Dining Room,+208-777-0003,"202 Market Street, Shanghai",Shanghainese,31.2202000,121.4829000
+30034,8,Shanghai Garden Bistro,+208-777-0004,"203 Garden Street, Shanghai",Shanghainese,31.2253000,121.4783000
+30035,8,Shanghai Station House,+208-777-0005,"204 Station Street, Shanghai",Shanghainese,31.2304000,121.4737000
+30036,8,Shanghai Harbor Grill,+208-777-0006,"205 Harbor Street, Shanghai",Shanghainese Fusion,31.2355000,121.4691000
+30037,8,Shanghai Hill Club,+208-777-0007,"206 Hill Street, Shanghai",Shanghainese Fusion,31.2406000,121.4645000
+30038,8,Shanghai Square Canteen,+208-777-0008,"207 Square Street, Shanghai",Shanghainese Fusion,31.2457000,121.4599000
+30039,8,Shanghai Park Atelier,+208-777-0009,"208 Park Street, Shanghai",Shanghainese Fusion,31.2508000,121.4553000
+30040,8,Shanghai Avenue Social,+208-777-0010,"209 Avenue Street, Shanghai",Shanghainese Fusion,31.2559000,121.4507000
+30041,13,Hong Kong Central Kitchen,+213-777-0001,"200 Central Street, Hong Kong",Cantonese,22.2989000,114.1878000
+30042,13,Hong Kong Riverside Table,+213-777-0002,"201 Riverside Street, Hong Kong",Cantonese,22.3040000,114.1832000
+30043,13,Hong Kong Market Dining Room,+213-777-0003,"202 Market Street, Hong Kong",Cantonese,22.3091000,114.1786000
+30044,13,Hong Kong Garden Bistro,+213-777-0004,"203 Garden Street, Hong Kong",Cantonese,22.3142000,114.1740000
+30045,13,Hong Kong Station House,+213-777-0005,"204 Station Street, Hong Kong",Cantonese,22.3193000,114.1694000
+30046,13,Hong Kong Harbor Grill,+213-777-0006,"205 Harbor Street, Hong Kong",Cantonese Fusion,22.3244000,114.1648000
+30047,13,Hong Kong Hill Club,+213-777-0007,"206 Hill Street, Hong Kong",Cantonese Fusion,22.3295000,114.1602000
+30048,13,Hong Kong Square Canteen,+213-777-0008,"207 Square Street, Hong Kong",Cantonese Fusion,22.3346000,114.1556000
+30049,13,Hong Kong Park Atelier,+213-777-0009,"208 Park Street, Hong Kong",Cantonese Fusion,22.3397000,114.1510000
+30050,13,Hong Kong Avenue Social,+213-777-0010,"209 Avenue Street, Hong Kong",Cantonese Fusion,22.3448000,114.1464000
+30051,16,Singapore Central Kitchen,+216-777-0001,"200 Central Street, Singapore",Singaporean,1.3317000,103.8382000
+30052,16,Singapore Riverside Table,+216-777-0002,"201 Riverside Street, Singapore",Singaporean,1.3368000,103.8336000
+30053,16,Singapore Market Dining Room,+216-777-0003,"202 Market Street, Singapore",Singaporean,1.3419000,103.8290000
+30054,16,Singapore Garden Bistro,+216-777-0004,"203 Garden Street, Singapore",Singaporean,1.3470000,103.8244000
+30055,16,Singapore Station House,+216-777-0005,"204 Station Street, Singapore",Singaporean,1.3521000,103.8198000
+30056,16,Singapore Harbor Grill,+216-777-0006,"205 Harbor Street, Singapore",Singaporean Fusion,1.3572000,103.8152000
+30057,16,Singapore Hill Club,+216-777-0007,"206 Hill Street, Singapore",Singaporean Fusion,1.3623000,103.8106000
+30058,16,Singapore Square Canteen,+216-777-0008,"207 Square Street, Singapore",Singaporean Fusion,1.3674000,103.8060000
+30059,16,Singapore Park Atelier,+216-777-0009,"208 Park Street, Singapore",Singaporean Fusion,1.3725000,103.8014000
+30060,16,Singapore Avenue Social,+216-777-0010,"209 Avenue Street, Singapore",Singaporean Fusion,1.3776000,103.7968000
+30061,19,Bangkok Central Kitchen,+219-777-0001,"200 Central Street, Bangkok",Thai,13.7359000,100.5202000
+30062,19,Bangkok Riverside Table,+219-777-0002,"201 Riverside Street, Bangkok",Thai,13.7410000,100.5156000
+30063,19,Bangkok Market Dining Room,+219-777-0003,"202 Market Street, Bangkok",Thai,13.7461000,100.5110000
+30064,19,Bangkok Garden Bistro,+219-777-0004,"203 Garden Street, Bangkok",Thai,13.7512000,100.5064000
+30065,19,Bangkok Station House,+219-777-0005,"204 Station Street, Bangkok",Thai,13.7563000,100.5018000
+30066,19,Bangkok Harbor Grill,+219-777-0006,"205 Harbor Street, Bangkok",Thai Fusion,13.7614000,100.4972000
+30067,19,Bangkok Hill Club,+219-777-0007,"206 Hill Street, Bangkok",Thai Fusion,13.7665000,100.4926000
+30068,19,Bangkok Square Canteen,+219-777-0008,"207 Square Street, Bangkok",Thai Fusion,13.7716000,100.4880000
+30069,19,Bangkok Park Atelier,+219-777-0009,"208 Park Street, Bangkok",Thai Fusion,13.7767000,100.4834000
+30070,19,Bangkok Avenue Social,+219-777-0010,"209 Avenue Street, Bangkok",Thai Fusion,13.7818000,100.4788000
+30071,22,Hanoi Central Kitchen,+222-777-0001,"200 Central Street, Hanoi",Vietnamese,21.0074000,105.8526000
+30072,22,Hanoi Riverside Table,+222-777-0002,"201 Riverside Street, Hanoi",Vietnamese,21.0125000,105.8480000
+30073,22,Hanoi Market Dining Room,+222-777-0003,"202 Market Street, Hanoi",Vietnamese,21.0176000,105.8434000
+30074,22,Hanoi Garden Bistro,+222-777-0004,"203 Garden Street, Hanoi",Vietnamese,21.0227000,105.8388000
+30075,22,Hanoi Station House,+222-777-0005,"204 Station Street, Hanoi",Vietnamese,21.0278000,105.8342000
+30076,22,Hanoi Harbor Grill,+222-777-0006,"205 Harbor Street, Hanoi",Vietnamese Fusion,21.0329000,105.8296000
+30077,22,Hanoi Hill Club,+222-777-0007,"206 Hill Street, Hanoi",Vietnamese Fusion,21.0380000,105.8250000
+30078,22,Hanoi Square Canteen,+222-777-0008,"207 Square Street, Hanoi",Vietnamese Fusion,21.0431000,105.8204000
+30079,22,Hanoi Park Atelier,+222-777-0009,"208 Park Street, Hanoi",Vietnamese Fusion,21.0482000,105.8158000
+30080,22,Hanoi Avenue Social,+222-777-0010,"209 Avenue Street, Hanoi",Vietnamese Fusion,21.0533000,105.8112000
+30081,23,Ho Chi Minh City Central Kitchen,+223-777-0001,"200 Central Street, Ho Chi Minh City",Vietnamese,10.8027000,106.6481000
+30082,23,Ho Chi Minh City Riverside Table,+223-777-0002,"201 Riverside Street, Ho Chi Minh City",Vietnamese,10.8078000,106.6435000
+30083,23,Ho Chi Minh City Market Dining Room,+223-777-0003,"202 Market Street, Ho Chi Minh City",Vietnamese,10.8129000,106.6389000
+30084,23,Ho Chi Minh City Garden Bistro,+223-777-0004,"203 Garden Street, Ho Chi Minh City",Vietnamese,10.8180000,106.6343000
+30085,23,Ho Chi Minh City Station House,+223-777-0005,"204 Station Street, Ho Chi Minh City",Vietnamese,10.8231000,106.6297000
+30086,23,Ho Chi Minh City Harbor Grill,+223-777-0006,"205 Harbor Street, Ho Chi Minh City",Vietnamese Fusion,10.8282000,106.6251000
+30087,23,Ho Chi Minh City Hill Club,+223-777-0007,"206 Hill Street, Ho Chi Minh City",Vietnamese Fusion,10.8333000,106.6205000
+30088,23,Ho Chi Minh City Square Canteen,+223-777-0008,"207 Square Street, Ho Chi Minh City",Vietnamese Fusion,10.8384000,106.6159000
+30089,23,Ho Chi Minh City Park Atelier,+223-777-0009,"208 Park Street, Ho Chi Minh City",Vietnamese Fusion,10.8435000,106.6113000
+30090,23,Ho Chi Minh City Avenue Social,+223-777-0010,"209 Avenue Street, Ho Chi Minh City",Vietnamese Fusion,10.8486000,106.6067000
+30091,25,Kuala Lumpur Central Kitchen,+225-777-0001,"200 Central Street, Kuala Lumpur",Malaysian,3.1186000,101.7053000
+30092,25,Kuala Lumpur Riverside Table,+225-777-0002,"201 Riverside Street, Kuala Lumpur",Malaysian,3.1237000,101.7007000
+30093,25,Kuala Lumpur Market Dining Room,+225-777-0003,"202 Market Street, Kuala Lumpur",Malaysian,3.1288000,101.6961000
+30094,25,Kuala Lumpur Garden Bistro,+225-777-0004,"203 Garden Street, Kuala Lumpur",Malaysian,3.1339000,101.6915000
+30095,25,Kuala Lumpur Station House,+225-777-0005,"204 Station Street, Kuala Lumpur",Malaysian,3.1390000,101.6869000
+30096,25,Kuala Lumpur Harbor Grill,+225-777-0006,"205 Harbor Street, Kuala Lumpur",Malaysian Fusion,3.1441000,101.6823000
+30097,25,Kuala Lumpur Hill Club,+225-777-0007,"206 Hill Street, Kuala Lumpur",Malaysian Fusion,3.1492000,101.6777000
+30098,25,Kuala Lumpur Square Canteen,+225-777-0008,"207 Square Street, Kuala Lumpur",Malaysian Fusion,3.1543000,101.6731000
+30099,25,Kuala Lumpur Park Atelier,+225-777-0009,"208 Park Street, Kuala Lumpur",Malaysian Fusion,3.1594000,101.6685000
+30100,25,Kuala Lumpur Avenue Social,+225-777-0010,"209 Avenue Street, Kuala Lumpur",Malaysian Fusion,3.1645000,101.6639000
+30101,31,Manila Central Kitchen,+231-777-0001,"200 Central Street, Manila",Filipino,14.5791000,121.0026000
+30102,31,Manila Riverside Table,+231-777-0002,"201 Riverside Street, Manila",Filipino,14.5842000,120.9980000
+30103,31,Manila Market Dining Room,+231-777-0003,"202 Market Street, Manila",Filipino,14.5893000,120.9934000
+30104,31,Manila Garden Bistro,+231-777-0004,"203 Garden Street, Manila",Filipino,14.5944000,120.9888000
+30105,31,Manila Station House,+231-777-0005,"204 Station Street, Manila",Filipino,14.5995000,120.9842000
+30106,31,Manila Harbor Grill,+231-777-0006,"205 Harbor Street, Manila",Filipino Fusion,14.6046000,120.9796000
+30107,31,Manila Hill Club,+231-777-0007,"206 Hill Street, Manila",Filipino Fusion,14.6097000,120.9750000
+30108,31,Manila Square Canteen,+231-777-0008,"207 Square Street, Manila",Filipino Fusion,14.6148000,120.9704000
+30109,31,Manila Park Atelier,+231-777-0009,"208 Park Street, Manila",Filipino Fusion,14.6199000,120.9658000
+30110,31,Manila Avenue Social,+231-777-0010,"209 Avenue Street, Manila",Filipino Fusion,14.6250000,120.9612000
+30111,37,Sydney Central Kitchen,+237-777-0001,"200 Central Street, Sydney",Modern Australian,-33.8892000,151.2277000
+30112,37,Sydney Riverside Table,+237-777-0002,"201 Riverside Street, Sydney",Modern Australian,-33.8841000,151.2231000
+30113,37,Sydney Market Dining Room,+237-777-0003,"202 Market Street, Sydney",Modern Australian,-33.8790000,151.2185000
+30114,37,Sydney Garden Bistro,+237-777-0004,"203 Garden Street, Sydney",Modern Australian,-33.8739000,151.2139000
+30115,37,Sydney Station House,+237-777-0005,"204 Station Street, Sydney",Modern Australian,-33.8688000,151.2093000
+30116,37,Sydney Harbor Grill,+237-777-0006,"205 Harbor Street, Sydney",Modern Australian Fusion,-33.8637000,151.2047000
+30117,37,Sydney Hill Club,+237-777-0007,"206 Hill Street, Sydney",Modern Australian Fusion,-33.8586000,151.2001000
+30118,37,Sydney Square Canteen,+237-777-0008,"207 Square Street, Sydney",Modern Australian Fusion,-33.8535000,151.1955000
+30119,37,Sydney Park Atelier,+237-777-0009,"208 Park Street, Sydney",Modern Australian Fusion,-33.8484000,151.1909000
+30120,37,Sydney Avenue Social,+237-777-0010,"209 Avenue Street, Sydney",Modern Australian Fusion,-33.8433000,151.1863000
