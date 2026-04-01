@@ -31,6 +31,7 @@ repositories {
 
 dependencies {
     implementation("org.mapstruct:mapstruct:1.6.3")
+    implementation("software.amazon.awssdk:s3:2.39.1")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.2")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
