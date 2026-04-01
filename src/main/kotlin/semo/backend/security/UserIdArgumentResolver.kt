@@ -12,8 +12,12 @@ import semo.backend.exception.auth.InvalidAccessTokenException
 @Component
 class UserIdArgumentResolver : HandlerMethodArgumentResolver {
     override fun supportsParameter(parameter: MethodParameter): Boolean {
-        return parameter.hasParameterAnnotation(UserId::class.java) &&
-            parameter.parameterType == Long::class.javaObjectType
+        if (!parameter.hasParameterAnnotation(UserId::class.java)) {
+            return false
+        }
+
+        val parameterType = parameter.parameterType
+        return parameterType == Long::class.javaObjectType || parameterType == java.lang.Long.TYPE
     }
 
     override fun resolveArgument(
