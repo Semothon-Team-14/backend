@@ -14,6 +14,7 @@ import semo.backend.repository.jpa.UserRepository
 import java.time.LocalDateTime
 
 @Service
+@Transactional(readOnly = true)
 class ChatMessageTranslationService(
     private val chatMessageService: ChatMessageService,
     private val chatMessageTranslationRepository: ChatMessageTranslationRepository,
