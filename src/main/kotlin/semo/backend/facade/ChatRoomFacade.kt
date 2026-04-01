@@ -20,4 +20,8 @@ class ChatRoomFacade(
     fun initializeChatRoom(userId: Long, request: InitializeChatRoomRequest): ChatRoomDto {
         return chatRoomService.initializeChatRoom(userId, request)
     }
+
+    fun joinMingleChatRoom(userId: Long, mingleId: Long): ChatRoomDto {
+        return chatRoomService.joinMingleChatRoom(userId, mingleId)
+    }
 }
