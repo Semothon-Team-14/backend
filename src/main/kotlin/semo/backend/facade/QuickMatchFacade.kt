@@ -4,14 +4,15 @@ import org.springframework.stereotype.Service
 import semo.backend.controller.request.CreateQuickMatchRequest
 import semo.backend.dto.QuickMatchAcceptResultDto
 import semo.backend.dto.QuickMatchDto
+import semo.backend.enums.QuickMatchTargetType
 import semo.backend.service.QuickMatchService
 
 @Service
 class QuickMatchFacade(
     private val quickMatchService: QuickMatchService,
 ) {
-    fun getQuickMatches(cityId: Long?): List<QuickMatchDto> {
-        return quickMatchService.getQuickMatches(cityId)
+    fun getQuickMatches(cityId: Long?, targetType: QuickMatchTargetType?): List<QuickMatchDto> {
+        return quickMatchService.getQuickMatches(cityId, targetType)
     }
 
     fun getQuickMatch(quickMatchId: Long): QuickMatchDto {
