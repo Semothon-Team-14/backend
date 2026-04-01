@@ -7,11 +7,13 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer
 import semo.backend.websocket.StompAuthChannelInterceptor
+import semo.backend.websocket.StompLoggingChannelInterceptor
 
 @Configuration
 @EnableWebSocketMessageBroker
 class WebSocketConfig(
     private val stompAuthChannelInterceptor: StompAuthChannelInterceptor,
+    private val stompLoggingChannelInterceptor: StompLoggingChannelInterceptor,
 ) : WebSocketMessageBrokerConfigurer {
     override fun configureMessageBroker(registry: MessageBrokerRegistry) {
         registry.enableSimpleBroker("/topic")
@@ -24,6 +26,10 @@ class WebSocketConfig(
     }
 
     override fun configureClientInboundChannel(registration: ChannelRegistration) {
-        registration.interceptors(stompAuthChannelInterceptor)
+        registration.interceptors(stompAuthChannelInterceptor, stompLoggingChannelInterceptor)
+    }
+
+    override fun configureClientOutboundChannel(registration: ChannelRegistration) {
+        registration.interceptors(stompLoggingChannelInterceptor)
     }
 }
