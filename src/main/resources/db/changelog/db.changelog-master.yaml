@@ -31,3 +31,5 @@ databaseChangeLog:
       file: db/changelog/changes/20260401144000-seed-major-city-places.yaml
   - include:
       file: db/changelog/changes/20260401144100-sync-place-sequences-after-major-city-seed.yaml
+  - include:
+      file: db/changelog/changes/20260401173000-create-saved-place-tables.yaml
