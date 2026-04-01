@@ -13,6 +13,7 @@ import semo.backend.repository.jpa.CafeImageRepository
 import semo.backend.util.applyIfProvided
 
 @Service
+@Transactional(readOnly = true)
 class CafeImageService(
     private val cafeService: CafeService,
     private val cafeImageRepository: CafeImageRepository,
