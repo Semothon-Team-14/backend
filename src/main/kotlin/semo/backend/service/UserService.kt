@@ -14,6 +14,7 @@ import semo.backend.exception.nationality.NationalityNotFoundException
 import semo.backend.exception.user.UserNotFoundException
 import semo.backend.mapstruct.UserMapStruct
 import semo.backend.repository.jpa.KeywordRepository
+import semo.backend.repository.jpa.MinglerRepository
 import semo.backend.repository.jpa.NationalityRepository
 import semo.backend.repository.jpa.SavedCafeRepository
 import semo.backend.repository.jpa.SavedRestaurantRepository
@@ -29,6 +30,7 @@ class UserService(
     private val entityManager: EntityManager,
     private val savedCafeRepository: SavedCafeRepository,
     private val savedRestaurantRepository: SavedRestaurantRepository,
+    private val minglerRepository: MinglerRepository,
 ) {
     fun getUsers(): List<UserDto> {
         return userMapStruct.toDtos(userRepository.findAll())
@@ -71,6 +73,7 @@ class UserService(
         val user = findUserById(userId)
         savedCafeRepository.deleteAllByUserId(userId)
         savedRestaurantRepository.deleteAllByUserId(userId)
+        minglerRepository.deleteAllByUserId(userId)
         entityManager.createNativeQuery(
             """
             delete from chat_message_translations
