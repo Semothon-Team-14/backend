@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service
 import semo.backend.controller.request.CreateCityRequest
 import semo.backend.controller.request.UpdateCityRequest
 import semo.backend.dto.CityDto
+import semo.backend.dto.NationalityCitiesDto
 import semo.backend.service.CityService
 
 @Service
@@ -12,6 +13,10 @@ class CityFacade(
 ) {
     fun getCities(nationalityId: Long): List<CityDto> {
         return cityService.getCities(nationalityId)
+    }
+
+    fun getCitiesByNationality(): List<NationalityCitiesDto> {
+        return cityService.getCitiesByNationality()
     }
 
     fun getCity(nationalityId: Long, cityId: Long): CityDto {
