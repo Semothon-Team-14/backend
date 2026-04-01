@@ -8,6 +8,6 @@ class QuickMatchResponderNotEligibleException(
     cityId: Long,
 ) : BaseCustomException(
     status = HttpStatus.FORBIDDEN,
-    reasonTemplate = "User id={userId} is not an active traveler in city id={cityId}",
+    reasonTemplate = "User id={userId} is not eligible for quick match in city id={cityId}",
     reasonVariables = mapOf("userId" to userId, "cityId" to cityId),
 )
