@@ -9,16 +9,16 @@ import semo.backend.entity.ChatRoom
 
 @Repository
 interface ChatRoomRepository : JpaRepository<ChatRoom, Long> {
-    @EntityGraph(attributePaths = ["participants", "participants.user"])
+    @EntityGraph(attributePaths = ["participants", "participants.user", "mingle"])
     fun findDistinctAllByParticipantsUserIdOrderByUpdatedDateTimeDesc(userId: Long): List<ChatRoom>
 
-    @EntityGraph(attributePaths = ["participants", "participants.user"])
+    @EntityGraph(attributePaths = ["participants", "participants.user", "mingle"])
     fun findByIdAndParticipantsUserId(
         id: Long,
         userId: Long,
     ): ChatRoom?
 
-    @EntityGraph(attributePaths = ["participants", "participants.user"])
+    @EntityGraph(attributePaths = ["participants", "participants.user", "mingle"])
     @Query(
         """
         select distinct chatRoom
@@ -34,4 +34,7 @@ interface ChatRoomRepository : JpaRepository<ChatRoom, Long> {
         @Param("firstUserId") firstUserId: Long,
         @Param("secondUserId") secondUserId: Long,
     ): ChatRoom?
+
+    @EntityGraph(attributePaths = ["participants", "participants.user", "mingle"])
+    fun findByMingleId(mingleId: Long): ChatRoom?
 }
