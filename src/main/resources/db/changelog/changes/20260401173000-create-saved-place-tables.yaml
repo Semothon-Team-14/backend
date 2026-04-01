@@ -1,0 +1,117 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260401173000-create-saved-place-tables
+      author: codex
+      changes:
+        - createTable:
+            tableName: saved_cafes
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_saved_cafes
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: cafe_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_by
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: saved_cafes
+            baseColumnNames: user_id
+            constraintName: fk_saved_cafes_user
+            referencedTableName: users
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: saved_cafes
+            baseColumnNames: cafe_id
+            constraintName: fk_saved_cafes_cafe
+            referencedTableName: cafes
+            referencedColumnNames: id
+        - addUniqueConstraint:
+            tableName: saved_cafes
+            columnNames: user_id,cafe_id
+            constraintName: uq_saved_cafes_user_cafe
+        - createTable:
+            tableName: saved_restaurants
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_saved_restaurants
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: restaurant_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_by
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: saved_restaurants
+            baseColumnNames: user_id
+            constraintName: fk_saved_restaurants_user
+            referencedTableName: users
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: saved_restaurants
+            baseColumnNames: restaurant_id
+            constraintName: fk_saved_restaurants_restaurant
+            referencedTableName: restaurants
+            referencedColumnNames: id
+        - addUniqueConstraint:
+            tableName: saved_restaurants
+            columnNames: user_id,restaurant_id
+            constraintName: uq_saved_restaurants_user_restaurant
