@@ -16,16 +16,24 @@ import semo.backend.controller.request.UpdateCityRequest
 import semo.backend.controller.response.CreateCityResponse
 import semo.backend.controller.response.DeleteCityResponse
 import semo.backend.controller.response.GetCitiesResponse
+import semo.backend.controller.response.GetCitiesByNationalityResponse
 import semo.backend.controller.response.GetCityResponse
 import semo.backend.controller.response.UpdateCityResponse
 import semo.backend.facade.CityFacade
 
 @RestController
-@RequestMapping("/cities/nationalities/{nationalityId}")
+@RequestMapping("/cities")
 class CityController(
     private val cityFacade: CityFacade,
 ) {
     @GetMapping
+    fun getCitiesByNationality(): GetCitiesByNationalityResponse {
+        return GetCitiesByNationalityResponse(
+            nationalities = cityFacade.getCitiesByNationality(),
+        )
+    }
+
+    @GetMapping("/nationalities/{nationalityId}")
     fun getCities(
         @PathVariable nationalityId: Long,
     ): GetCitiesResponse {
@@ -34,7 +42,7 @@ class CityController(
         )
     }
 
-    @GetMapping("/{cityId}")
+    @GetMapping("/nationalities/{nationalityId}/{cityId}")
     fun getCity(
         @PathVariable nationalityId: Long,
         @PathVariable cityId: Long,
@@ -44,7 +52,7 @@ class CityController(
         )
     }
 
-    @PostMapping
+    @PostMapping("/nationalities/{nationalityId}")
     @ResponseStatus(HttpStatus.CREATED)
     fun createCity(
         @PathVariable nationalityId: Long,
@@ -55,7 +63,7 @@ class CityController(
         )
     }
 
-    @PutMapping("/{cityId}")
+    @PutMapping("/nationalities/{nationalityId}/{cityId}")
     fun updateCity(
         @PathVariable nationalityId: Long,
         @PathVariable cityId: Long,
@@ -66,7 +74,7 @@ class CityController(
         )
     }
 
-    @DeleteMapping("/{cityId}")
+    @DeleteMapping("/nationalities/{nationalityId}/{cityId}")
     fun deleteCity(
         @PathVariable nationalityId: Long,
         @PathVariable cityId: Long,
