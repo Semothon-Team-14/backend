@@ -12,6 +12,7 @@ import semo.backend.entity.QuickMatchResponse
 import semo.backend.entity.User
 import semo.backend.enums.QuickMatchResponseStatus
 import semo.backend.enums.QuickMatchStatus
+import semo.backend.enums.QuickMatchTargetType
 import semo.backend.exception.city.CityNotFoundException
 import semo.backend.exception.quickmatch.QuickMatchAlreadyResolvedException
 import semo.backend.exception.quickmatch.QuickMatchNotFoundException
@@ -35,6 +36,7 @@ class QuickMatchService(
     private val userRepository: UserRepository,
     private val cityRepository: CityRepository,
     private val tripRepository: TripRepository,
+    private val localService: LocalService,
     private val mingleService: MingleService,
     private val minglerService: MinglerService,
     private val chatRoomService: ChatRoomService,
@@ -42,12 +44,23 @@ class QuickMatchService(
     private val mingleMapStruct: MingleMapStruct,
     private val simpMessagingTemplate: SimpMessagingTemplate,
 ) {
-    fun getQuickMatches(cityId: Long?): List<QuickMatchDto> {
-        val quickMatches = if (cityId == null) {
-            quickMatchRepository.findAllByStatusOrderByCreatedDateTimeDesc(QuickMatchStatus.PENDING)
-        } else {
-            findCityById(cityId)
-            quickMatchRepository.findAllByCityIdAndStatusOrderByCreatedDateTimeDesc(cityId, QuickMatchStatus.PENDING)
+    fun getQuickMatches(cityId: Long?, targetType: QuickMatchTargetType?): List<QuickMatchDto> {
+        val quickMatches = when {
+            cityId == null && targetType == null -> quickMatchRepository.findAllByStatusOrderByCreatedDateTimeDesc(QuickMatchStatus.PENDING)
+            cityId == null && targetType != null ->
+                quickMatchRepository.findAllByStatusAndTargetTypeOrderByCreatedDateTimeDesc(QuickMatchStatus.PENDING, targetType)
+            cityId != null && targetType == null -> {
+                findCityById(cityId)
+                quickMatchRepository.findAllByCityIdAndStatusOrderByCreatedDateTimeDesc(cityId, QuickMatchStatus.PENDING)
+            }
+            else -> {
+                findCityById(cityId!!)
+                quickMatchRepository.findAllByCityIdAndStatusAndTargetTypeOrderByCreatedDateTimeDesc(
+                    cityId,
+                    QuickMatchStatus.PENDING,
+                    targetType!!,
+                )
+            }
         }
         return quickMatchMapStruct.toDtos(quickMatches)
     }
@@ -66,18 +79,24 @@ class QuickMatchService(
                 requesterUser = requester,
                 city = city,
                 message = request.message?.trim()?.takeIf { it.isNotEmpty() },
+                targetType = request.targetType,
                 status = QuickMatchStatus.PENDING,
                 createdDateTime = now,
                 updatedDateTime = now,
             ),
         )
 
-        val targetTravelerUserIds = findActiveTravelerUserIds(city.id, requester.id)
+        val targetUserIds = findTargetUserIdsByTargetType(
+            cityId = city.id,
+            excludeUserId = requester.id,
+            targetType = request.targetType,
+        )
         publishCityAlert(
             cityId = city.id,
             eventType = "QUICK_MATCH_CREATED",
             quickMatch = quickMatch,
-            targetTravelerUserIds = targetTravelerUserIds,
+            targetType = request.targetType,
+            targetUserIds = targetUserIds,
         )
 
         return quickMatchMapStruct.toDto(quickMatch)
@@ -117,7 +136,8 @@ class QuickMatchService(
             cityId = quickMatch.city.id,
             eventType = "QUICK_MATCH_ACCEPTED",
             quickMatch = savedQuickMatch,
-            targetTravelerUserIds = emptyList(),
+            targetType = quickMatch.targetType,
+            targetUserIds = emptyList(),
         )
         publishUserAlert(quickMatch.requesterUser.id, "QUICK_MATCH_ACCEPTED", savedQuickMatch)
         publishUserAlert(responder.id, "QUICK_MATCH_ACCEPTED", savedQuickMatch)
@@ -175,7 +195,16 @@ class QuickMatchService(
             cityId = quickMatch.city.id,
             excludeUserId = quickMatch.requesterUser.id,
         )
-        if (!activeTravelerUserIds.contains(userId)) {
+        val localUserIds = findLocalUserIds(
+            cityId = quickMatch.city.id,
+            excludeUserId = quickMatch.requesterUser.id,
+        )
+        val isEligible = when (quickMatch.targetType) {
+            QuickMatchTargetType.MINGLERS -> activeTravelerUserIds.contains(userId)
+            QuickMatchTargetType.LOCALS -> localUserIds.contains(userId)
+            QuickMatchTargetType.ANY -> activeTravelerUserIds.contains(userId) || localUserIds.contains(userId)
+        }
+        if (!isEligible) {
             throw QuickMatchResponderNotEligibleException(userId, quickMatch.city.id)
         }
     }
@@ -188,20 +217,44 @@ class QuickMatchService(
         )
     }
 
+    private fun findLocalUserIds(cityId: Long, excludeUserId: Long): List<Long> {
+        return localService.findLocalUserIdsByCityIdExcludingUserId(cityId, excludeUserId)
+    }
+
+    private fun findTargetUserIdsByTargetType(
+        cityId: Long,
+        excludeUserId: Long,
+        targetType: QuickMatchTargetType,
+    ): List<Long> {
+        val travelerUserIds = findActiveTravelerUserIds(cityId, excludeUserId)
+        val localUserIds = findLocalUserIds(cityId, excludeUserId)
+        return when (targetType) {
+            QuickMatchTargetType.MINGLERS -> travelerUserIds
+            QuickMatchTargetType.LOCALS -> localUserIds
+            QuickMatchTargetType.ANY -> (travelerUserIds + localUserIds).distinct()
+        }.sorted()
+    }
+
     private fun publishCityAlert(
         cityId: Long,
         eventType: String,
         quickMatch: QuickMatch,
-        targetTravelerUserIds: List<Long>,
+        targetType: QuickMatchTargetType,
+        targetUserIds: List<Long>,
     ) {
-        simpMessagingTemplate.convertAndSend(
-            "/topic/cities/$cityId/quick-matches",
-            CityQuickMatchSocketEvent(
-                eventType = eventType,
-                quickMatch = quickMatchMapStruct.toDto(quickMatch),
-                targetTravelerUserIds = targetTravelerUserIds.sorted(),
-            ),
+        val payload = CityQuickMatchSocketEvent(
+            eventType = eventType,
+            targetType = targetType,
+            quickMatch = quickMatchMapStruct.toDto(quickMatch),
+            targetUserIds = targetUserIds,
         )
+        val typedTopic = "/topic/cities/$cityId/quick-matches/${targetType.name.lowercase()}"
+        listOf(
+            "/topic/cities/$cityId/quick-matches",
+            typedTopic,
+        ).forEach { destination ->
+            simpMessagingTemplate.convertAndSend(destination, payload)
+        }
     }
 
     private fun publishUserAlert(userId: Long, eventType: String, quickMatch: QuickMatch) {
@@ -231,8 +284,9 @@ class QuickMatchService(
 
     data class CityQuickMatchSocketEvent(
         val eventType: String,
+        val targetType: QuickMatchTargetType,
         val quickMatch: QuickMatchDto,
-        val targetTravelerUserIds: List<Long>,
+        val targetUserIds: List<Long>,
     )
 
     data class UserQuickMatchSocketEvent(
