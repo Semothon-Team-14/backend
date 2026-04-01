@@ -10,6 +10,7 @@ import semo.backend.entity.User
 import semo.backend.exception.chat.ChatRoomAccessDeniedException
 import semo.backend.exception.chat.ChatRoomNotFoundException
 import semo.backend.exception.chat.InvalidChatRoomInitializationException
+import semo.backend.exception.chat.MingleChatRoomNotFoundException
 import semo.backend.exception.user.UserNotFoundException
 import semo.backend.mapstruct.ChatRoomMapStruct
 import semo.backend.repository.jpa.ChatParticipantRepository
@@ -22,6 +23,8 @@ class ChatRoomService(
     private val chatRoomRepository: ChatRoomRepository,
     private val chatParticipantRepository: ChatParticipantRepository,
     private val userRepository: UserRepository,
+    private val mingleService: MingleService,
+    private val minglerService: MinglerService,
     private val chatRoomMapStruct: ChatRoomMapStruct,
 ) {
     fun getChatRooms(userId: Long): List<ChatRoomDto> {
@@ -36,6 +39,13 @@ class ChatRoomService(
     @Transactional
     fun initializeChatRoom(userId: Long, request: InitializeChatRoomRequest): ChatRoomDto {
         val currentUser = findUserById(userId)
+        val mingle = request.mingleId?.let(mingleService::findMingleById)
+        if (mingle != null) {
+            val existingMingleChatRoom = chatRoomRepository.findByMingleId(mingle.id)
+            if (existingMingleChatRoom != null) {
+                return joinMingleChatRoom(userId, mingle.id)
+            }
+        }
         val otherParticipantIds = request.participantUserIds
             .map { it }
             .toSet()
@@ -45,7 +55,7 @@ class ChatRoomService(
             throw InvalidChatRoomInitializationException()
         }
 
-        if (otherParticipantIds.size == 1) {
+        if (request.mingleId == null && otherParticipantIds.size == 1) {
             val otherUserId = otherParticipantIds.first()
             val existingDirectChatRoom = chatRoomRepository.findDirectChatRoomBetweenUsers(userId, otherUserId)
                 ?: chatRoomRepository.findDirectChatRoomBetweenUsers(otherUserId, userId)
@@ -58,9 +68,10 @@ class ChatRoomService(
         val chatRoom = chatRoomRepository.save(
             ChatRoom(
                 name = request.name?.trim()?.takeIf { it.isNotEmpty() },
-                directChat = otherParticipantIds.size == 1,
+                directChat = request.mingleId == null && otherParticipantIds.size == 1,
                 createdDateTime = now,
                 updatedDateTime = now,
+                mingle = mingle,
             ),
         )
 
@@ -89,6 +100,63 @@ class ChatRoomService(
         chatRoom.participants = participants.toMutableSet()
 
         return chatRoomMapStruct.toDto(chatRoom)
+    }
+
+    @Transactional
+    fun createMingleChatRoom(mingleId: Long, participantUserIds: Set<Long>): ChatRoomDto {
+        val existingChatRoom = chatRoomRepository.findByMingleId(mingleId)
+        if (existingChatRoom != null) {
+            return chatRoomMapStruct.toDto(existingChatRoom)
+        }
+
+        val mingle = mingleService.findMingleById(mingleId)
+        val now = LocalDateTime.now()
+        val chatRoom = chatRoomRepository.save(
+            ChatRoom(
+                name = "Mingle #$mingleId",
+                directChat = false,
+                createdDateTime = now,
+                updatedDateTime = now,
+                mingle = mingle,
+            ),
+        )
+
+        val participants = participantUserIds
+            .map(::findUserById)
+            .distinctBy { it.id }
+            .map { user ->
+                ChatParticipant(
+                    chatRoom = chatRoom,
+                    user = user,
+                    joinedDateTime = now,
+                )
+            }
+
+        chatParticipantRepository.saveAll(participants)
+        chatRoom.participants = participants.toMutableSet()
+        return chatRoomMapStruct.toDto(chatRoom)
+    }
+
+    @Transactional
+    fun joinMingleChatRoom(userId: Long, mingleId: Long): ChatRoomDto {
+        minglerService.validateMingler(userId, mingleId)
+        val chatRoom = chatRoomRepository.findByMingleId(mingleId)
+            ?: throw MingleChatRoomNotFoundException(mingleId)
+
+        val existingParticipant = chatParticipantRepository.findByChatRoomIdAndUserId(chatRoom.id, userId)
+        if (existingParticipant == null) {
+            chatRoom.updatedDateTime = LocalDateTime.now()
+            chatParticipantRepository.save(
+                ChatParticipant(
+                    chatRoom = chatRoom,
+                    user = findUserById(userId),
+                    joinedDateTime = LocalDateTime.now(),
+                ),
+            )
+        }
+
+        val reloaded = chatRoomRepository.findByIdAndParticipantsUserId(chatRoom.id, userId) ?: chatRoom
+        return chatRoomMapStruct.toDto(reloaded)
     }
 
     fun findChatRoomForUser(userId: Long, chatRoomId: Long): ChatRoom {
