@@ -14,6 +14,7 @@ import semo.backend.repository.jpa.KeywordRepository
 import semo.backend.util.applyIfProvided
 
 @Service
+@Transactional(readOnly = true)
 class KeywordService(
     private val keywordRepository: KeywordRepository,
     private val keywordMapStruct: KeywordMapStruct,
