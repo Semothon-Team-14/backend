@@ -7,3 +7,6 @@ spring:
     username: semo
     password: secret
 
+app:
+  openai:
+    api-key: ${OPENAI_API_KEY:}
