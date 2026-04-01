@@ -45,6 +45,7 @@
 - When adding a new entity, create the related CRUD layers, exceptions, mappings, and schema changes together unless the task explicitly says otherwise.
 - When authentication rules change, update the security filter chain, login flow, related exceptions, and required seed data together.
 - When an API needs the authenticated user ID, inject it from security context with `@UserId` instead of trusting a client-supplied user ID field.
+- When WebSocket/STOMP destinations, payloads, auth headers, or protocol behavior are added/changed/removed, update `docs/websocket.md` in the same task.
 
 ## Save Workflow
 
