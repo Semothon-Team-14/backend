@@ -16,6 +16,7 @@ import semo.backend.repository.jpa.NationalityRepository
 import semo.backend.util.applyIfProvided
 
 @Service
+@Transactional(readOnly = true)
 class CityService(
     private val cityRepository: CityRepository,
     private val nationalityRepository: NationalityRepository,
