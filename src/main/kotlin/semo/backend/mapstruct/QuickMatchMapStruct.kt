@@ -12,6 +12,7 @@ class QuickMatchMapStruct {
             requesterUserId = entity.requesterUser.id,
             cityId = entity.city.id,
             message = entity.message,
+            targetType = entity.targetType,
             status = entity.status,
             acceptedByUserId = entity.acceptedByUser?.id,
             mingleId = entity.mingle?.id,
