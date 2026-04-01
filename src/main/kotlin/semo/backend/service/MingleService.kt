@@ -15,12 +15,16 @@ import semo.backend.mapstruct.MingleMapStruct
 import semo.backend.repository.jpa.CityRepository
 import semo.backend.repository.jpa.MingleRepository
 import semo.backend.repository.jpa.MinglerRepository
+import semo.backend.repository.jpa.QuickMatchRepository
+import semo.backend.repository.jpa.QuickMatchResponseRepository
 import semo.backend.util.applyIfProvided
 
 @Service
 class MingleService(
     private val mingleRepository: MingleRepository,
     private val minglerRepository: MinglerRepository,
+    private val quickMatchRepository: QuickMatchRepository,
+    private val quickMatchResponseRepository: QuickMatchResponseRepository,
     private val cityRepository: CityRepository,
     private val mingleMapStruct: MingleMapStruct,
 ) {
@@ -40,12 +44,23 @@ class MingleService(
 
     @Transactional
     fun createMingle(request: CreateMingleRequest): MingleDto {
-        val mingle = Mingle(
-            city = findCityById(request.cityId),
+        val mingle = createMingleEntity(
+            cityId = request.cityId,
             title = request.title,
             description = request.description,
         )
         return mingleMapStruct.toDto(mingleRepository.save(mingle))
+    }
+
+    @Transactional
+    fun createMingleForQuickMatch(cityId: Long, title: String, description: String?): Mingle {
+        return mingleRepository.save(
+            createMingleEntity(
+                cityId = cityId,
+                title = title,
+                description = description,
+            ),
+        )
     }
 
     @Transactional
@@ -66,6 +81,11 @@ class MingleService(
     fun deleteMingle(mingleId: Long): Long {
         findMingleById(mingleId)
         minglerRepository.deleteAllByMingleId(mingleId)
+        val quickMatches = quickMatchRepository.findAllByMingleId(mingleId)
+        if (quickMatches.isNotEmpty()) {
+            quickMatchResponseRepository.deleteAllByQuickMatchIdIn(quickMatches.map { it.id })
+            quickMatchRepository.deleteAll(quickMatches)
+        }
         mingleRepository.deleteById(mingleId)
         return mingleId
     }
@@ -78,5 +98,13 @@ class MingleService(
     private fun findCityById(cityId: Long): City {
         return cityRepository.findById(cityId)
             .orElseThrow { CityNotFoundException(cityId) }
+    }
+
+    private fun createMingleEntity(cityId: Long, title: String, description: String?): Mingle {
+        return Mingle(
+            city = findCityById(cityId),
+            title = title,
+            description = description,
+        )
     }
 }
