@@ -8,27 +8,36 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import semo.backend.config.argument.OptionalRequestBody
 import semo.backend.controller.request.CreateMingleRequest
 import semo.backend.controller.request.UpdateMingleRequest
 import semo.backend.controller.response.CreateMingleResponse
+import semo.backend.controller.response.CreateMinglerResponse
 import semo.backend.controller.response.DeleteMingleResponse
+import semo.backend.controller.response.DeleteMinglerResponse
 import semo.backend.controller.response.GetMingleResponse
+import semo.backend.controller.response.GetMinglersResponse
 import semo.backend.controller.response.GetMinglesResponse
 import semo.backend.controller.response.UpdateMingleResponse
 import semo.backend.facade.MingleFacade
+import semo.backend.facade.MinglerFacade
+import semo.backend.security.UserId
 
 @RestController
 @RequestMapping("/mingles")
 class MingleController(
     private val mingleFacade: MingleFacade,
+    private val minglerFacade: MinglerFacade,
 ) {
     @GetMapping
-    fun getMingles(): GetMinglesResponse {
+    fun getMingles(
+        @RequestParam(required = false) cityId: Long?,
+    ): GetMinglesResponse {
         return GetMinglesResponse(
-            mingles = mingleFacade.getMingles(),
+            mingles = mingleFacade.getMingles(cityId),
         )
     }
 
@@ -38,6 +47,15 @@ class MingleController(
     ): GetMingleResponse {
         return GetMingleResponse(
             mingle = mingleFacade.getMingle(mingleId),
+        )
+    }
+
+    @GetMapping("/{mingleId}/minglers")
+    fun getMingleMinglers(
+        @PathVariable mingleId: Long,
+    ): GetMinglersResponse {
+        return GetMinglersResponse(
+            minglers = minglerFacade.getMinglersByMingle(mingleId),
         )
     }
 
@@ -67,6 +85,27 @@ class MingleController(
     ): DeleteMingleResponse {
         return DeleteMingleResponse(
             deletedMingleId = mingleFacade.deleteMingle(mingleId),
+        )
+    }
+
+    @PostMapping("/{mingleId}/minglers")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun joinMingle(
+        @UserId userId: Long,
+        @PathVariable mingleId: Long,
+    ): CreateMinglerResponse {
+        return CreateMinglerResponse(
+            mingler = minglerFacade.joinMingle(userId, mingleId),
+        )
+    }
+
+    @DeleteMapping("/{mingleId}/minglers/me")
+    fun leaveMingle(
+        @UserId userId: Long,
+        @PathVariable mingleId: Long,
+    ): DeleteMinglerResponse {
+        return DeleteMinglerResponse(
+            deletedMinglerId = minglerFacade.leaveMingle(userId, mingleId),
         )
     }
 }
