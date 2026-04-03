@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260403165000-reseed-place-data-from-rds
+      author: codex
+      preConditions:
+        onFail: MARK_RAN
+        onError: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: SELECT COUNT(*) FROM cafes
+        - sqlCheck:
+            expectedResult: 0
+            sql: SELECT COUNT(*) FROM restaurants
+        - sqlCheck:
+            expectedResult: 0
+            sql: SELECT COUNT(*) FROM cafe_images
+        - sqlCheck:
+            expectedResult: 0
+            sql: SELECT COUNT(*) FROM restaurant_images
+      changes:
+        - loadData:
+            file: db/changelog/data/cafes_rds_snapshot_20260403.csv
+            tableName: cafes
+            relativeToChangelogFile: false
+        - loadData:
+            file: db/changelog/data/cafe_images_rds_snapshot_20260403.csv
+            tableName: cafe_images
+            relativeToChangelogFile: false
+        - loadData:
+            file: db/changelog/data/restaurants_rds_snapshot_20260403.csv
+            tableName: restaurants
+            relativeToChangelogFile: false
+        - loadData:
+            file: db/changelog/data/restaurant_images_rds_snapshot_20260403.csv
+            tableName: restaurant_images
+            relativeToChangelogFile: false
+        - sql:
+            dbms: postgresql
+            sql: |
+              SELECT setval('cafes_id_seq', COALESCE((SELECT MAX(id) FROM cafes), 1), (SELECT EXISTS(SELECT 1 FROM cafes)));
+              SELECT setval('cafe_images_id_seq', COALESCE((SELECT MAX(id) FROM cafe_images), 1), (SELECT EXISTS(SELECT 1 FROM cafe_images)));
+              SELECT setval('restaurants_id_seq', COALESCE((SELECT MAX(id) FROM restaurants), 1), (SELECT EXISTS(SELECT 1 FROM restaurants)));
+              SELECT setval('restaurant_images_id_seq', COALESCE((SELECT MAX(id) FROM restaurant_images), 1), (SELECT EXISTS(SELECT 1 FROM restaurant_images)));
