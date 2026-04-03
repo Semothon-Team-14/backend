@@ -1,0 +1,51 @@
+id,city_id,name,phone_number,address,food_category,latitude,longitude
+1,1,Jungsik Seoul,02-517-4654,"11 Seolleung-ro 158-gil, Gangnam District, Seoul, South Korea",Korean restaurant,37.5256734,127.0410846
+2,1,Babylon restaurant Seoul,,"35 116، 82 Samcheong-ro, Jongno District, Seoul, South Korea",Family restaurant,37.5826734,126.9820035
+3,1,Vegan Kitchen,02-777-8819,"21 Toegye-ro 20-gil, Jung District, Seoul, South Korea",Vegan restaurant,37.5592554,126.9859855
+4,1,Seouljip,02-2269-1602,"South Korea, Seoul, Jung District, Eulji-ro 44-gil, 6 2층",Restaurant,37.5658763,127.0065052
+5,1,Myeongdong Korean BBQ Mongvely,02-318-2688,"South Korea, Seoul, Jung District, Myeongdong 8na-gil, 9 3층",Korean barbecue restaurant,37.5613570,126.9844162
+6,4,Japanese food Wagyu Restaurant (Halal) Steak&Burger-Ramen 5W-Tokyo AkihabaraUeno Beef Dining,080-6265-5933,"Japan, 〒110-0016 Tokyo, Taito City, Taitō, 2-chōme−5−３ 2F",Hamburger restaurant,35.7026268,139.7780980
+7,4,Ise Sueyoshi,03-6427-2314,"Japan, 〒106-0031 Tokyo, Minato City, Nishiazabu, 4-chōme−2−１５ 水野ビル 3F",Japanese restaurant,35.6586527,139.7235382
+8,4,Tapas Molecular Bar,03-3270-8188,"2-chōme-1-1 Nihonbashimuromachi, Chuo City, Tokyo 103-8328, Japan",Tapas restaurant,35.6870501,139.7730495
+9,4,CENSU TOKYO,03-6434-5883,"2-chōme-12-9 Jingūmae, Shibuya, Tokyo 150-0001, Japan",Japanese restaurant,35.6743246,139.7123979
+10,4,NOBU Tokyo,050-3145-0011,"Japan, 〒105-0001 Tokyo, Minato City, Toranomon, 4-chōme−1−２８ １Ｆ",Japanese restaurant,35.6663129,139.7437919
+11,13,Pici Central,2755 5233,"24 - 26 Aberdeen Street 中環蘇豪, 地舖, Aberdeen St, Central, Hong Kong",Italian restaurant,22.2830887,114.1522726
+12,13,"Tin Lung Heen | The Ritz-Carlton, Hong Kong",2263 2270,"102/F, The Ritz-Carlton, Hong Kong, International Commerce Centre (ICC), 1 Austin Rd W, Tsim Sha Tsui, Hong Kong",Cantonese restaurant,22.3034650,114.1602232
+13,13,Carat Fine Indian and Mediterranean Cuisine,2391 3929,"4F, Winfield Commercial Building, 6-8A Prat Ave, Tsim Sha Tsui, Hong Kong",Indian restaurant,22.2986137,114.1742646
+14,13,Embla,2559 8508,"11 Upper Station St, Sheung Wan, Hong Kong",Restaurant,22.2849753,114.1481734
+15,13,Mott 32,2885 8688,"4-4A Des Voeux Rd Central, Central, Hong Kong",Chinese restaurant,22.2806407,114.1591079
+16,16,Restaurant Ibid,9151 8698,"18 N Canal Rd, Singapore 048830",Asian fusion restaurant,1.2864337,103.8483365
+17,16,Burnt Ends,6224 3933,"7 Dempsey Rd, #01-02, Singapore 249671",Barbecue restaurant,1.3046060,103.8089925
+18,16,Eden Restaurant,6603 8888,"270 Orchard Rd, Singapore 238857",Restaurant,1.3029904,103.8362536
+19,16,Restaurant JAG,6304 3047,"41 Robertson Quay, #02-02 STPI, Singapore 238236",Restaurant,1.2911018,103.8402617
+20,16,Kimchi Dining | Korean Restaurant Singapore,9113 7090,"181 Orchard Rd, #06-10 Orchard Central Singapore 238896",Korean restaurant,1.3007562,103.8397289
+21,19,RONGROS,096 946 1785,"392/16 Thanon Maha Rat, Khwaeng Phra Borom Maha Ratchawang, Khet Phra Nakhon, Krung Thep Maha Nakhon 10200, Thailand",Thai restaurant,13.7442546,100.4917087
+22,19,Baannok BKK | บ้านนอกเข้ากรุง,063 934 1416,"อาคาร วีฟร์ ชั้นที่ 2, 34/3 Lang Suan Rd, Khwaeng Lumphini, Pathum Wan, Krung Thep Maha Nakhon 10330, Thailand",Restaurant,13.7416977,100.5433509
+23,19,Sra Bua by Kiin Kiin,02 162 9000,"991/9, Siam Kempinski Hotel, Rama I Rd, Khwaeng Pathum Wan, Pathum Wan, Krung Thep Maha Nakhon 10330, Thailand",Thai restaurant,13.7485218,100.5351244
+24,19,SEEN Restaurant & Bar Bangkok,02 431 9492,"AVANI Riverside Bangkok Charoen Nakhon Rd, Khwaeng Samre, Khet Thon Buri, Krung Thep Maha Nakhon 10600, Thailand",Restaurant,13.7051152,100.4911590
+25,19,PEPE Bangkok,084 264 9291,"173, 3 Soi Sukhumvit 16, Khwaeng Khlong Toei, Khet Khlong Toei, Krung Thep Maha Nakhon 10110, Thailand",Asian fusion restaurant,13.7264843,100.5615402
+26,43,Gramercy Tavern,(212) 477-0777,"42 E 20th St, New York, NY 10003, USA",American restaurant,40.7384555,-73.9885064
+27,43,La Grande Boucherie,(212) 510-7714,"145 W 53rd St, New York, NY 10019, USA",French restaurant,40.7626274,-73.9808411
+28,43,The Smith,(212) 685-4500,"1150 Broadway, New York, NY 10010, USA",American restaurant,40.7442419,-73.9886085
+29,43,Le Bernardin,(212) 554-1515,"155 W 51st St, New York, NY 10019, USA",French restaurant,40.7614218,-73.9817558
+30,43,Le Coucou,(212) 271-4252,"138 Lafayette St, New York, NY 10013, USA",Restaurant,40.7191167,-74.0001861
+31,46,JOEY King St,(647) 678-5639,"20 King St W, Toronto, ON M5H 1C4, Canada",Restaurant,43.6491424,-79.3789510
+32,46,Black+Blue Toronto,(647) 368-8283,"130 King St W, Toronto, ON M5X 2A2, Canada",Restaurant,43.6480996,-79.3831247
+33,46,Chop Steakhouse & Bar,(416) 752-0969,"181 University Ave, Toronto, ON M5H 3M7, Canada",Steak house,43.6491114,-79.3853304
+34,46,Canoe,(416) 364-0054,"66 Wellington St W 54th floor, Toronto, ON M5K 1E9, Canada",Restaurant,43.6475793,-79.3809037
+35,46,Don Alfonso 1890,(416) 214-5888,"1 Harbour Square 38th Floor, Toronto, ON M5J 1A6, Canada",Italian restaurant,43.6409740,-79.3756020
+36,58,Circolo Popolare 🇮🇹,,"40-41 Rathbone Pl, London W1T 1HX, UK",Italian restaurant,51.5171895,-0.1338679
+37,58,Fallow,020 8017 1788,"52 Haymarket, London SW1Y 4RP, UK",British restaurant,51.5094100,-0.1327837
+38,58,Evelyn's Table,,"28 Rupert St, London W1D 6DJ, UK",Fine dining restaurant,51.5111259,-0.1326177
+39,58,Tattu London,020 3778 1985,"The Now Building Rooftop, Outernet, Denmark St, London WC2H 0LA, UK",Asian restaurant,51.5153850,-0.1295445
+40,58,Sky Garden,0333 772 0020,"1, Sky Garden Walk, London EC3M 8AF, UK",Scenic spot,51.5112422,-0.0835493
+41,61,Pink Mamma,09 73 03 40 29,"20bis Rue de Douai, 75009 Paris, France",Italian restaurant,48.8819469,2.3345309
+42,61,Le Ju',01 42 78 11 47,"16 Rue des Archives, 75004 Paris, France",Restaurant,48.8576911,2.3548054
+43,61,Sphère,01 71 25 26 91,"18 Rue La Boétie, 75008 Paris, France",French restaurant,48.8742665,2.3169387
+44,61,Chouchou,01 45 08 02 03,"23 Bd de Sébastopol, 75001 Paris, France",French restaurant,48.8599744,2.3487234
+45,61,Le Tout-Paris,01 79 35 50 22,"8 Quai du Louvre, 75001 Paris, France",French restaurant,48.8587493,2.3422529
+46,82,CÉ LA VI,04 582 6111,"Tower 2 - Level 54, Address Sky View Hotel - بوليفارد الشيخ محمد بن راشد - برج خليفة - دبي - United Arab Emirates",Restaurant,25.2020260,55.2706755
+47,82,Bombay Borough,054 995 8296,"Gate Village, Building 3 - towards DIFC Parking - Zaa'beel Second - DIFC - Dubai - United Arab Emirates",Restaurant,25.2139289,55.2823472
+48,82,Dinner In The Sky,058 819 3296,Al Sufoh - 34RM+FW - Al Seyahi St - next to zero gravity - Skydive - Dubai Marina - Dubai - United Arab Emirates,Restaurant,25.0896690,55.1369327
+49,82,Rang - Dubai Mall,050 800 1574,Dubai Mall - 2nd Floor - Burj Khalifa - Downtown Dubai - Dubai - United Arab Emirates,Restaurant,25.1966153,55.2780999
+50,82,Table Otto - Dubai Mall,04 266 8169,"Fashion Avenue, Dubai Mall - برج خليفة - وسط مدينة دبي - دبي - United Arab Emirates",Restaurant,25.1978673,55.2756363
