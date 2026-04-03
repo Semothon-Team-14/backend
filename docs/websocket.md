@@ -57,6 +57,19 @@ Subscribe:
 ## Quick Match Alerts
 Created/accepted quick-match alerts are published by city and by user.
 
+Quick-match actions are available over STOMP publish as well:
+- create: destination `/app/quick-matches`
+  - body:
+  ```json
+  {
+    "cityId": 1,
+    "message": "Coffee tonight?",
+    "targetType": "ANY"
+  }
+  ```
+- accept: destination `/app/quick-matches/{quickMatchId}/accept`
+- decline: destination `/app/quick-matches/{quickMatchId}/decline`
+
 City subscriptions:
 - `/topic/cities/{cityId}/quick-matches` (all target types)
 - `/topic/cities/{cityId}/quick-matches/minglers`
@@ -103,6 +116,15 @@ User event payload:
     "createdDateTime": "2026-04-01T17:00:00",
     "updatedDateTime": "2026-04-01T17:02:00"
   }
+}
+```
+
+User error payload (for STOMP quick-match actions):
+```json
+{
+  "eventType": "QUICK_MATCH_ERROR",
+  "action": "QUICK_MATCH_ACCEPT",
+  "reason": "Quick match not found for id=123"
 }
 ```
 
