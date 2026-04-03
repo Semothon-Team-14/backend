@@ -1,6 +1,7 @@
 package semo.backend.facade
 
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 import semo.backend.controller.request.CreateUserRequest
 import semo.backend.controller.request.UpdateUserRequest
 import semo.backend.dto.UserDto
@@ -28,5 +29,9 @@ class UserFacade(
 
     fun deleteUser(userId: Long): Long {
         return userService.deleteUser(userId)
+    }
+
+    fun uploadProfileImage(userId: Long, file: MultipartFile): UserDto {
+        return userService.uploadProfileImage(userId, file)
     }
 }
