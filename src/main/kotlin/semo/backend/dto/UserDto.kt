@@ -10,6 +10,7 @@ data class UserDto(
     val phone: String?,
     val sex: Sex?,
     val introduction: String?,
+    val profileImageUrl: String?,
     val nationalityId: Long?,
     val keywords: List<KeywordDto>,
 )
