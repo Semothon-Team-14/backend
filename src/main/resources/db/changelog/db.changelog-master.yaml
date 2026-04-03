@@ -49,3 +49,5 @@ databaseChangeLog:
       file: db/changelog/changes/20260403174000-ensure-mingle-coordinate-columns.yaml
   - include:
       file: db/changelog/changes/20260403213000-add-chat-participant-last-read.yaml
+  - include:
+      file: db/changelog/changes/20260403224000-add-user-profile-image-url.yaml
