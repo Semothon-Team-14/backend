@@ -12,6 +12,7 @@ import semo.backend.exception.user.UserNotFoundException
 import semo.backend.mapstruct.ChatMessageMapStruct
 import semo.backend.repository.jpa.ChatMessageRepository
 import semo.backend.repository.jpa.ChatParticipantRepository
+import semo.backend.repository.jpa.ChatMessageTranslationRepository
 import semo.backend.repository.jpa.UserRepository
 import java.time.LocalDateTime
 
@@ -21,14 +22,30 @@ class ChatMessageService(
     private val chatRoomService: ChatRoomService,
     private val chatMessageRepository: ChatMessageRepository,
     private val chatParticipantRepository: ChatParticipantRepository,
+    private val chatMessageTranslationRepository: ChatMessageTranslationRepository,
     private val userRepository: UserRepository,
     private val chatMessageMapStruct: ChatMessageMapStruct,
 ) {
     fun getChatMessages(userId: Long, chatRoomId: Long): List<ChatMessageDto> {
         chatRoomService.validateParticipation(userId, chatRoomId)
         val messages = chatMessageMapStruct.toDtos(chatMessageRepository.findAllByChatRoomIdOrderByCreatedDateTimeAsc(chatRoomId))
+        val translationByChatMessageId = if (messages.isEmpty()) {
+            emptyMap()
+        } else {
+            chatMessageTranslationRepository
+                .findAllByChatMessageIdInAndUserId(
+                    chatMessageIds = messages.map { it.id },
+                    userId = userId,
+                )
+                .associateBy { it.chatMessage.id }
+        }
+        val resolvedMessages = messages.map { message ->
+            message.copy(
+                translatedContent = translationByChatMessageId[message.id]?.translatedContent,
+            )
+        }
         chatRoomService.markChatRoomAsRead(userId, chatRoomId)
-        return messages
+        return resolvedMessages
     }
 
     @Transactional
