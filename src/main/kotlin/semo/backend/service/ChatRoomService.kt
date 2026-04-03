@@ -183,6 +183,30 @@ class ChatRoomService(
         return chatRoomMapStruct.toDto(reloaded)
     }
 
+    @Transactional
+    fun ensureMingleChatRoomAndJoin(userId: Long, mingleId: Long): ChatRoomDto {
+        minglerService.validateMingler(userId, mingleId)
+        val existing = chatRoomRepository.findByMingleId(mingleId)
+        if (existing == null) {
+            val mingleParticipantUserIds = minglerService
+                .getMinglersByMingle(mingleId)
+                .map { it.userId }
+                .toMutableSet()
+            mingleParticipantUserIds.add(userId)
+            createMingleChatRoom(mingleId, mingleParticipantUserIds)
+        }
+        return joinMingleChatRoom(userId, mingleId)
+    }
+
+    @Transactional
+    fun leaveMingleChatRoom(userId: Long, mingleId: Long) {
+        val chatRoom = chatRoomRepository.findByMingleId(mingleId) ?: return
+        val participant = chatParticipantRepository.findByChatRoomIdAndUserId(chatRoom.id, userId) ?: return
+        chatParticipantRepository.delete(participant)
+        chatRoom.updatedDateTime = LocalDateTime.now()
+        chatRoomRepository.save(chatRoom)
+    }
+
     fun findChatRoomForUser(userId: Long, chatRoomId: Long): ChatRoom {
         val chatRoom = chatRoomRepository.findById(chatRoomId)
             .orElseThrow { ChatRoomNotFoundException(chatRoomId) }
