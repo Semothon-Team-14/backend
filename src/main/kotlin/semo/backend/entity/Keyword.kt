@@ -14,6 +14,9 @@ class Keyword(
     @Column(nullable = false, unique = true)
     var label: String,
 
+    @Column(name = "label_english")
+    var labelEnglish: String? = null,
+
     @Column(nullable = false)
     var priority: Int,
 
