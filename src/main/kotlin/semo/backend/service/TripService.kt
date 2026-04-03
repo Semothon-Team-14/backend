@@ -65,6 +65,8 @@ class TripService(
         request.title.applyIfProvided { trip.title = it }
         request.startDate.applyIfProvided { trip.startDate = it }
         request.endDate.applyIfProvided { trip.endDate = it }
+        request.departureDateTime.applyIfProvided { trip.departureDateTime = it }
+        request.departureLandingDateTime.applyIfProvided { trip.departureLandingDateTime = it }
         request.userId.applyIfProvided { userId -> trip.user = userId?.let(::findUserById) }
         request.cityId.applyIfProvided { cityId -> trip.city = cityId?.let(::findCityById) }
         return tripMapStruct.toDto(tripRepository.save(trip))
