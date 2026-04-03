@@ -150,7 +150,7 @@ class ChatRoomService(
         val now = LocalDateTime.now()
         val chatRoom = chatRoomRepository.save(
             ChatRoom(
-                name = "Mingle #$mingleId",
+                name = mingle.title,
                 directChat = false,
                 createdDateTime = now,
                 updatedDateTime = now,
@@ -275,6 +275,18 @@ class ChatRoomService(
         unreadMessageCount: Long = 0,
     ): ChatRoomDto {
         val base = chatRoomMapStruct.toDto(chatRoom)
+        val resolvedMingleName = if (base.mingleId != null) {
+            val currentName = base.name.orEmpty().trim()
+            val shouldUseMingleTitle =
+                currentName.isBlank() || currentName.startsWith("Mingle #")
+            if (shouldUseMingleTitle) {
+                chatRoom.mingle?.title?.trim()?.ifEmpty { null } ?: base.name
+            } else {
+                base.name
+            }
+        } else {
+            base.name
+        }
         val otherParticipantId = if (base.directChat) {
             base.participantUserIds.firstOrNull { it != currentUserId }
         } else {
@@ -283,6 +295,7 @@ class ChatRoomService(
         val otherParticipantLocal = otherParticipantId?.let(localRepository::existsByUserId)
 
         return base.copy(
+            name = resolvedMingleName,
             unreadMessageCount = unreadMessageCount,
             otherParticipantLocal = otherParticipantLocal,
         )
