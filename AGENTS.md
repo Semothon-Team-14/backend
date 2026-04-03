@@ -32,6 +32,7 @@
 
 - For views that are fully designed in `../figma.pdf`, backend APIs and realtime payloads must reflect and support that finalized UX flow exactly when those views are implemented in frontend.
 - If a view/interaction is not yet present or finalized in Figma, avoid speculative backend contract changes and keep existing behavior untouched unless explicitly requested.
+- Explicit rule: all views that are already finalized in Figma must be reflected through backend contracts/realtime payloads exactly as required by that finalized frontend UX.
 - Follow the existing `controller -> facade -> service -> repository` flow for backend features.
 - Controllers should wrap facade results in response objects.
 - Facade and service layers should return DTOs or simple values, not JPA entities.
