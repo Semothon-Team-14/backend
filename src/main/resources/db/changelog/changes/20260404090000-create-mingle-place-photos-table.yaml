@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260404090000-create-mingle-place-photos-table
+      author: codex
+      changes:
+        - createTable:
+            tableName: mingle_place_photos
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_mingle_place_photos
+                    nullable: false
+              - column:
+                  name: mingle_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: image_url
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_by
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: mingle_place_photos
+            baseColumnNames: mingle_id
+            constraintName: fk_mingle_place_photos_mingle
+            referencedTableName: mingles
+            referencedColumnNames: id
