@@ -19,6 +19,7 @@ import semo.backend.repository.jpa.MinglerRepository
 import semo.backend.repository.jpa.QuickMatchRepository
 import semo.backend.repository.jpa.QuickMatchResponseRepository
 import semo.backend.util.applyIfProvided
+import java.time.LocalDateTime
 
 @Service
 @Transactional(readOnly = true)
@@ -50,6 +51,8 @@ class MingleService(
             cityId = request.cityId,
             title = request.title,
             description = request.description,
+            placeName = request.placeName,
+            meetDateTime = request.meetDateTime,
             latitude = request.latitude,
             longitude = request.longitude,
         )
@@ -63,6 +66,8 @@ class MingleService(
                 cityId = cityId,
                 title = title,
                 description = description,
+                placeName = null,
+                meetDateTime = null,
                 latitude = null,
                 longitude = null,
             ),
@@ -80,6 +85,8 @@ class MingleService(
             mingle.title = title ?: throw MingleTitleRequiredException()
         }
         request.description.applyIfProvided { description -> mingle.description = description }
+        request.placeName.applyIfProvided { placeName -> mingle.placeName = placeName?.trim()?.takeIf { it.isNotEmpty() } }
+        request.meetDateTime.applyIfProvided { meetDateTime -> mingle.meetDateTime = meetDateTime }
         request.latitude.applyIfProvided { latitude -> mingle.latitude = latitude }
         request.longitude.applyIfProvided { longitude -> mingle.longitude = longitude }
         return mingleMapStruct.toDto(mingleRepository.save(mingle))
@@ -112,6 +119,8 @@ class MingleService(
         cityId: Long,
         title: String,
         description: String?,
+        placeName: String?,
+        meetDateTime: LocalDateTime?,
         latitude: BigDecimal?,
         longitude: BigDecimal?,
     ): Mingle {
@@ -119,6 +128,8 @@ class MingleService(
             city = findCityById(cityId),
             title = title,
             description = description,
+            placeName = placeName?.trim()?.takeIf { it.isNotEmpty() },
+            meetDateTime = meetDateTime,
             latitude = latitude,
             longitude = longitude,
         )
