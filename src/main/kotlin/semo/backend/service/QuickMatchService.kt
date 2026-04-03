@@ -108,6 +108,7 @@ class QuickMatchService(
             targetType = request.targetType,
             targetUserIds = targetUserIds,
         )
+        publishUserAlert(requester.id, "QUICK_MATCH_CREATED", quickMatch)
 
         return quickMatchMapStruct.toDto(quickMatch)
     }
