@@ -5,6 +5,7 @@ import java.time.LocalDateTime
 data class MinglerDto(
     val id: Long,
     val userId: Long,
+    val local: Boolean,
     val mingle: MingleDto,
     val createdDateTime: LocalDateTime,
     val updatedDateTime: LocalDateTime,
