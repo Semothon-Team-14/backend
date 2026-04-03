@@ -40,6 +40,9 @@ class User(
     @Column(columnDefinition = "TEXT")
     var introduction: String? = null,
 
+    @Column(name = "profile_image_url")
+    var profileImageUrl: String? = null,
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nationality_id")
     var nationality: Nationality? = null,
