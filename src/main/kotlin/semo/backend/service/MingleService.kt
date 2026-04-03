@@ -55,6 +55,7 @@ class MingleService(
             meetDateTime = request.meetDateTime,
             latitude = request.latitude,
             longitude = request.longitude,
+            targetParticipantCount = request.targetParticipantCount,
         )
         return mingleMapStruct.toDto(mingleRepository.save(mingle))
     }
@@ -70,6 +71,7 @@ class MingleService(
                 meetDateTime = null,
                 latitude = null,
                 longitude = null,
+                targetParticipantCount = null,
             ),
         )
     }
@@ -89,6 +91,9 @@ class MingleService(
         request.meetDateTime.applyIfProvided { meetDateTime -> mingle.meetDateTime = meetDateTime }
         request.latitude.applyIfProvided { latitude -> mingle.latitude = latitude }
         request.longitude.applyIfProvided { longitude -> mingle.longitude = longitude }
+        request.targetParticipantCount.applyIfProvided { targetParticipantCount ->
+            mingle.targetParticipantCount = normalizeTargetParticipantCount(targetParticipantCount)
+        }
         return mingleMapStruct.toDto(mingleRepository.save(mingle))
     }
 
@@ -123,6 +128,7 @@ class MingleService(
         meetDateTime: LocalDateTime?,
         latitude: BigDecimal?,
         longitude: BigDecimal?,
+        targetParticipantCount: Int?,
     ): Mingle {
         return Mingle(
             city = findCityById(cityId),
@@ -132,6 +138,15 @@ class MingleService(
             meetDateTime = meetDateTime,
             latitude = latitude,
             longitude = longitude,
+            targetParticipantCount = normalizeTargetParticipantCount(targetParticipantCount),
         )
+    }
+
+    private fun normalizeTargetParticipantCount(raw: Int?): Int? {
+        if (raw == null) {
+            return null
+        }
+
+        return raw.coerceAtLeast(1)
     }
 }
