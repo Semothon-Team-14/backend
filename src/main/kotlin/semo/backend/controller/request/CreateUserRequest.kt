@@ -10,6 +10,7 @@ data class CreateUserRequest(
     val phone: String,
     val sex: Sex? = null,
     val introduction: String? = null,
+    val profileImageUrl: String? = null,
     val nationalityId: Long? = null,
     val keywordIds: List<Long> = emptyList(),
 )
