@@ -34,10 +34,13 @@ class KeywordService(
     @Transactional
     fun createKeyword(request: CreateKeywordRequest): KeywordDto {
         val label = normalizeLabel(request.label)
+        val labelEnglish = normalizeOptionalLabel(request.labelEnglish)
         validatePriority(request.priority)
         ensureLabelAvailable(label)
+        ensureLabelEnglishAvailable(labelEnglish)
         val keyword = Keyword(
             label = label,
+            labelEnglish = labelEnglish,
             priority = request.priority,
         )
         return keywordMapStruct.toDto(keywordRepository.save(keyword))
@@ -50,6 +53,11 @@ class KeywordService(
             val normalizedLabel = label?.let(::normalizeLabel)
             ensureLabelAvailable(normalizedLabel, keywordId)
             keyword.label = normalizedLabel ?: keyword.label
+        }
+        request.labelEnglish.applyIfProvided { labelEnglish ->
+            val normalizedLabelEnglish = normalizeOptionalLabel(labelEnglish)
+            ensureLabelEnglishAvailable(normalizedLabelEnglish, keywordId)
+            keyword.labelEnglish = normalizedLabelEnglish
         }
         request.priority.applyIfProvided { priority ->
             if (priority != null) {
@@ -97,7 +105,31 @@ class KeywordService(
         }
     }
 
+    private fun ensureLabelEnglishAvailable(
+        labelEnglish: String?,
+        keywordId: Long? = null,
+    ) {
+        if (labelEnglish == null) {
+            return
+        }
+
+        val exists = if (keywordId == null) {
+            keywordRepository.existsByLabelEnglish(labelEnglish)
+        } else {
+            keywordRepository.existsByLabelEnglishAndIdNot(labelEnglish, keywordId)
+        }
+
+        if (exists) {
+            throw DuplicateKeywordLabelException(labelEnglish)
+        }
+    }
+
     private fun normalizeLabel(label: String): String {
         return label.trim()
+    }
+
+    private fun normalizeOptionalLabel(label: String?): String? {
+        val normalized = label?.trim()
+        return normalized?.takeIf { it.isNotEmpty() }
     }
 }
