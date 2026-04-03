@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260404021500-1-add-mingle-target-participant-count
+      author: codex
+      changes:
+        - addColumn:
+            tableName: mingles
+            columns:
+              - column:
+                  name: target_participant_count
+                  type: INTEGER
