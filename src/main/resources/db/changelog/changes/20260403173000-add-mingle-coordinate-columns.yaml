@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260403173000-add-mingle-coordinate-columns
+      author: codex
+      changes:
+        - addColumn:
+            tableName: mingles
+            columns:
+              - column:
+                  name: latitude
+                  type: NUMERIC(10,7)
+              - column:
+                  name: longitude
+                  type: NUMERIC(10,7)
