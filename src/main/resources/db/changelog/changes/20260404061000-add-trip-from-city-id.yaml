@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260404061000-add-trip-from-city-id
+      author: codex
+      changes:
+        - addColumn:
+            tableName: trips
+            columns:
+              - column:
+                  name: from_city_id
+                  type: BIGINT
+        - addForeignKeyConstraint:
+            baseTableName: trips
+            baseColumnNames: from_city_id
+            constraintName: fk_trips_from_city
+            referencedTableName: cities
+            referencedColumnNames: id
