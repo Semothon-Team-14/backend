@@ -8,6 +8,8 @@ data class MingleDto(
     val city: CityDto,
     val title: String,
     val description: String?,
+    val placeName: String?,
+    val meetDateTime: LocalDateTime?,
     val latitude: BigDecimal?,
     val longitude: BigDecimal?,
     val createdDateTime: LocalDateTime,
