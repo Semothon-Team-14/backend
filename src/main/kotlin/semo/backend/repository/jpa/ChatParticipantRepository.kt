@@ -12,4 +12,6 @@ interface ChatParticipantRepository : JpaRepository<ChatParticipant, Long> {
         chatRoomId: Long,
         userId: Long,
     ): Boolean
+
+    fun countByChatRoomId(chatRoomId: Long): Long
 }
