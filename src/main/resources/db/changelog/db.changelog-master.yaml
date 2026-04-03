@@ -55,3 +55,5 @@ databaseChangeLog:
       file: db/changelog/changes/20260403235500-add-city-representative-image-url.yaml
   - include:
       file: db/changelog/changes/20260404003000-add-mingle-place-and-meet-datetime.yaml
+  - include:
+      file: db/changelog/changes/20260404010000-add-city-center-coordinates.yaml
