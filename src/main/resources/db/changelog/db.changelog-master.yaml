@@ -51,3 +51,5 @@ databaseChangeLog:
       file: db/changelog/changes/20260403213000-add-chat-participant-last-read.yaml
   - include:
       file: db/changelog/changes/20260403224000-add-user-profile-image-url.yaml
+  - include:
+      file: db/changelog/changes/20260403235500-add-city-representative-image-url.yaml
