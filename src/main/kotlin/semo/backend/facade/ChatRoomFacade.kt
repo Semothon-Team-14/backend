@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service
 import semo.backend.controller.request.InitializeChatRoomRequest
 import semo.backend.dto.ChatRoomDto
 import semo.backend.service.ChatRoomService
+import java.time.LocalDateTime
 
 @Service
 class ChatRoomFacade(
@@ -23,5 +24,9 @@ class ChatRoomFacade(
 
     fun joinMingleChatRoom(userId: Long, mingleId: Long): ChatRoomDto {
         return chatRoomService.joinMingleChatRoom(userId, mingleId)
+    }
+
+    fun markChatRoomAsRead(userId: Long, chatRoomId: Long): LocalDateTime {
+        return chatRoomService.markChatRoomAsRead(userId, chatRoomId)
     }
 }
