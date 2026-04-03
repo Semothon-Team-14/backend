@@ -48,6 +48,7 @@ class LocalService(
                 Local(
                     user = user,
                     city = city,
+                    availableTimeText = normalizeAvailableTimeText(request.availableTimeText),
                 ),
             ),
         )
@@ -62,6 +63,9 @@ class LocalService(
                 throw LocalDuplicateException(userId, nextCityId)
             }
             local.city = findCityById(nextCityId)
+        }
+        request.availableTimeText.applyIfProvided { availableTimeText ->
+            local.availableTimeText = normalizeAvailableTimeText(availableTimeText)
         }
         return localMapStruct.toDto(localRepository.save(local))
     }
@@ -96,5 +100,13 @@ class LocalService(
     private fun findCityById(cityId: Long): City {
         return cityRepository.findById(cityId)
             .orElseThrow { CityNotFoundException(cityId) }
+    }
+
+    private fun normalizeAvailableTimeText(value: String?): String? {
+        val trimmed = value?.trim()
+        if (trimmed.isNullOrEmpty()) {
+            return null
+        }
+        return trimmed.take(120)
     }
 }
