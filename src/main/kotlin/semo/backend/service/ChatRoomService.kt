@@ -13,6 +13,7 @@ import semo.backend.exception.chat.InvalidChatRoomInitializationException
 import semo.backend.exception.chat.MingleChatRoomNotFoundException
 import semo.backend.exception.user.UserNotFoundException
 import semo.backend.mapstruct.ChatRoomMapStruct
+import semo.backend.repository.jpa.ChatMessageRepository
 import semo.backend.repository.jpa.ChatParticipantRepository
 import semo.backend.repository.jpa.ChatRoomRepository
 import semo.backend.repository.jpa.UserRepository
@@ -22,6 +23,7 @@ import java.time.LocalDateTime
 @Transactional(readOnly = true)
 class ChatRoomService(
     private val chatRoomRepository: ChatRoomRepository,
+    private val chatMessageRepository: ChatMessageRepository,
     private val chatParticipantRepository: ChatParticipantRepository,
     private val userRepository: UserRepository,
     private val mingleService: MingleService,
@@ -30,11 +32,28 @@ class ChatRoomService(
 ) {
     fun getChatRooms(userId: Long): List<ChatRoomDto> {
         findUserById(userId)
-        return chatRoomMapStruct.toDtos(chatRoomRepository.findDistinctAllByParticipantsUserIdOrderByUpdatedDateTimeDesc(userId))
+        val chatRooms = chatRoomRepository.findDistinctAllByParticipantsUserIdOrderByUpdatedDateTimeDesc(userId)
+        val unreadCountByChatRoomId = findUnreadCountByChatRoomIdsAndUserId(
+            chatRoomIds = chatRooms.map { it.id },
+            userId = userId,
+        )
+
+        return chatRooms.map { chatRoom ->
+            chatRoomMapStruct.toDto(chatRoom).copy(
+                unreadMessageCount = unreadCountByChatRoomId[chatRoom.id] ?: 0,
+            )
+        }
     }
 
     fun getChatRoom(userId: Long, chatRoomId: Long): ChatRoomDto {
-        return chatRoomMapStruct.toDto(findChatRoomForUser(userId, chatRoomId))
+        val chatRoom = findChatRoomForUser(userId, chatRoomId)
+        val unreadCountByChatRoomId = findUnreadCountByChatRoomIdsAndUserId(
+            chatRoomIds = listOf(chatRoomId),
+            userId = userId,
+        )
+        return chatRoomMapStruct.toDto(chatRoom).copy(
+            unreadMessageCount = unreadCountByChatRoomId[chatRoomId] ?: 0,
+        )
     }
 
     @Transactional
@@ -78,12 +97,13 @@ class ChatRoomService(
 
         val participants = buildList {
             add(
-                ChatParticipant(
-                    chatRoom = chatRoom,
-                    user = currentUser,
-                    joinedDateTime = now,
-                ),
-            )
+                        ChatParticipant(
+                            chatRoom = chatRoom,
+                            user = currentUser,
+                            joinedDateTime = now,
+                            lastReadDateTime = now,
+                        ),
+                    )
             otherParticipantIds
                 .map(::findUserById)
                 .forEach { user ->
@@ -92,6 +112,7 @@ class ChatRoomService(
                             chatRoom = chatRoom,
                             user = user,
                             joinedDateTime = now,
+                            lastReadDateTime = now,
                         ),
                     )
                 }
@@ -130,6 +151,7 @@ class ChatRoomService(
                     chatRoom = chatRoom,
                     user = user,
                     joinedDateTime = now,
+                    lastReadDateTime = now,
                 )
             }
 
@@ -152,6 +174,7 @@ class ChatRoomService(
                     chatRoom = chatRoom,
                     user = findUserById(userId),
                     joinedDateTime = LocalDateTime.now(),
+                    lastReadDateTime = LocalDateTime.now(),
                 ),
             )
         }
@@ -174,6 +197,26 @@ class ChatRoomService(
         if (!chatParticipantRepository.existsByChatRoomIdAndUserId(chatRoomId, userId)) {
             throw ChatRoomAccessDeniedException(chatRoomId, userId)
         }
+    }
+
+    @Transactional
+    fun markChatRoomAsRead(userId: Long, chatRoomId: Long): LocalDateTime {
+        val participant = chatParticipantRepository.findByChatRoomIdAndUserId(chatRoomId, userId)
+            ?: throw ChatRoomAccessDeniedException(chatRoomId, userId)
+        val now = LocalDateTime.now()
+        participant.lastReadDateTime = now
+        return now
+    }
+
+    private fun findUnreadCountByChatRoomIdsAndUserId(chatRoomIds: Collection<Long>, userId: Long): Map<Long, Long> {
+        if (chatRoomIds.isEmpty()) {
+            return emptyMap()
+        }
+
+        return chatMessageRepository.countUnreadMessagesByChatRoomIdsAndUserId(chatRoomIds, userId)
+            .associate { projection ->
+                projection.chatRoomId to projection.unreadCount
+            }
     }
 
     private fun findUserById(userId: Long): User {
