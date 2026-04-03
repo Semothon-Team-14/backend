@@ -62,6 +62,8 @@ databaseChangeLog:
   - include:
       file: db/changelog/changes/20260404050000-remove-legacy-quickmatch-mingles.yaml
   - include:
+      file: db/changelog/changes/20260404061000-add-trip-from-city-id.yaml
+  - include:
       file: db/changelog/changes/20260404063000-add-trip-departure-datetimes.yaml
   - include:
       file: db/changelog/changes/20260404090000-create-mingle-place-photos-table.yaml
