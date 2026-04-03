@@ -11,6 +11,7 @@ data class UpdateUserRequest(
     val phone: Optional<String>? = null,
     val sex: Optional<Sex>? = null,
     val introduction: Optional<String>? = null,
+    val profileImageUrl: Optional<String>? = null,
     val nationalityId: Optional<Long>? = null,
     val keywordIds: Optional<List<Long>>? = null,
 )
