@@ -46,6 +46,7 @@ class TicketValidationService(
         val parsed = parseBoardingPass(decoded.text)
         val arrivalCityId = airportCodeToCityId[parsed.toAirportCode]
             ?: throw TicketAirportUnsupportedException(parsed.toAirportCode)
+        val departureCityId = airportCodeToCityId[parsed.fromAirportCode]
         val arrivalCity = findCityById(arrivalCityId)
 
         if (request.cityId != null && request.cityId != arrivalCity.id) {
@@ -69,6 +70,7 @@ class TicketValidationService(
         val draft = TicketTripDraftDto(
             title = "$titleBase 여행",
             cityId = arrivalCity.id,
+            fromCityId = departureCityId,
             startDate = parsed.flightDate,
             endDate = parsed.flightDate,
             departureDateTime = departureDateTime,
