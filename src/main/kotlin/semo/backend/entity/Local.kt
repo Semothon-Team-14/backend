@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.Column
 import jakarta.persistence.Table
 
 @Entity
@@ -19,6 +20,9 @@ class Local(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id", nullable = false)
     var city: City,
+
+    @Column(name = "available_time_text")
+    var availableTimeText: String? = null,
 ) : AuditLoggingBase() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
