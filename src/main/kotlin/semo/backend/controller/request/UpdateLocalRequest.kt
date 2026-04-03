@@ -4,4 +4,5 @@ import java.util.Optional
 
 data class UpdateLocalRequest(
     val cityId: Optional<Long>? = null,
+    val availableTimeText: Optional<String>? = null,
 )
