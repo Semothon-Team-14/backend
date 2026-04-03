@@ -54,6 +54,7 @@ class CityService(
         val city = City(
             cityNameEnglish = cityNameEnglish,
             cityNameKorean = request.cityNameKorean.trim(),
+            representativeImageUrl = normalizeUrlOrNull(request.representativeImageUrl),
             nationality = nationality,
         )
         return cityMapStruct.toDto(cityRepository.save(city))
@@ -69,6 +70,9 @@ class CityService(
         }
         request.cityNameKorean.applyIfProvided { cityNameKorean ->
             city.cityNameKorean = cityNameKorean?.trim() ?: city.cityNameKorean
+        }
+        request.representativeImageUrl.applyIfProvided { representativeImageUrl ->
+            city.representativeImageUrl = normalizeUrlOrNull(representativeImageUrl)
         }
         return cityMapStruct.toDto(cityRepository.save(city))
     }
@@ -113,5 +117,14 @@ class CityService(
 
     private fun normalizeCityName(cityName: String): String {
         return cityName.trim()
+    }
+
+    private fun normalizeUrlOrNull(raw: String?): String? {
+        val trimmed = raw?.trim()
+        return if (trimmed.isNullOrEmpty()) {
+            null
+        } else {
+            trimmed
+        }
     }
 }
