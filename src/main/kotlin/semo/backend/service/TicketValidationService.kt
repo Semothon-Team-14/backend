@@ -41,18 +41,18 @@ class TicketValidationService(
             throw TicketImageRequiredException()
         }
 
-        val selectedCity = findCityById(request.cityId)
         val image = decodeImage(request.imageBase64)
         val decoded = decodeBarcode(image)
         val parsed = parseBoardingPass(decoded.text)
-        val actualCityId = airportCodeToCityId[parsed.toAirportCode]
+        val arrivalCityId = airportCodeToCityId[parsed.toAirportCode]
             ?: throw TicketAirportUnsupportedException(parsed.toAirportCode)
+        val arrivalCity = findCityById(arrivalCityId)
 
-        if (actualCityId != selectedCity.id) {
-            throw TicketCityMismatchException(selectedCity.id, actualCityId)
+        if (request.cityId != null && request.cityId != arrivalCity.id) {
+            throw TicketCityMismatchException(request.cityId, arrivalCity.id)
         }
 
-        val titleBase = selectedCity.cityNameKorean.ifBlank { selectedCity.cityNameEnglish }
+        val titleBase = arrivalCity.cityNameKorean.ifBlank { arrivalCity.cityNameEnglish }
         val departureDateTime = parsed.departureTime?.let { LocalDateTime.of(parsed.flightDate, it) }
         val departureLandingDateTime = parsed.landingTime?.let { landingTime ->
             if (departureDateTime == null) {
@@ -68,7 +68,7 @@ class TicketValidationService(
         }
         val draft = TicketTripDraftDto(
             title = "$titleBase 여행",
-            cityId = selectedCity.id,
+            cityId = arrivalCity.id,
             startDate = parsed.flightDate,
             endDate = parsed.flightDate,
             departureDateTime = departureDateTime,
