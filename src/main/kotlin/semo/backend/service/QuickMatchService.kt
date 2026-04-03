@@ -152,12 +152,6 @@ class QuickMatchService(
             quickMatch = savedQuickMatch,
             chatRoom = createdChatRoom,
         )
-        publishUserAlert(
-            userId = responder.id,
-            eventType = "QUICK_MATCH_ACCEPTED",
-            quickMatch = savedQuickMatch,
-            chatRoom = createdChatRoom,
-        )
 
         return QuickMatchAcceptResultDto(
             quickMatch = quickMatchMapStruct.toDto(savedQuickMatch),
