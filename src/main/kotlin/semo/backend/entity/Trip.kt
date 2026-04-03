@@ -37,6 +37,10 @@ class Trip(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
     var city: City? = null,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "from_city_id")
+    var fromCity: City? = null,
 ) : AuditLoggingBase() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
