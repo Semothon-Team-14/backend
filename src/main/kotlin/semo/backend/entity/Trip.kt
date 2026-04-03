@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "trips")
@@ -22,6 +23,12 @@ class Trip(
 
     @Column(name = "end_date")
     var endDate: LocalDate?,
+
+    @Column(name = "departure_date_time")
+    var departureDateTime: LocalDateTime? = null,
+
+    @Column(name = "departure_landing_date_time")
+    var departureLandingDateTime: LocalDateTime? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
