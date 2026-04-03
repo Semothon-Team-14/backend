@@ -20,16 +20,32 @@ class AwsS3StorageService(
         contentLength: Long,
         inputStream: InputStream,
     ): String {
+        return uploadPublicObjectToBucket(
+            bucket = awsS3Properties.s3Bucket,
+            key = key,
+            contentType = contentType,
+            contentLength = contentLength,
+            inputStream = inputStream,
+        )
+    }
+
+    fun uploadPublicObjectToBucket(
+        bucket: String,
+        key: String,
+        contentType: String,
+        contentLength: Long,
+        inputStream: InputStream,
+    ): String {
         val normalizedKey = key.trimStart('/')
         s3Client.putObject(
             PutObjectRequest.builder()
-                .bucket(awsS3Properties.s3Bucket)
+                .bucket(bucket)
                 .key(normalizedKey)
                 .contentType(contentType)
                 .build(),
             RequestBody.fromInputStream(inputStream, contentLength),
         )
-        return awsS3Properties.buildPublicUrl(normalizedKey)
+        return awsS3Properties.buildPublicUrlForBucket(bucket, normalizedKey)
     }
 
     fun buildPublicUrl(key: String): String {
