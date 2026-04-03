@@ -18,7 +18,15 @@ class ApiRequestResponseLoggingFilter : OncePerRequestFilter() {
         return path.startsWith("/ws-chat") ||
             path.startsWith("/swagger-ui") ||
             path.startsWith("/api-docs") ||
-            path.startsWith("/actuator")
+            path.startsWith("/actuator") ||
+            isNoisyPlaceApiPath(path)
+    }
+
+    private fun isNoisyPlaceApiPath(path: String): Boolean {
+        return path.startsWith("/restaurants/cities/") ||
+            path.startsWith("/restaurants/") && path.endsWith("/images") ||
+            path.startsWith("/cafes/cities/") ||
+            path.startsWith("/cafes/") && path.endsWith("/images")
     }
 
     override fun doFilterInternal(
