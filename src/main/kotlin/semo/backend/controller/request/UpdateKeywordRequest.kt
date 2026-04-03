@@ -4,5 +4,6 @@ import java.util.Optional
 
 data class UpdateKeywordRequest(
     val label: Optional<String>? = null,
+    val labelEnglish: Optional<String>? = null,
     val priority: Optional<Int>? = null,
 )
