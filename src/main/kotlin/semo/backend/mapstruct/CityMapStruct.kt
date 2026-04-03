@@ -13,6 +13,7 @@ interface CityMapStruct : GenericMapStruct<City, CityDto> {
             nationalityId = entity.nationality.id,
             cityNameEnglish = entity.cityNameEnglish,
             cityNameKorean = entity.cityNameKorean,
+            representativeImageUrl = entity.representativeImageUrl,
         )
     }
 }
