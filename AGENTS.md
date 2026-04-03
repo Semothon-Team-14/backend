@@ -4,6 +4,7 @@
 
 - This repository is a Kotlin Spring Boot backend project.
 - Follow existing Gradle Kotlin DSL and Spring Boot conventions in this codebase.
+- Also follow monorepo coordination rules in `../AGENTS.md` for cross-repository work.
 
 ## Git Workflow Rules
 
