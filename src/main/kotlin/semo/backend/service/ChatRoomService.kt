@@ -287,7 +287,7 @@ class ChatRoomService(
         } else {
             base.name
         }
-        val otherParticipantId = if (base.directChat) {
+        val otherParticipantId = if (base.participantUserIds.size == 2) {
             base.participantUserIds.firstOrNull { it != currentUserId }
         } else {
             null
