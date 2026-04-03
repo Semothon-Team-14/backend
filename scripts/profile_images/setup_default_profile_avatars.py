@@ -164,6 +164,16 @@ def image_to_png_bytes(image: Image.Image) -> bytes:
     return output.getvalue()
 
 
+def center_crop_square(image: Image.Image) -> Image.Image:
+    width, height = image.size
+    side = min(width, height)
+    left = (width - side) // 2
+    top = (height - side) // 2
+    right = left + side
+    bottom = top + side
+    return image.crop((left, top, right, bottom))
+
+
 def main() -> int:
     args = parse_args()
     env_defaults = load_local_env_defaults()
@@ -212,6 +222,7 @@ def main() -> int:
 
     uploaded_urls: list[str] = []
     for index, avatar in enumerate(avatars, start=1):
+        square_avatar = center_crop_square(avatar)
         key = f"{args.s3_key_prefix.strip('/')}/avatar_{index}.png"
         public_url = f"https://{s3_bucket}.s3.{s3_region}.amazonaws.com/{key}"
         uploaded_urls.append(public_url)
@@ -219,7 +230,7 @@ def main() -> int:
             s3_client.put_object(
                 Bucket=s3_bucket,
                 Key=key,
-                Body=image_to_png_bytes(avatar),
+                Body=image_to_png_bytes(square_avatar),
                 ContentType="image/png",
             )
         print(f"[AVATAR] {index} -> {public_url}")
