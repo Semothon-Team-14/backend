@@ -8,16 +8,20 @@ import semo.backend.controller.request.UpdateMingleRequest
 import semo.backend.dto.MingleDto
 import semo.backend.entity.City
 import semo.backend.entity.Mingle
+import semo.backend.entity.Mingler
+import semo.backend.entity.User
 import semo.backend.exception.city.CityNotFoundException
 import semo.backend.exception.mingle.MingleCityRequiredException
 import semo.backend.exception.mingle.MingleNotFoundException
 import semo.backend.exception.mingle.MingleTitleRequiredException
+import semo.backend.exception.user.UserNotFoundException
 import semo.backend.mapstruct.MingleMapStruct
 import semo.backend.repository.jpa.CityRepository
 import semo.backend.repository.jpa.MingleRepository
 import semo.backend.repository.jpa.MinglerRepository
 import semo.backend.repository.jpa.QuickMatchRepository
 import semo.backend.repository.jpa.QuickMatchResponseRepository
+import semo.backend.repository.jpa.UserRepository
 import semo.backend.util.applyIfProvided
 import java.time.LocalDateTime
 
@@ -29,6 +33,7 @@ class MingleService(
     private val quickMatchRepository: QuickMatchRepository,
     private val quickMatchResponseRepository: QuickMatchResponseRepository,
     private val cityRepository: CityRepository,
+    private val userRepository: UserRepository,
     private val mingleMapStruct: MingleMapStruct,
 ) {
     fun getMingles(cityId: Long?): List<MingleDto> {
@@ -46,7 +51,7 @@ class MingleService(
     }
 
     @Transactional
-    fun createMingle(request: CreateMingleRequest): MingleDto {
+    fun createMingle(userId: Long, request: CreateMingleRequest): MingleDto {
         val mingle = createMingleEntity(
             cityId = request.cityId,
             title = request.title,
@@ -57,7 +62,14 @@ class MingleService(
             longitude = request.longitude,
             targetParticipantCount = request.targetParticipantCount,
         )
-        return mingleMapStruct.toDto(mingleRepository.save(mingle))
+        val savedMingle = mingleRepository.save(mingle)
+        minglerRepository.save(
+            Mingler(
+                mingle = savedMingle,
+                user = findUserById(userId),
+            ),
+        )
+        return mingleMapStruct.toDto(savedMingle)
     }
 
     @Transactional
@@ -120,6 +132,11 @@ class MingleService(
             .orElseThrow { CityNotFoundException(cityId) }
     }
 
+    private fun findUserById(userId: Long): User {
+        return userRepository.findById(userId)
+            .orElseThrow { UserNotFoundException(userId) }
+    }
+
     private fun createMingleEntity(
         cityId: Long,
         title: String,
@@ -147,6 +164,6 @@ class MingleService(
             return null
         }
 
-        return raw.coerceAtLeast(1)
+        return raw.coerceAtLeast(2)
     }
 }
