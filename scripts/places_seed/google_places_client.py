@@ -50,7 +50,7 @@ class GooglePlacesClient:
         self,
         *,
         city_name: str,
-        place_type: str,
+        place_type: str | None,
         query_label: str,
         page_size: int,
         photo_limit: int,
@@ -59,9 +59,10 @@ class GooglePlacesClient:
             "textQuery": f"{query_label} in {city_name}",
             "languageCode": self._language_code,
             "pageSize": page_size,
-            "includedType": place_type,
-            "strictTypeFiltering": True,
         }
+        if place_type:
+            payload["includedType"] = place_type
+            payload["strictTypeFiltering"] = True
         data = self._post_json(TEXT_SEARCH_URL, payload)
         places = data.get("places", [])
         return [self._to_place_result(place, photo_limit) for place in places]
