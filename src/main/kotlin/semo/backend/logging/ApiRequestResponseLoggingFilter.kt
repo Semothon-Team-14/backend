@@ -15,10 +15,13 @@ import java.nio.charset.StandardCharsets
 class ApiRequestResponseLoggingFilter : OncePerRequestFilter() {
     override fun shouldNotFilter(request: HttpServletRequest): Boolean {
         val path = request.requestURI ?: return true
+        val isGet = request.method.equals("GET", ignoreCase = true)
         return path.startsWith("/ws-chat") ||
             path.startsWith("/swagger-ui") ||
             path.startsWith("/api-docs") ||
             path.startsWith("/actuator") ||
+            (isGet && (path == "/cities" || path.startsWith("/cities/"))) ||
+            (isGet && (path == "/nationalities" || path.startsWith("/nationalities/"))) ||
             isNoisyPlaceApiPath(path)
     }
 
