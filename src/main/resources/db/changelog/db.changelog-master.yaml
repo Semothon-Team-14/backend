@@ -65,3 +65,5 @@ databaseChangeLog:
       file: db/changelog/changes/20260404063000-add-trip-departure-datetimes.yaml
   - include:
       file: db/changelog/changes/20260404090000-create-mingle-place-photos-table.yaml
+  - include:
+      file: db/changelog/changes/20260404112000-add-local-available-time-text.yaml
