@@ -12,4 +12,5 @@ data class TripDto(
     val departureLandingDateTime: LocalDateTime?,
     val userId: Long?,
     val cityId: Long?,
+    val fromCityId: Long?,
 )
