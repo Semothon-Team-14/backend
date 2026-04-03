@@ -68,8 +68,7 @@ Quick-match actions are available over STOMP publish as well:
   ```json
   {
     "cityId": 1,
-    "message": "Coffee tonight?",
-    "targetType": "ANY"
+    "message": "Coffee tonight?"
   }
   ```
 - accept: destination `/app/quick-matches/{quickMatchId}/accept`
@@ -80,6 +79,11 @@ City subscriptions:
 - `/topic/cities/{cityId}/quick-matches/minglers`
 - `/topic/cities/{cityId}/quick-matches/locals`
 - `/topic/cities/{cityId}/quick-matches/any`
+
+Quick-match targeting behavior:
+- Server now treats quick-match create requests as city-wide broadcast in the selected city.
+- `targetType` from client create payloads is ignored and persisted as `ANY`.
+- Recipients are active travelers + locals in the city, excluding the requester.
 
 User subscription:
 - `/topic/users/{userId}/quick-matches`
