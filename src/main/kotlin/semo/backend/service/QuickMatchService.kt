@@ -76,12 +76,13 @@ class QuickMatchService(
         val requester = findUserById(userId)
         val city = findCityById(request.cityId)
         val now = LocalDateTime.now()
+        val effectiveTargetType = QuickMatchTargetType.ANY
         val quickMatch = quickMatchRepository.save(
             QuickMatch(
                 requesterUser = requester,
                 city = city,
                 message = request.message?.trim()?.takeIf { it.isNotEmpty() },
-                targetType = request.targetType,
+                targetType = effectiveTargetType,
                 status = QuickMatchStatus.PENDING,
                 createdDateTime = now,
                 updatedDateTime = now,
@@ -91,21 +92,21 @@ class QuickMatchService(
         val targetUserIds = findTargetUserIdsByTargetType(
             cityId = city.id,
             excludeUserId = requester.id,
-            targetType = request.targetType,
+            targetType = effectiveTargetType,
         )
         log.info(
             "QM CREATE id={} requesterUserId={} cityId={} targetType={} targetUserCount={}",
             quickMatch.id,
             requester.id,
             city.id,
-            request.targetType.name,
+            effectiveTargetType.name,
             targetUserIds.size,
         )
         publishCityAlert(
             cityId = city.id,
             eventType = "QUICK_MATCH_CREATED",
             quickMatch = quickMatch,
-            targetType = request.targetType,
+            targetType = effectiveTargetType,
             targetUserIds = targetUserIds,
         )
         publishUserAlert(requester.id, "QUICK_MATCH_CREATED", quickMatch)
@@ -147,7 +148,7 @@ class QuickMatchService(
             cityId = quickMatch.city.id,
             eventType = "QUICK_MATCH_ACCEPTED",
             quickMatch = savedQuickMatch,
-            targetType = quickMatch.targetType,
+            targetType = QuickMatchTargetType.ANY,
             targetUserIds = emptyList(),
         )
         publishUserAlert(quickMatch.requesterUser.id, "QUICK_MATCH_ACCEPTED", savedQuickMatch)
@@ -210,11 +211,7 @@ class QuickMatchService(
             cityId = quickMatch.city.id,
             excludeUserId = quickMatch.requesterUser.id,
         )
-        val isEligible = when (quickMatch.targetType) {
-            QuickMatchTargetType.MINGLERS -> activeTravelerUserIds.contains(userId)
-            QuickMatchTargetType.LOCALS -> localUserIds.contains(userId)
-            QuickMatchTargetType.ANY -> activeTravelerUserIds.contains(userId) || localUserIds.contains(userId)
-        }
+        val isEligible = activeTravelerUserIds.contains(userId) || localUserIds.contains(userId)
         if (!isEligible) {
             throw QuickMatchResponderNotEligibleException(userId, quickMatch.city.id)
         }
