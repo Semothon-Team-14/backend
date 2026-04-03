@@ -12,4 +12,10 @@ interface ChatMessageTranslationRepository : JpaRepository<ChatMessageTranslatio
         chatMessageId: Long,
         userId: Long,
     ): ChatMessageTranslation?
+
+    @EntityGraph(attributePaths = ["chatMessage", "user"])
+    fun findAllByChatMessageIdInAndUserId(
+        chatMessageIds: Collection<Long>,
+        userId: Long,
+    ): List<ChatMessageTranslation>
 }
