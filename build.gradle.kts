@@ -30,6 +30,8 @@ repositories {
 }
 
 dependencies {
+    implementation("com.google.zxing:core:3.5.3")
+    implementation("com.google.zxing:javase:3.5.3")
     implementation("org.mapstruct:mapstruct:1.6.3")
     implementation("software.amazon.awssdk:s3:2.39.1")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.2")
