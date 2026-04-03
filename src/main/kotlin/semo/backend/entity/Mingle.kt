@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import java.math.BigDecimal
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "mingles")
@@ -23,6 +24,12 @@ class Mingle(
 
     @Column(name = "description", length = 1000)
     var description: String? = null,
+
+    @Column(name = "place_name", length = 255)
+    var placeName: String? = null,
+
+    @Column(name = "meet_date_time")
+    var meetDateTime: LocalDateTime? = null,
 
     @Column(name = "latitude", precision = 10, scale = 7)
     var latitude: BigDecimal? = null,
