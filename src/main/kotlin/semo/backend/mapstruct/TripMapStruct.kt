@@ -11,6 +11,7 @@ import semo.backend.entity.Trip
 interface TripMapStruct : GenericMapStruct<Trip, TripDto> {
     @Mapping(target = "userId", source = "user.id")
     @Mapping(target = "cityId", source = "city.id")
+    @Mapping(target = "fromCityId", source = "fromCity.id")
     override fun toDto(entity: Trip): TripDto
 
     @Mapping(target = "id", ignore = true)
@@ -20,5 +21,6 @@ interface TripMapStruct : GenericMapStruct<Trip, TripDto> {
     @Mapping(target = "updatedDateTime", ignore = true)
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "city", ignore = true)
+    @Mapping(target = "fromCity", ignore = true)
     fun toEntity(request: CreateTripRequest): Trip
 }
