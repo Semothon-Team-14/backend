@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260403174000-ensure-mingle-coordinate-columns
+      author: codex
+      changes:
+        - sql:
+            dbms: postgresql
+            sql: ALTER TABLE mingles ADD COLUMN IF NOT EXISTS latitude NUMERIC(10,7);
+        - sql:
+            dbms: postgresql
+            sql: ALTER TABLE mingles ADD COLUMN IF NOT EXISTS longitude NUMERIC(10,7);
