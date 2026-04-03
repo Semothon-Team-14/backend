@@ -42,6 +42,7 @@ class TripService(
         validateNoDateOverlap(user.id, request.startDate, request.endDate)
         trip.user = user
         trip.city = findCityById(request.cityId)
+        trip.fromCity = request.fromCityId?.let(::findCityById)
         return tripMapStruct.toDto(tripRepository.save(trip))
     }
 
@@ -69,6 +70,7 @@ class TripService(
         request.departureLandingDateTime.applyIfProvided { trip.departureLandingDateTime = it }
         request.userId.applyIfProvided { userId -> trip.user = userId?.let(::findUserById) }
         request.cityId.applyIfProvided { cityId -> trip.city = cityId?.let(::findCityById) }
+        request.fromCityId.applyIfProvided { cityId -> trip.fromCity = cityId?.let(::findCityById) }
         return tripMapStruct.toDto(tripRepository.save(trip))
     }
 
