@@ -11,4 +11,5 @@ data class CreateMingleRequest(
     val meetDateTime: LocalDateTime? = null,
     val latitude: BigDecimal? = null,
     val longitude: BigDecimal? = null,
+    val targetParticipantCount: Int? = null,
 )
