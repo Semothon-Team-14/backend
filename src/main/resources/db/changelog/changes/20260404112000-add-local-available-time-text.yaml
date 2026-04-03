@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260404112000-1-add-local-available-time-text
+      author: codex
+      changes:
+        - addColumn:
+            tableName: locals
+            columns:
+              - column:
+                  name: available_time_text
+                  type: VARCHAR(120)
