@@ -12,6 +12,7 @@ data class MingleDto(
     val meetDateTime: LocalDateTime?,
     val latitude: BigDecimal?,
     val longitude: BigDecimal?,
+    val targetParticipantCount: Int?,
     val createdDateTime: LocalDateTime,
     val updatedDateTime: LocalDateTime,
 )
