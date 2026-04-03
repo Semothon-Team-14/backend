@@ -17,7 +17,9 @@ import semo.backend.repository.jpa.ChatMessageRepository
 import semo.backend.repository.jpa.ChatParticipantRepository
 import semo.backend.repository.jpa.ChatRoomRepository
 import semo.backend.repository.jpa.LocalRepository
+import semo.backend.repository.jpa.TripRepository
 import semo.backend.repository.jpa.UserRepository
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Service
@@ -31,6 +33,7 @@ class ChatRoomService(
     private val minglerService: MinglerService,
     private val chatRoomMapStruct: ChatRoomMapStruct,
     private val localRepository: LocalRepository,
+    private val tripRepository: TripRepository,
 ) {
     fun getChatRooms(userId: Long): List<ChatRoomDto> {
         findUserById(userId)
@@ -292,7 +295,17 @@ class ChatRoomService(
         } else {
             null
         }
-        val otherParticipantLocal = otherParticipantId?.let(localRepository::existsByUserId)
+        val otherParticipantLocal = otherParticipantId?.let { participantId ->
+            val travelerNow = tripRepository.existsActiveTripByUserId(
+                userId = participantId,
+                targetDate = LocalDate.now(),
+            )
+            if (travelerNow) {
+                false
+            } else {
+                localRepository.existsByUserId(participantId)
+            }
+        }
 
         return base.copy(
             name = resolvedMingleName,
