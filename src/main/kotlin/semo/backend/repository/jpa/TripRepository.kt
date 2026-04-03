@@ -31,6 +31,22 @@ interface TripRepository : JpaRepository<Trip, Long> {
         select (count(trip) > 0)
         from Trip trip
         where trip.user.id = :userId
+          and trip.startDate is not null
+          and trip.endDate is not null
+          and trip.startDate <= :targetDate
+          and trip.endDate >= :targetDate
+        """,
+    )
+    fun existsActiveTripByUserId(
+        @Param("userId") userId: Long,
+        @Param("targetDate") targetDate: LocalDate,
+    ): Boolean
+
+    @Query(
+        """
+        select (count(trip) > 0)
+        from Trip trip
+        where trip.user.id = :userId
           and (:excludeTripId is null or trip.id <> :excludeTripId)
           and trip.startDate is not null
           and trip.endDate is not null
