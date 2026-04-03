@@ -84,6 +84,7 @@ Quick-match targeting behavior:
 - Server now treats quick-match create requests as city-wide broadcast in the selected city.
 - `targetType` from client create payloads is ignored and persisted as `ANY`.
 - Recipients are active travelers + locals in the city, excluding the requester.
+- Accepting a quick match now creates a chat room directly (no mingle is auto-created).
 
 User subscription:
 - `/topic/users/{userId}/quick-matches`
@@ -121,10 +122,20 @@ User event payload:
     "targetType": "ANY",
     "status": "ACCEPTED",
     "acceptedByUserId": 8,
-    "mingleId": 4,
+    "mingleId": null,
     "createdDateTime": "2026-04-01T17:00:00",
     "updatedDateTime": "2026-04-01T17:02:00"
-  }
+  },
+  "chatRoom": {
+    "id": 31,
+    "name": null,
+    "directChat": true,
+    "mingleId": null,
+    "participantUserIds": [3, 8],
+    "unreadMessageCount": 0,
+    "createdDateTime": "2026-04-01T17:02:00",
+    "updatedDateTime": "2026-04-01T17:02:00"
+  }  
 }
 ```
 
