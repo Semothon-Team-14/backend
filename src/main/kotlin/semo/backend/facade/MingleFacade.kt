@@ -18,8 +18,8 @@ class MingleFacade(
         return mingleService.getMingle(mingleId)
     }
 
-    fun createMingle(request: CreateMingleRequest): MingleDto {
-        return mingleService.createMingle(request)
+    fun createMingle(userId: Long, request: CreateMingleRequest): MingleDto {
+        return mingleService.createMingle(userId, request)
     }
 
     fun updateMingle(mingleId: Long, request: UpdateMingleRequest): MingleDto {
