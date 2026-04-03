@@ -55,6 +55,8 @@ class CityService(
             cityNameEnglish = cityNameEnglish,
             cityNameKorean = request.cityNameKorean.trim(),
             representativeImageUrl = normalizeUrlOrNull(request.representativeImageUrl),
+            centerLatitude = request.centerLatitude,
+            centerLongitude = request.centerLongitude,
             nationality = nationality,
         )
         return cityMapStruct.toDto(cityRepository.save(city))
@@ -73,6 +75,12 @@ class CityService(
         }
         request.representativeImageUrl.applyIfProvided { representativeImageUrl ->
             city.representativeImageUrl = normalizeUrlOrNull(representativeImageUrl)
+        }
+        request.centerLatitude.applyIfProvided { centerLatitude ->
+            city.centerLatitude = centerLatitude
+        }
+        request.centerLongitude.applyIfProvided { centerLongitude ->
+            city.centerLongitude = centerLongitude
         }
         return cityMapStruct.toDto(cityRepository.save(city))
     }
