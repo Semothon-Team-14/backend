@@ -13,6 +13,7 @@ class LocalMapStruct(
             id = entity.id,
             userId = entity.user.id,
             city = cityMapStruct.toDto(entity.city),
+            availableTimeText = entity.availableTimeText,
             createdDateTime = entity.createdDateTime,
             updatedDateTime = entity.updatedDateTime,
         )
