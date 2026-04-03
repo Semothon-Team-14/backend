@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260404050000-remove-legacy-quickmatch-mingles
+      author: codex
+      changes:
+        - sql:
+            sql: |
+              UPDATE quick_matches
+              SET mingle_id = NULL
+              WHERE mingle_id IN (
+                SELECT id
+                FROM mingles
+                WHERE LOWER(title) LIKE 'quick match in %'
+                  AND place_name IS NULL
+                  AND meet_date_time IS NULL
+                  AND latitude IS NULL
+                  AND longitude IS NULL
+              );
+        - sql:
+            sql: |
+              DELETE FROM minglers
+              WHERE mingle_id IN (
+                SELECT id
+                FROM mingles
+                WHERE LOWER(title) LIKE 'quick match in %'
+                  AND place_name IS NULL
+                  AND meet_date_time IS NULL
+                  AND latitude IS NULL
+                  AND longitude IS NULL
+              );
+        - sql:
+            sql: |
+              DELETE FROM mingles
+              WHERE LOWER(title) LIKE 'quick match in %'
+                AND place_name IS NULL
+                AND meet_date_time IS NULL
+                AND latitude IS NULL
+                AND longitude IS NULL;

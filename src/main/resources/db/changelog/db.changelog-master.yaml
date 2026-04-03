@@ -61,3 +61,5 @@ databaseChangeLog:
       file: db/changelog/changes/20260404021500-add-mingle-target-participant-count.yaml
   - include:
       file: db/changelog/changes/20260404034000-add-keyword-english-label.yaml
+  - include:
+      file: db/changelog/changes/20260404050000-remove-legacy-quickmatch-mingles.yaml
