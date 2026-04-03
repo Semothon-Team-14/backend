@@ -1,0 +1,51 @@
+id,city_id,name,phone_number,address,food_category,latitude,longitude
+1,1,LEEDORIM Coffee & Vegan Bakery Gyeongbokgung Cafe,02-2135-9714,"South Korea, Seoul, Jongno District, Jahamun-ro, 43 경복궁 본점",Cafe,37.5799476,126.9710654
+2,1,KOTTON.SEOUL,02-737-5865,"17 Insadong 12-gil, Jongno District, Seoul, South Korea",Coffee shop,37.5747261,126.9849436
+3,1,Coffee Hanyakbang,070-4148-4242,"16-6 Samil-daero 12-gil, Jung District, Seoul, South Korea",Cafe,37.5665301,126.9885936
+4,1,Rewire Coffee,02-6367-3445,"24-1 Supyo-ro 6-gil, Jung District, Seoul, South Korea",Coffee shop,37.5627599,126.9917578
+5,1,Thanks Nature Cafe,02-332-7470,"10 Hongik-ro, Mapo-gu, Seoul, South Korea",Cafe,37.5533849,126.9237895
+6,4,CAFE REISSUE,03-5785-3144,"3-chōme-25-7 Jingūmae, Shibuya, Tokyo 150-0001, Japan",Coffee shop,35.6711763,139.7079583
+7,4,Fuglen Tokyo,,"1-chōme-16-11 Tomigaya, Shibuya, Tokyo 151-0063, Japan",Coffee shop,35.6666181,139.6923999
+8,4,THE ROASTERY BY NOZY COFFEE,03-6450-5755,"Reveur Jingumae, 5-chōme-17-13 Jingūmae, Shibuya, Tokyo 150-0001, Japan",Coffee shop,35.6655724,139.7047658
+9,4,Maidreamin Shibuya Store,03-6744-6726,"Japan, 〒150-0042 Tokyo, Shibuya, Udagawachō, 30−１ 蓬莱屋ビル B1",Cafe,35.6607937,139.6982559
+10,4,Little Nap Coffee Stand,03-3466-0074,"5-chōme-65-4 Yoyogi, Shibuya, Tokyo 151-0053, Japan",Coffee stand,35.6720937,139.6905932
+11,13,Halfway Coffee,2606 1160,"26號 Upper Lascar Row, Sheung Wan, Hong Kong",Coffee shop,22.2846615,114.1497724
+12,13,Chart Coffee (Central Market),9531 3379,"Shop 218, 2/F, 93 Queen's Road Central, Central, Hong Kong",Coffee shop,22.2839440,114.1555478
+13,13,Urban Coffee Roaster (Tsim Sha Tsui),2363 3661,"7 Bristol Ave, Tsim Sha Tsui, Hong Kong",Coffee shop,22.2973689,114.1728934
+14,13,commaa,2858 8687,"G/F, Shop 4C, 11 Po Yan St, Sheung Wan, Hong Kong",Cafe,22.2852712,114.1472911
+15,13,Nook Coffee,5744 7768,"Sheung Wan, 9 Mee Lun Street, Central, Hong Kong",Coffee shop,22.2840018,114.1524449
+16,16,My Awesome Cafe,8798 1783,"202 Telok Ayer St, Singapore 068639",Restaurant,1.2801094,103.8472056
+17,16,Good Bites,8969 6422,"5 Bishan St 14, #03-01, Singapore 579783",Cafe,1.3555789,103.8513296
+18,16,The Populus,6635 8420,"146 Neil Rd, Singapore 088875",Cafe,1.2782503,103.8406393
+19,16,Lola's Cafe,6284 0349,"5 Simon Rd, Singapore 545893",Cafe,1.3616352,103.8859561
+20,16,Wildseed Cafe At The Garage,9815 3213,"50 Cluny Park Rd, Level 1 Singapore Botanic Gardens, Singapore 257488",Cafe,1.3189040,103.8155621
+21,19,White Flower Cafe,02 224 8918,"350 Soi Chula 40, Khwaeng Wang Mai, Pathum Wan, Krung Thep Maha Nakhon 10330, Thailand",Cafe,13.7359089,100.5246284
+22,19,RISE COFFEE - One Bangkok,094 187 4000,"B1 Floor, The Storeys One Bangkok Thanon Witthayu, Khwaeng Lumphini, Pathum Wan, Krung Thep Maha Nakhon 10330, Thailand",Coffee shop,13.7267531,100.5456727
+23,19,Piccolo vicolo,065 816 8982,"535 31 ตรอก Rama VI Soi 17, Khwaeng Thanon Phetchaburi, Khet Ratchathewi, Krung Thep Maha Nakhon 10400, Thailand",Coffee shop,13.7513546,100.5263866
+24,19,A KEEN HOUSE - One Bangkok,085 909 0770,"One Bangkok, 3rd Floor, Parade Building, 1877 ถ. พระรามที่ 4 แขวงลุมพินี เขตปทุมวัน กรุงเทพมหานคร 10330, Thailand",Coffee shop,13.7260160,100.5468182
+25,19,Sarnies Bangkok,065 816 1655,"101, 103 Soi Charoen Krung 44, Khwaeng Bang Rak, Khet Bang Rak, Krung Thep Maha Nakhon 10500, Thailand",Cafe,13.7210556,100.5147629
+26,43,Little Collins,(212) 308-1969,"708 3rd Ave, New York, NY 10017, USA",Cafe,40.7523639,-73.9735114
+27,43,Bibble & Sip,(646) 649-5116,"253 W 51st St, New York, NY 10019, USA",Bakery,40.7628415,-73.9851781
+28,43,La Cabra Bakery,,"152 2nd Ave, New York, NY 10003, USA",Coffee shop,40.7294459,-73.9868353
+29,43,REGULAR NYC,(917) 261-2090,"19 Rector St, New York, NY 10006, USA",Breakfast restaurant,40.7080400,-74.0141630
+30,43,Urban Backyard,(646) 692-9957,"180 Mulberry St, New York, NY 10012, USA",Coffee shop,40.7208064,-73.9966015
+31,46,FIKA Cafe,,"28 Kensington Ave, Toronto, ON M5T 2J9, Canada",Cafe,43.6535775,-79.4004428
+32,46,Cafe Landwer,(647) 748-1165,"165 University Ave, Toronto, ON M5H 3B8, Canada",Restaurant,43.6487440,-79.3851650
+33,46,Dineen Coffee Co.,(416) 900-0949,"140 Yonge St, Toronto, ON M5C 1X6, Canada",Coffee shop,43.6511749,-79.3788897
+34,46,Project Seoul,,"355 Spadina Ave., Toronto, ON M5T 2G3, Canada",Coffee shop,43.6554893,-79.3987784
+35,46,NEO COFFEE BAR,(647) 348-8811,"161 Frederick St Unit 100, Toronto, ON M5A 1J9, Canada",Coffee shop,43.6506513,-79.3691669
+36,58,Drury Covent Garden | Cafe & Brunch,020 7831 7555,"188-189 Drury Ln, London WC2B 5QD, UK",Brunch restaurant,51.5160905,-0.1239970
+37,58,Kennington Lane Cafe,020 7735 5853,"383 Kennington Ln, London SE11 5QY, UK",Cafe,51.4860873,-0.1210618
+38,58,L'ETO Soho,020 7494 4991,"155 Wardour St, London W1F 8WG, UK",Cafe,51.5143761,-0.1348304
+39,58,"KOZZEE Cafe Soho | Brunch, Coffee & Desserts",,"193 Wardour St, London W1F 8ZF, UK",Brunch restaurant,51.5154586,-0.1358420
+40,58,Regency Cafe,020 7821 6596,"17-19 Regency St, London SW1P 4BY, UK",Cafe,51.4937725,-0.1321940
+41,61,The Caféothèque of Paris,01 53 01 83 84,"52 Rue de l'Hôtel de Ville, 75004 Paris, France",Cafe,48.8544525,2.3557667
+42,61,Kozy,01 85 09 45 19,"46 Rue La Fayette, 75009 Paris, France",Brunch restaurant,48.8747820,2.3401412
+43,61,Les Deux Magots,01 45 48 55 25,"6 Pl. Saint-Germain des Prés, 75006 Paris, France",Cafe,48.8540520,2.3331062
+44,61,Baguett's Café,,"33 Rue de Richelieu, 75001 Paris, France",Brunch restaurant,48.8653203,2.3365346
+45,61,Le Peloton Café,06 18 80 84 92,"17 Rue du Pont Louis-Philippe, 75004 Paris, France",Cafe,48.8555452,2.3559075
+46,82,Joe's Café Dubai,04 320 0040,"fashion Avenue First Floor, Dubai Mall Star Atrium - Gate 6 - Burj Khalifa - Downtown Dubai - Dubai - United Arab Emirates",Restaurant,25.1962850,55.2774144
+47,82,Orto cafe,04 345 5060,395 Al Athar Street - Jumeirah - Jumeira Second - Dubai - United Arab Emirates,Cafe,25.1950095,55.2357981
+48,82,BRIX Café,054 515 7861,Jumeirah Fishing Harbour - Shop 1 - Al Urouba St - Jumeirah - Jumeira First - Dubai - United Arab Emirates,Coffee shop,25.2099358,55.2439711
+49,82,TEN 11 (The Dubai Mall),600 533339,Level 2 Fashion Avenue The Dubai Mall - برج خليفة - وسط مدينة دبي - دبي - United Arab Emirates,Coffee shop,25.1973446,55.2763129
+50,82,AVE Dubai,054 444 1254,Dubai Fountain St 502 Empire Heights Tower A - الخليج التجاري - دبي - United Arab Emirates,Restaurant,25.1917607,55.2843634
