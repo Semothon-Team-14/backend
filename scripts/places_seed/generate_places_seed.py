@@ -98,8 +98,9 @@ def main() -> int:
     )
 
     if args.dry_run:
-        for label, places in generated.items():
-            print(f"{label}: {len(places)} rows ready")
+        print(f"city_representative_images: {len(generated['city_representative_images'])} rows ready")
+        for label in ("cafes", "restaurants"):
+            print(f"{label}: {len(generated[label])} rows ready")
         return 0
 
     if not args.skip_database:
@@ -113,8 +114,11 @@ def main() -> int:
             ),
             cafes=generated["cafes"],
             restaurants=generated["restaurants"],
+            city_representative_images=generated["city_representative_images"],
         )
-        print("Inserted cafes, cafe_images, restaurants, and restaurant_images into the database.")
+        print(
+            "Inserted cafes, cafe_images, restaurants, restaurant_images, and city representative images into the database."
+        )
 
     return 0
 
@@ -126,10 +130,11 @@ def fetch_seed_data(
     args: argparse.Namespace,
     s3_config: S3Config,
     progress: dict,
-) -> dict[str, list[SeedPlace]]:
-    generated_outputs: dict[str, list[SeedPlace]] = {
+) -> dict[str, list[SeedPlace] | dict[int, str]]:
+    generated_outputs: dict[str, list[SeedPlace] | dict[int, str]] = {
         "cafes": [],
         "restaurants": [],
+        "city_representative_images": {},
     }
     next_starting_ids = {
         "cafes": 1,
@@ -149,6 +154,16 @@ def fetch_seed_data(
             aws_access_key_id=s3_config.access_key_id,
             aws_secret_access_key=s3_config.secret_access_key,
         )
+
+    city_representative_images = fetch_city_representative_images(
+        client=client,
+        cities=cities,
+        args=args,
+        s3_config=s3_config,
+        s3_client=s3_client,
+        progress=progress,
+    )
+    generated_outputs["city_representative_images"] = city_representative_images
 
     for config in PLACE_CONFIGS:
         for city in cities:
@@ -232,6 +247,99 @@ def fetch_seed_data(
             )
 
     return generated_outputs
+
+
+def fetch_city_representative_images(
+    *,
+    client: GooglePlacesClient,
+    cities,
+    args: argparse.Namespace,
+    s3_config: S3Config,
+    s3_client,
+    progress: dict,
+) -> dict[int, str]:
+    city_images: dict[int, str] = {}
+    for city in cities:
+        stored_image_url = get_progress_city_image(progress, city.id)
+        if stored_image_url:
+            city_images[city.id] = stored_image_url
+            continue
+
+        print(f"Fetching city representative image for {city.name_english}...")
+        search_results = []
+        for query_label in ("landmarks", "city skyline", "downtown"):
+            try:
+                fetched_results = client.search_places(
+                    city_name=city.name_english,
+                    place_type="tourist_attraction",
+                    query_label=query_label,
+                    page_size=args.max_search_results,
+                    photo_limit=1,
+                )
+            except GooglePlacesError as error:
+                print(
+                    f"Failed to fetch city image for {city.name_english} using '{query_label}': {error}",
+                    file=sys.stderr,
+                )
+                raise SystemExit(1) from error
+            search_results.extend(fetched_results)
+            image_url = first_photo_url(search_results)
+            if image_url:
+                uploaded_image_url = upload_city_photo(
+                    city_id=city.id,
+                    photo_url=image_url,
+                    s3_config=s3_config,
+                    s3_client=s3_client,
+                    dry_run=args.skip_s3_upload,
+                )
+                city_images[city.id] = uploaded_image_url
+                save_progress_city_image(
+                    progress=progress,
+                    city_id=city.id,
+                    image_url=uploaded_image_url,
+                    progress_path=args.progress_path,
+                )
+                break
+
+        if city.id not in city_images:
+            print(
+                f"{city.name_english}: unable to find a representative city image from Google Places.",
+                file=sys.stderr,
+            )
+            raise SystemExit(1)
+
+    return city_images
+
+
+def first_photo_url(search_results) -> str | None:
+    for result in search_results:
+        if result.photos:
+            return result.photos[0].url
+    return None
+
+
+def upload_city_photo(
+    *,
+    city_id: int,
+    photo_url: str,
+    s3_config: S3Config,
+    s3_client,
+    dry_run: bool,
+) -> str:
+    key = f"{s3_config.key_prefix}/cities/{city_id}/representative.jpg"
+    if dry_run:
+        return s3_config.public_url(key)
+
+    with urllib.request.urlopen(photo_url, timeout=60) as response:
+        content = response.read()
+        content_type = response.headers.get_content_type()
+    s3_client.put_object(
+        Bucket=s3_config.bucket,
+        Key=key,
+        Body=content,
+        ContentType=content_type or (mimetypes.guess_type(key)[0] or "image/jpeg"),
+    )
+    return s3_config.public_url(key)
 
 
 def upload_place_photos(
@@ -320,8 +428,13 @@ def load_local_env_defaults() -> dict[str, str]:
 
 def load_progress(progress_path: Path, *, reset: bool) -> dict:
     if reset or not progress_path.exists():
-        return {"cafes": {}, "restaurants": {}}
-    return json.loads(progress_path.read_text())
+        return {"cafes": {}, "restaurants": {}, "city_images": {}}
+
+    progress = json.loads(progress_path.read_text())
+    progress.setdefault("cafes", {})
+    progress.setdefault("restaurants", {})
+    progress.setdefault("city_images", {})
+    return progress
 
 
 def save_progress_places(
@@ -333,6 +446,18 @@ def save_progress_places(
     progress_path: Path,
 ) -> None:
     progress.setdefault(label, {})[str(city_id)] = [asdict(place) for place in places]
+    progress_path.parent.mkdir(parents=True, exist_ok=True)
+    progress_path.write_text(json.dumps(progress, ensure_ascii=False, indent=2))
+
+
+def save_progress_city_image(
+    *,
+    progress: dict,
+    city_id: int,
+    image_url: str,
+    progress_path: Path,
+) -> None:
+    progress.setdefault("city_images", {})[str(city_id)] = image_url
     progress_path.parent.mkdir(parents=True, exist_ok=True)
     progress_path.write_text(json.dumps(progress, ensure_ascii=False, indent=2))
 
@@ -488,6 +613,10 @@ def get_progress_places(progress: dict, label: str, city_id: int) -> list[SeedPl
     if not stored:
         return None
     return progress_place_to_seed_places(stored)
+
+
+def get_progress_city_image(progress: dict, city_id: int) -> str | None:
+    return progress.get("city_images", {}).get(str(city_id))
 
 
 if __name__ == "__main__":
