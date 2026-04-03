@@ -18,6 +18,7 @@ class MingleMapStruct(
             meetDateTime = entity.meetDateTime,
             latitude = entity.latitude,
             longitude = entity.longitude,
+            targetParticipantCount = entity.targetParticipantCount,
             createdDateTime = entity.createdDateTime,
             updatedDateTime = entity.updatedDateTime,
         )
