@@ -1,10 +1,10 @@
 package semo.backend.service
 
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import semo.backend.controller.request.SendChatMessageRequest
 import semo.backend.dto.ChatMessageDeliveryDto
-import semo.backend.dto.ChatMessageTranslationDto
 
 @Service
 @Transactional(readOnly = true)
@@ -35,16 +35,27 @@ class ChatRealtimeMessageService(
                         return@mapNotNull null
                     }
 
-                    val translatedContent = openAiTranslationService.translateText(
-                        originalContent = message.content,
-                        sourceCountryName = senderNationality.countryNameEnglish,
-                        targetCountryName = recipientNationality.countryNameEnglish,
-                    )
-                    chatMessageTranslationService.upsertChatMessageTranslation(
-                        userId = participant.user.id,
-                        chatMessageId = message.id,
-                        translatedContent = translatedContent,
-                    )
+                    try {
+                        val translatedContent = openAiTranslationService.translateText(
+                            originalContent = message.content,
+                            sourceCountryName = senderNationality.countryNameEnglish,
+                            targetCountryName = recipientNationality.countryNameEnglish,
+                        )
+                        chatMessageTranslationService.upsertChatMessageTranslation(
+                            userId = participant.user.id,
+                            chatMessageId = message.id,
+                            translatedContent = translatedContent,
+                        )
+                    } catch (exception: Exception) {
+                        log.warn(
+                            "CHAT TRANSLATION SKIPPED chatMessageId={} senderUserId={} recipientUserId={} reason={}",
+                            message.id,
+                            userId,
+                            participant.user.id,
+                            exception.message ?: exception::class.simpleName ?: "unknown",
+                        )
+                        null
+                    }
                 }
                 .toList()
         }
@@ -53,5 +64,9 @@ class ChatRealtimeMessageService(
             message = message,
             translations = translations,
         )
+    }
+
+    companion object {
+        private val log = LoggerFactory.getLogger(ChatRealtimeMessageService::class.java)
     }
 }
