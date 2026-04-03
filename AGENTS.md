@@ -57,3 +57,30 @@
 - Save notes must be stored under `save-notes/`, not in the repository root.
 - The save note filename must use Korea Standard Time in `YYYYMMDDHHmm.md` format.
 - Save notes should be concise and practical for teammates continuing the work.
+
+## Active Backend Notes (2026-04)
+
+- Quick Match now uses city-wide matching semantics and direct chat-room creation on accept.
+- No new mingle should be auto-created from quick-match accept flow.
+- Legacy quick-match-generated mingle cleanup migration exists and must remain FK-safe.
+- Mingle supports optional:
+- `placeName`,
+- `meetDateTime`,
+- `targetParticipantCount`.
+- City supports:
+- `representativeImageUrl`,
+- center coordinates for map focus.
+- Keywords include English label support for locale-specific UI rendering.
+- Chat participants use last-read tracking for unread count support.
+
+## Backend I18N Support Rule
+
+- Any backend response used in finalized UI should support full Korean/English UX.
+- For DB-backed labels shown to users, keep locale-capable fields (for example `label` + `labelEnglish`) and avoid Korean-only payload assumptions.
+- Do not hardcode locale text in backend business logic unless explicitly required for system/internal reasons.
+
+## Backend Next Steps
+
+1. Verify all migrations against non-empty DB state before merge (especially cleanup migrations touching FK-linked rows).
+2. Keep WebSocket docs updated whenever payload/event semantics change.
+3. Preserve compatibility for frontend locale rendering by keeping English-capable fields populated.
