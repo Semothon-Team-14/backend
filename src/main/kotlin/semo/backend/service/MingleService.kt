@@ -73,22 +73,6 @@ class MingleService(
     }
 
     @Transactional
-    fun createMingleForQuickMatch(cityId: Long, title: String, description: String?): Mingle {
-        return mingleRepository.save(
-            createMingleEntity(
-                cityId = cityId,
-                title = title,
-                description = description,
-                placeName = null,
-                meetDateTime = null,
-                latitude = null,
-                longitude = null,
-                targetParticipantCount = null,
-            ),
-        )
-    }
-
-    @Transactional
     fun updateMingle(mingleId: Long, request: UpdateMingleRequest): MingleDto {
         val mingle = findMingleById(mingleId)
         request.cityId.applyIfProvided { cityId ->
