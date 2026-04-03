@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260403235500-add-city-representative-image-url
+      author: codex
+      changes:
+        - addColumn:
+            tableName: cities
+            columns:
+              - column:
+                  name: representative_image_url
+                  type: VARCHAR(1024)
