@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260404010000-1-add-city-center-coordinates
+      author: codex
+      changes:
+        - addColumn:
+            tableName: cities
+            columns:
+              - column:
+                  name: center_latitude
+                  type: DECIMAL(10,7)
+              - column:
+                  name: center_longitude
+                  type: DECIMAL(10,7)
