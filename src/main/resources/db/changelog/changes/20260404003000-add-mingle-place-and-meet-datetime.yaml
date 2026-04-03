@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260404003000-add-mingle-place-and-meet-datetime
+      author: codex
+      changes:
+        - addColumn:
+            tableName: mingles
+            columns:
+              - column:
+                  name: place_name
+                  type: VARCHAR(255)
+              - column:
+                  name: meet_date_time
+                  type: TIMESTAMP
