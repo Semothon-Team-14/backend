@@ -26,7 +26,9 @@ class ChatMessageService(
 ) {
     fun getChatMessages(userId: Long, chatRoomId: Long): List<ChatMessageDto> {
         chatRoomService.validateParticipation(userId, chatRoomId)
-        return chatMessageMapStruct.toDtos(chatMessageRepository.findAllByChatRoomIdOrderByCreatedDateTimeAsc(chatRoomId))
+        val messages = chatMessageMapStruct.toDtos(chatMessageRepository.findAllByChatRoomIdOrderByCreatedDateTimeAsc(chatRoomId))
+        chatRoomService.markChatRoomAsRead(userId, chatRoomId)
+        return messages
     }
 
     @Transactional
