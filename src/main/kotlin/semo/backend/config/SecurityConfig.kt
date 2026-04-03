@@ -39,6 +39,7 @@ class SecurityConfig(
                         "/error",
                     )
                     .permitAll()
+                    .requestMatchers(HttpMethod.GET, "/nationalities", "/nationalities/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/users").permitAll()
                     .anyRequest()
                     .authenticated()
