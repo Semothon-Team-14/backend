@@ -28,6 +28,7 @@ import semo.backend.repository.jpa.SavedRestaurantRepository
 import semo.backend.repository.jpa.UserRepository
 import semo.backend.util.applyIfProvided
 import java.util.UUID
+import kotlin.random.Random
 
 @Service
 @Transactional(readOnly = true)
@@ -57,6 +58,9 @@ class UserService(
     @Transactional
     fun createUser(request: CreateUserRequest): UserDto {
         val user = userMapStruct.toEntity(request)
+        if (user.profileImageUrl.isNullOrBlank()) {
+            user.profileImageUrl = pickRandomDefaultProfileImageUrl()
+        }
         user.nationality = request.nationalityId?.let(::findNationalityById)
         user.keywords = resolveKeywords(request.keywordIds)
         val savedUser = userRepository.save(user)
@@ -225,5 +229,11 @@ class UserService(
             "image/heic" -> "heic"
             else -> "bin"
         }
+    }
+
+    private fun pickRandomDefaultProfileImageUrl(): String {
+        val avatarIndex = Random.nextInt(1, 10)
+        val key = "defaults/profile-avatars/avatar_$avatarIndex.png"
+        return awsS3Properties.buildPublicUrlForBucket(awsS3Properties.profilePicturesBucket, key)
     }
 }
