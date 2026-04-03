@@ -20,6 +20,7 @@ class AccessTokenAuthenticationFilter(
         return path == "/auth/login" ||
             (path == "/users" && request.method == "POST") ||
             (request.method == "GET" && (path == "/nationalities" || path.startsWith("/nationalities/"))) ||
+            (request.method == "GET" && (path == "/cities" || path.startsWith("/cities/"))) ||
             (request.method == "GET" && (path == "/keywords" || path.startsWith("/keywords/"))) ||
             path == "/swagger-ui.html" ||
             path.startsWith("/swagger-ui/") ||
