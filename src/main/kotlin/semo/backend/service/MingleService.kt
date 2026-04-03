@@ -2,6 +2,7 @@ package semo.backend.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.math.BigDecimal
 import semo.backend.controller.request.CreateMingleRequest
 import semo.backend.controller.request.UpdateMingleRequest
 import semo.backend.dto.MingleDto
@@ -49,6 +50,8 @@ class MingleService(
             cityId = request.cityId,
             title = request.title,
             description = request.description,
+            latitude = request.latitude,
+            longitude = request.longitude,
         )
         return mingleMapStruct.toDto(mingleRepository.save(mingle))
     }
@@ -60,6 +63,8 @@ class MingleService(
                 cityId = cityId,
                 title = title,
                 description = description,
+                latitude = null,
+                longitude = null,
             ),
         )
     }
@@ -75,6 +80,8 @@ class MingleService(
             mingle.title = title ?: throw MingleTitleRequiredException()
         }
         request.description.applyIfProvided { description -> mingle.description = description }
+        request.latitude.applyIfProvided { latitude -> mingle.latitude = latitude }
+        request.longitude.applyIfProvided { longitude -> mingle.longitude = longitude }
         return mingleMapStruct.toDto(mingleRepository.save(mingle))
     }
 
@@ -101,11 +108,19 @@ class MingleService(
             .orElseThrow { CityNotFoundException(cityId) }
     }
 
-    private fun createMingleEntity(cityId: Long, title: String, description: String?): Mingle {
+    private fun createMingleEntity(
+        cityId: Long,
+        title: String,
+        description: String?,
+        latitude: BigDecimal?,
+        longitude: BigDecimal?,
+    ): Mingle {
         return Mingle(
             city = findCityById(cityId),
             title = title,
             description = description,
+            latitude = latitude,
+            longitude = longitude,
         )
     }
 }
