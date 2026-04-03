@@ -22,6 +22,7 @@ import semo.backend.controller.response.GetMingleResponse
 import semo.backend.controller.response.GetMinglersResponse
 import semo.backend.controller.response.GetMinglesResponse
 import semo.backend.controller.response.UpdateMingleResponse
+import semo.backend.facade.ChatRoomFacade
 import semo.backend.facade.MingleFacade
 import semo.backend.facade.MinglerFacade
 import semo.backend.security.UserId
@@ -31,6 +32,7 @@ import semo.backend.security.UserId
 class MingleController(
     private val mingleFacade: MingleFacade,
     private val minglerFacade: MinglerFacade,
+    private val chatRoomFacade: ChatRoomFacade,
 ) {
     @GetMapping
     fun getMingles(
@@ -95,8 +97,10 @@ class MingleController(
         @UserId userId: Long,
         @PathVariable mingleId: Long,
     ): CreateMinglerResponse {
+        val mingler = minglerFacade.joinMingle(userId, mingleId)
+        chatRoomFacade.ensureMingleChatRoomAndJoin(userId, mingleId)
         return CreateMinglerResponse(
-            mingler = minglerFacade.joinMingle(userId, mingleId),
+            mingler = mingler,
         )
     }
 
@@ -105,6 +109,7 @@ class MingleController(
         @UserId userId: Long,
         @PathVariable mingleId: Long,
     ): DeleteMinglerResponse {
+        chatRoomFacade.leaveMingleChatRoom(userId, mingleId)
         return DeleteMinglerResponse(
             deletedMinglerId = minglerFacade.leaveMingle(userId, mingleId),
         )
