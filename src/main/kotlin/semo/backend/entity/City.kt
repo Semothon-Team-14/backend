@@ -19,6 +19,9 @@ class City(
     @Column(name = "city_name_korean", nullable = false)
     var cityNameKorean: String,
 
+    @Column(name = "representative_image_url")
+    var representativeImageUrl: String? = null,
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nationality_id", nullable = false)
     var nationality: Nationality,
