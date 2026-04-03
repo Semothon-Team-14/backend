@@ -16,6 +16,7 @@ import semo.backend.mapstruct.ChatRoomMapStruct
 import semo.backend.repository.jpa.ChatMessageRepository
 import semo.backend.repository.jpa.ChatParticipantRepository
 import semo.backend.repository.jpa.ChatRoomRepository
+import semo.backend.repository.jpa.LocalRepository
 import semo.backend.repository.jpa.UserRepository
 import java.time.LocalDateTime
 
@@ -29,6 +30,7 @@ class ChatRoomService(
     private val mingleService: MingleService,
     private val minglerService: MinglerService,
     private val chatRoomMapStruct: ChatRoomMapStruct,
+    private val localRepository: LocalRepository,
 ) {
     fun getChatRooms(userId: Long): List<ChatRoomDto> {
         findUserById(userId)
@@ -39,7 +41,9 @@ class ChatRoomService(
         )
 
         return chatRooms.map { chatRoom ->
-            chatRoomMapStruct.toDto(chatRoom).copy(
+            toDtoForUser(
+                chatRoom = chatRoom,
+                currentUserId = userId,
                 unreadMessageCount = unreadCountByChatRoomId[chatRoom.id] ?: 0,
             )
         }
@@ -51,7 +55,9 @@ class ChatRoomService(
             chatRoomIds = listOf(chatRoomId),
             userId = userId,
         )
-        return chatRoomMapStruct.toDto(chatRoom).copy(
+        return toDtoForUser(
+            chatRoom = chatRoom,
+            currentUserId = userId,
             unreadMessageCount = unreadCountByChatRoomId[chatRoomId] ?: 0,
         )
     }
@@ -80,7 +86,10 @@ class ChatRoomService(
             val existingDirectChatRoom = chatRoomRepository.findDirectChatRoomBetweenUsers(userId, otherUserId)
                 ?: chatRoomRepository.findDirectChatRoomBetweenUsers(otherUserId, userId)
             if (existingDirectChatRoom != null) {
-                return chatRoomMapStruct.toDto(existingDirectChatRoom)
+                return toDtoForUser(
+                    chatRoom = existingDirectChatRoom,
+                    currentUserId = userId,
+                )
             }
         }
 
@@ -121,14 +130,20 @@ class ChatRoomService(
         chatParticipantRepository.saveAll(participants)
         chatRoom.participants = participants.toMutableSet()
 
-        return chatRoomMapStruct.toDto(chatRoom)
+        return toDtoForUser(
+            chatRoom = chatRoom,
+            currentUserId = userId,
+        )
     }
 
     @Transactional
     fun createMingleChatRoom(mingleId: Long, participantUserIds: Set<Long>): ChatRoomDto {
         val existingChatRoom = chatRoomRepository.findByMingleId(mingleId)
         if (existingChatRoom != null) {
-            return chatRoomMapStruct.toDto(existingChatRoom)
+            return toDtoForUser(
+                chatRoom = existingChatRoom,
+                currentUserId = participantUserIds.firstOrNull() ?: 0,
+            )
         }
 
         val mingle = mingleService.findMingleById(mingleId)
@@ -157,7 +172,10 @@ class ChatRoomService(
 
         chatParticipantRepository.saveAll(participants)
         chatRoom.participants = participants.toMutableSet()
-        return chatRoomMapStruct.toDto(chatRoom)
+        return toDtoForUser(
+            chatRoom = chatRoom,
+            currentUserId = participantUserIds.firstOrNull() ?: 0,
+        )
     }
 
     @Transactional
@@ -180,7 +198,10 @@ class ChatRoomService(
         }
 
         val reloaded = chatRoomRepository.findByIdAndParticipantsUserId(chatRoom.id, userId) ?: chatRoom
-        return chatRoomMapStruct.toDto(reloaded)
+        return toDtoForUser(
+            chatRoom = reloaded,
+            currentUserId = userId,
+        )
     }
 
     @Transactional
@@ -246,5 +267,24 @@ class ChatRoomService(
     private fun findUserById(userId: Long): User {
         return userRepository.findById(userId)
             .orElseThrow { UserNotFoundException(userId) }
+    }
+
+    private fun toDtoForUser(
+        chatRoom: ChatRoom,
+        currentUserId: Long,
+        unreadMessageCount: Long = 0,
+    ): ChatRoomDto {
+        val base = chatRoomMapStruct.toDto(chatRoom)
+        val otherParticipantId = if (base.directChat) {
+            base.participantUserIds.firstOrNull { it != currentUserId }
+        } else {
+            null
+        }
+        val otherParticipantLocal = otherParticipantId?.let(localRepository::existsByUserId)
+
+        return base.copy(
+            unreadMessageCount = unreadMessageCount,
+            otherParticipantLocal = otherParticipantLocal,
+        )
     }
 }
