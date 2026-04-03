@@ -3,6 +3,8 @@ package semo.backend.service
 import jakarta.persistence.EntityManager
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.multipart.MultipartFile
+import semo.backend.config.AwsS3Properties
 import semo.backend.controller.request.CreateUserRequest
 import semo.backend.controller.request.UpdateUserRequest
 import semo.backend.entity.Nationality
@@ -11,6 +13,8 @@ import semo.backend.entity.Keyword
 import semo.backend.entity.User
 import semo.backend.exception.keyword.KeywordNotFoundException
 import semo.backend.exception.nationality.NationalityNotFoundException
+import semo.backend.exception.user.InvalidProfileImageException
+import semo.backend.exception.user.ProfileImageStorageNotConfiguredException
 import semo.backend.exception.user.UserNotFoundException
 import semo.backend.mapstruct.UserMapStruct
 import semo.backend.repository.jpa.KeywordRepository
@@ -23,6 +27,7 @@ import semo.backend.repository.jpa.SavedCafeRepository
 import semo.backend.repository.jpa.SavedRestaurantRepository
 import semo.backend.repository.jpa.UserRepository
 import semo.backend.util.applyIfProvided
+import java.util.UUID
 
 @Service
 @Transactional(readOnly = true)
@@ -38,6 +43,8 @@ class UserService(
     private val minglerRepository: MinglerRepository,
     private val quickMatchRepository: QuickMatchRepository,
     private val quickMatchResponseRepository: QuickMatchResponseRepository,
+    private val awsS3Properties: AwsS3Properties,
+    private val awsS3StorageService: AwsS3StorageService? = null,
 ) {
     fun getUsers(): List<UserDto> {
         return userMapStruct.toDtos(userRepository.findAll())
@@ -66,12 +73,42 @@ class UserService(
         request.phone.applyIfProvided { user.phone = it }
         request.sex.applyIfProvided { user.sex = it }
         request.introduction.applyIfProvided { user.introduction = it }
+        request.profileImageUrl.applyIfProvided { user.profileImageUrl = it }
         request.nationalityId.applyIfProvided { nationalityId ->
             user.nationality = nationalityId?.let(::findNationalityById)
         }
         request.keywordIds.applyIfProvided { keywordIds ->
             user.keywords = keywordIds?.let(::resolveKeywords) ?: mutableSetOf()
         }
+        return userMapStruct.toDto(userRepository.save(user))
+    }
+
+    @Transactional
+    fun uploadProfileImage(userId: Long, file: MultipartFile): UserDto {
+        val storageService = awsS3StorageService ?: throw ProfileImageStorageNotConfiguredException()
+        if (file.isEmpty || file.size <= 0L) {
+            throw InvalidProfileImageException("Profile image file is empty")
+        }
+
+        val contentType = file.contentType?.trim().orEmpty()
+        if (!contentType.startsWith("image/")) {
+            throw InvalidProfileImageException("Profile image must be an image file")
+        }
+
+        val extension = resolveFileExtension(file.originalFilename, contentType)
+        val key = "users/$userId/${UUID.randomUUID()}.$extension"
+        val uploadedUrl = file.inputStream.use { inputStream ->
+            storageService.uploadPublicObjectToBucket(
+                bucket = awsS3Properties.profilePicturesBucket,
+                key = key,
+                contentType = contentType,
+                contentLength = file.size,
+                inputStream = inputStream,
+            )
+        }
+
+        val user = findUserById(userId)
+        user.profileImageUrl = uploadedUrl
         return userMapStruct.toDto(userRepository.save(user))
     }
 
@@ -169,5 +206,24 @@ class UserService(
         }
 
         return keywords.toMutableSet()
+    }
+
+    private fun resolveFileExtension(originalFilename: String?, contentType: String): String {
+        val fromFilename = originalFilename
+            ?.substringAfterLast('.', "")
+            ?.trim()
+            ?.lowercase()
+            ?.takeIf { it.isNotEmpty() }
+        if (fromFilename != null) {
+            return fromFilename
+        }
+
+        return when (contentType.lowercase()) {
+            "image/jpeg", "image/jpg" -> "jpg"
+            "image/png" -> "png"
+            "image/webp" -> "webp"
+            "image/heic" -> "heic"
+            else -> "bin"
+        }
     }
 }
