@@ -3,19 +3,19 @@ databaseChangeLog:
       id: 20260403165000-reseed-place-data-from-rds
       author: codex
       preConditions:
-        onFail: MARK_RAN
-        onError: HALT
+        - onFail: MARK_RAN
+        - onError: HALT
         - sqlCheck:
-            expectedResult: 0
+            expectedResult: "0"
             sql: SELECT COUNT(*) FROM cafes
         - sqlCheck:
-            expectedResult: 0
+            expectedResult: "0"
             sql: SELECT COUNT(*) FROM restaurants
         - sqlCheck:
-            expectedResult: 0
+            expectedResult: "0"
             sql: SELECT COUNT(*) FROM cafe_images
         - sqlCheck:
-            expectedResult: 0
+            expectedResult: "0"
             sql: SELECT COUNT(*) FROM restaurant_images
       changes:
         - loadData:
