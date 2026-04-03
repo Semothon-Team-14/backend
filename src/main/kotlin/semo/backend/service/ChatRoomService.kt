@@ -295,22 +295,19 @@ class ChatRoomService(
         } else {
             null
         }
-        val otherParticipantLocal = otherParticipantId?.let { participantId ->
-            val travelerNow = tripRepository.existsActiveTripByUserId(
+        val otherParticipantTraveler = otherParticipantId?.let { participantId ->
+            tripRepository.existsActiveTripByUserId(
                 userId = participantId,
                 targetDate = LocalDate.now(),
             )
-            if (travelerNow) {
-                false
-            } else {
-                localRepository.existsByUserId(participantId)
-            }
-        }
+        } ?: false
+        val otherParticipantLocal = otherParticipantId?.let(localRepository::existsByUserId)
 
         return base.copy(
             name = resolvedMingleName,
             unreadMessageCount = unreadMessageCount,
             otherParticipantLocal = otherParticipantLocal,
+            otherParticipantTraveler = otherParticipantTraveler,
         )
     }
 }
