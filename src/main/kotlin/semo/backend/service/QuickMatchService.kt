@@ -1,6 +1,7 @@
 package semo.backend.service
 
 import org.springframework.messaging.simp.SimpMessagingTemplate
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import semo.backend.controller.request.CreateQuickMatchRequest
@@ -91,6 +92,14 @@ class QuickMatchService(
             cityId = city.id,
             excludeUserId = requester.id,
             targetType = request.targetType,
+        )
+        log.info(
+            "QM CREATE id={} requesterUserId={} cityId={} targetType={} targetUserCount={}",
+            quickMatch.id,
+            requester.id,
+            city.id,
+            request.targetType.name,
+            targetUserIds.size,
         )
         publishCityAlert(
             cityId = city.id,
@@ -254,11 +263,25 @@ class QuickMatchService(
             "/topic/cities/$cityId/quick-matches",
             typedTopic,
         ).forEach { destination ->
+            log.info(
+                "QM WS PUBLISH CITY dest={} eventType={} quickMatchId={} targetType={} targetUserCount={}",
+                destination,
+                eventType,
+                quickMatch.id,
+                targetType.name,
+                targetUserIds.size,
+            )
             simpMessagingTemplate.convertAndSend(destination, payload)
         }
     }
 
     private fun publishUserAlert(userId: Long, eventType: String, quickMatch: QuickMatch) {
+        log.info(
+            "QM WS PUBLISH USER dest={} eventType={} quickMatchId={}",
+            "/topic/users/$userId/quick-matches",
+            eventType,
+            quickMatch.id,
+        )
         simpMessagingTemplate.convertAndSend(
             "/topic/users/$userId/quick-matches",
             UserQuickMatchSocketEvent(
@@ -294,4 +317,8 @@ class QuickMatchService(
         val eventType: String,
         val quickMatch: QuickMatchDto,
     )
+
+    companion object {
+        private val log = LoggerFactory.getLogger(QuickMatchService::class.java)
+    }
 }
