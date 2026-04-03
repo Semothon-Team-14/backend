@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: 021-add-chat-participant-last-read
+      author: codex
+      changes:
+        - addColumn:
+            tableName: chat_participants
+            columns:
+              - column:
+                  name: last_read_date_time
+                  type: TIMESTAMP
+        - sql:
+            sql: |
+              update chat_participants
+              set last_read_date_time = joined_date_time
+              where last_read_date_time is null;
