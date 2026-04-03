@@ -12,4 +12,5 @@ data class UpdateMingleRequest(
     val meetDateTime: Optional<LocalDateTime>? = null,
     val latitude: Optional<BigDecimal>? = null,
     val longitude: Optional<BigDecimal>? = null,
+    val targetParticipantCount: Optional<Int>? = null,
 )
