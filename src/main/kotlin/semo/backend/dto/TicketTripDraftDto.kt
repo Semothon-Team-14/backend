@@ -6,6 +6,7 @@ import java.time.LocalDateTime
 data class TicketTripDraftDto(
     val title: String,
     val cityId: Long,
+    val fromCityId: Long?,
     val startDate: LocalDate,
     val endDate: LocalDate,
     val departureDateTime: LocalDateTime?,
