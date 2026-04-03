@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import semo.backend.controller.request.CreateQuickMatchRequest
+import semo.backend.controller.request.InitializeChatRoomRequest
+import semo.backend.dto.ChatRoomDto
 import semo.backend.dto.QuickMatchAcceptResultDto
 import semo.backend.dto.QuickMatchDto
 import semo.backend.entity.City
@@ -20,7 +22,6 @@ import semo.backend.exception.quickmatch.QuickMatchNotFoundException
 import semo.backend.exception.quickmatch.QuickMatchResponderNotEligibleException
 import semo.backend.exception.quickmatch.QuickMatchSelfResponseNotAllowedException
 import semo.backend.exception.user.UserNotFoundException
-import semo.backend.mapstruct.MingleMapStruct
 import semo.backend.mapstruct.QuickMatchMapStruct
 import semo.backend.repository.jpa.CityRepository
 import semo.backend.repository.jpa.QuickMatchRepository
@@ -39,11 +40,8 @@ class QuickMatchService(
     private val cityRepository: CityRepository,
     private val tripRepository: TripRepository,
     private val localService: LocalService,
-    private val mingleService: MingleService,
-    private val minglerService: MinglerService,
     private val chatRoomService: ChatRoomService,
     private val quickMatchMapStruct: QuickMatchMapStruct,
-    private val mingleMapStruct: MingleMapStruct,
     private val simpMessagingTemplate: SimpMessagingTemplate,
 ) {
     fun getQuickMatches(cityId: Long?, targetType: QuickMatchTargetType?): List<QuickMatchDto> {
@@ -126,21 +124,18 @@ class QuickMatchService(
         val now = LocalDateTime.now()
         upsertResponse(quickMatch, responder, QuickMatchResponseStatus.ACCEPTED, now)
 
-        val createdMingle = mingleService.createMingleForQuickMatch(
-            cityId = quickMatch.city.id,
-            title = "Quick Match in ${quickMatch.city.cityNameEnglish}",
-            description = quickMatch.message,
-        )
-        minglerService.ensureJoinedMingle(quickMatch.requesterUser.id, createdMingle.id)
-        minglerService.ensureJoinedMingle(responder.id, createdMingle.id)
-        val createdChatRoom = chatRoomService.createMingleChatRoom(
-            mingleId = createdMingle.id,
-            participantUserIds = setOf(quickMatch.requesterUser.id, responder.id),
+        val createdChatRoom = chatRoomService.initializeChatRoom(
+            userId = quickMatch.requesterUser.id,
+            request = InitializeChatRoomRequest(
+                participantUserIds = listOf(responder.id),
+                name = null,
+                mingleId = null,
+            ),
         )
 
         quickMatch.status = QuickMatchStatus.ACCEPTED
         quickMatch.acceptedByUser = responder
-        quickMatch.mingle = createdMingle
+        quickMatch.mingle = null
         quickMatch.updatedDateTime = now
         val savedQuickMatch = quickMatchRepository.save(quickMatch)
 
@@ -151,12 +146,22 @@ class QuickMatchService(
             targetType = QuickMatchTargetType.ANY,
             targetUserIds = emptyList(),
         )
-        publishUserAlert(quickMatch.requesterUser.id, "QUICK_MATCH_ACCEPTED", savedQuickMatch)
-        publishUserAlert(responder.id, "QUICK_MATCH_ACCEPTED", savedQuickMatch)
+        publishUserAlert(
+            userId = quickMatch.requesterUser.id,
+            eventType = "QUICK_MATCH_ACCEPTED",
+            quickMatch = savedQuickMatch,
+            chatRoom = createdChatRoom,
+        )
+        publishUserAlert(
+            userId = responder.id,
+            eventType = "QUICK_MATCH_ACCEPTED",
+            quickMatch = savedQuickMatch,
+            chatRoom = createdChatRoom,
+        )
 
         return QuickMatchAcceptResultDto(
             quickMatch = quickMatchMapStruct.toDto(savedQuickMatch),
-            mingle = mingleMapStruct.toDto(createdMingle),
+            mingle = null,
             chatRoom = createdChatRoom,
         )
     }
@@ -273,7 +278,7 @@ class QuickMatchService(
         }
     }
 
-    private fun publishUserAlert(userId: Long, eventType: String, quickMatch: QuickMatch) {
+    private fun publishUserAlert(userId: Long, eventType: String, quickMatch: QuickMatch, chatRoom: ChatRoomDto? = null) {
         log.info(
             "QM WS PUBLISH USER dest={} eventType={} quickMatchId={}",
             "/topic/users/$userId/quick-matches",
@@ -285,6 +290,7 @@ class QuickMatchService(
             UserQuickMatchSocketEvent(
                 eventType = eventType,
                 quickMatch = quickMatchMapStruct.toDto(quickMatch),
+                chatRoom = chatRoom,
             ),
         )
     }
@@ -314,6 +320,7 @@ class QuickMatchService(
     data class UserQuickMatchSocketEvent(
         val eventType: String,
         val quickMatch: QuickMatchDto,
+        val chatRoom: ChatRoomDto? = null,
     )
 
     companion object {
