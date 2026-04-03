@@ -26,6 +26,14 @@ class ChatRoomFacade(
         return chatRoomService.joinMingleChatRoom(userId, mingleId)
     }
 
+    fun ensureMingleChatRoomAndJoin(userId: Long, mingleId: Long): ChatRoomDto {
+        return chatRoomService.ensureMingleChatRoomAndJoin(userId, mingleId)
+    }
+
+    fun leaveMingleChatRoom(userId: Long, mingleId: Long) {
+        chatRoomService.leaveMingleChatRoom(userId, mingleId)
+    }
+
     fun markChatRoomAsRead(userId: Long, chatRoomId: Long): LocalDateTime {
         return chatRoomService.markChatRoomAsRead(userId, chatRoomId)
     }
