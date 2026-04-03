@@ -19,6 +19,8 @@ class AccessTokenAuthenticationFilter(
         val path = request.servletPath
         return path == "/auth/login" ||
             (path == "/users" && request.method == "POST") ||
+            (request.method == "GET" && (path == "/nationalities" || path.startsWith("/nationalities/"))) ||
+            (request.method == "GET" && (path == "/keywords" || path.startsWith("/keywords/"))) ||
             path == "/swagger-ui.html" ||
             path.startsWith("/swagger-ui/") ||
             path == "/api-docs" ||
