@@ -1,6 +1,6 @@
 # Places Seed Scripts
 
-This directory contains Python scripts for generating cafe and restaurant seed data from the Google Places API, uploading place photos to S3, and inserting the resulting rows into the local PostgreSQL database.
+This directory contains Python scripts for generating cafe and restaurant seed data from the Google Places API, uploading place photos to S3, and inserting the resulting rows into the local PostgreSQL database. It also fetches one representative image per city and updates `cities.representative_image_url`.
 
 This is a local-only seed job. It is not intended to run as part of the main production deploy flow.
 
@@ -12,6 +12,7 @@ Running the generator inserts rows into these tables:
 - `cafe_images`
 - `restaurants`
 - `restaurant_images`
+- updates `cities.representative_image_url`
 
 The current default run targets 10 major cities already present in `src/main/resources/db/changelog/data/cities.csv`:
 
@@ -31,6 +32,7 @@ For each city, the script stores:
 - 5 cafes
 - 5 restaurants
 - 3 photos per cafe or restaurant
+- 1 city representative image (`places/cities/{city_id}/representative.jpg`)
 
 If a city does not have enough usable Google Places results, the run fails instead of writing partial data.
 
@@ -76,6 +78,7 @@ python3 scripts/places_seed/generate_places_seed.py \
 ## Notes
 
 - By default the script truncates and reloads `cafes`, `cafe_images`, `restaurants`, and `restaurant_images`.
+- The script updates `cities.representative_image_url` for the seeded city IDs.
 - The default database connection values match `src/main/resources/application-local.yaml` and `compose.yaml`.
 - Progress is tracked in `scripts/places_seed/output/google_places_progress.json`, so reruns can continue without repeating finished city/category work.
 - Image URLs stored in the database are public S3 object URLs, not Google media URLs.
