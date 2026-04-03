@@ -14,6 +14,8 @@ interface CityMapStruct : GenericMapStruct<City, CityDto> {
             cityNameEnglish = entity.cityNameEnglish,
             cityNameKorean = entity.cityNameKorean,
             representativeImageUrl = entity.representativeImageUrl,
+            centerLatitude = entity.centerLatitude,
+            centerLongitude = entity.centerLongitude,
         )
     }
 }
