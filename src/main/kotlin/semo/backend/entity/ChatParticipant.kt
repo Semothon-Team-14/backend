@@ -24,6 +24,9 @@ class ChatParticipant(
 
     @Column(name = "joined_date_time", nullable = false)
     var joinedDateTime: LocalDateTime,
+
+    @Column(name = "last_read_date_time")
+    var lastReadDateTime: LocalDateTime? = null,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
