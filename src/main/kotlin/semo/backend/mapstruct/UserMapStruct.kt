@@ -23,6 +23,7 @@ abstract class UserMapStruct : GenericMapStruct<User, UserDto> {
             phone = entity.phone,
             sex = entity.sex,
             introduction = entity.introduction,
+            profileImageUrl = entity.profileImageUrl,
             nationalityId = entity.nationality?.id,
             keywords = keywordMapStruct.toDtos(
                 entity.keywords
