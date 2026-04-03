@@ -25,6 +25,8 @@ import java.awt.geom.AffineTransform
 import java.awt.image.BufferedImage
 import java.io.ByteArrayInputStream
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 import java.util.Base64
 import javax.imageio.ImageIO
@@ -51,11 +53,26 @@ class TicketValidationService(
         }
 
         val titleBase = selectedCity.cityNameKorean.ifBlank { selectedCity.cityNameEnglish }
+        val departureDateTime = parsed.departureTime?.let { LocalDateTime.of(parsed.flightDate, it) }
+        val departureLandingDateTime = parsed.landingTime?.let { landingTime ->
+            if (departureDateTime == null) {
+                LocalDateTime.of(parsed.flightDate, landingTime)
+            } else {
+                val landingDate = if (landingTime.isBefore(departureDateTime.toLocalTime())) {
+                    parsed.flightDate.plusDays(1)
+                } else {
+                    parsed.flightDate
+                }
+                LocalDateTime.of(landingDate, landingTime)
+            }
+        }
         val draft = TicketTripDraftDto(
             title = "$titleBase 여행",
             cityId = selectedCity.id,
             startDate = parsed.flightDate,
             endDate = parsed.flightDate,
+            departureDateTime = departureDateTime,
+            departureLandingDateTime = departureLandingDateTime,
             passengerName = parsed.passengerName,
             fromAirportCode = parsed.fromAirportCode,
             toAirportCode = parsed.toAirportCode,
@@ -66,7 +83,7 @@ class TicketValidationService(
         )
 
         logger.info(
-            "BOARDING_PASS_PARSED cityId={} cityName={} passengerName={} route={}->{} carrier={} flightNumber={} date={} format={}",
+            "BOARDING_PASS_PARSED cityId={} cityName={} passengerName={} route={}->{} carrier={} flightNumber={} date={} dep={} land={} format={}",
             draft.cityId,
             titleBase,
             draft.passengerName,
@@ -75,6 +92,8 @@ class TicketValidationService(
             draft.operatingCarrierDesignator,
             draft.flightNumber,
             draft.startDate,
+            draft.departureDateTime,
+            draft.departureLandingDateTime,
             draft.barcodeFormat,
         )
 
@@ -202,6 +221,7 @@ class TicketValidationService(
             normalized.substring(39, 44).trim()
         }
         val julianDate = normalized.substring(44, 47).trim()
+        val timeCandidates = extractTimeCandidates(normalized, flightNumber)
 
         return ParsedBoardingPass(
             rawData = normalized,
@@ -211,7 +231,26 @@ class TicketValidationService(
             operatingCarrierDesignator = operatingCarrierDesignator,
             flightNumber = flightNumber,
             flightDate = inferFlightDate(julianDate),
+            departureTime = timeCandidates.firstOrNull(),
+            landingTime = timeCandidates.drop(1).firstOrNull(),
         )
+    }
+
+    private fun extractTimeCandidates(rawData: String, flightNumber: String): List<LocalTime> {
+        val paddedFlightNumber = flightNumber.padStart(4, '0')
+        val uniqueTimes = linkedMapOf<String, LocalTime>()
+        val regex = Regex("""(?<!\d)([01]\d|2[0-3])[:]?([0-5]\d)(?!\d)""")
+        regex.findAll(rawData).forEach { match ->
+            val token = match.value.replace(":", "")
+            if (token == paddedFlightNumber) {
+                return@forEach
+            }
+            val hour = token.substring(0, 2).toInt()
+            val minute = token.substring(2, 4).toInt()
+            val time = LocalTime.of(hour, minute)
+            uniqueTimes.putIfAbsent(time.toString(), time)
+        }
+        return uniqueTimes.values.toList()
     }
 
     private fun inferFlightDate(julianDate: String): LocalDate {
@@ -248,6 +287,8 @@ class TicketValidationService(
         val operatingCarrierDesignator: String,
         val flightNumber: String,
         val flightDate: LocalDate,
+        val departureTime: LocalTime?,
+        val landingTime: LocalTime?,
     )
 
     companion object {
