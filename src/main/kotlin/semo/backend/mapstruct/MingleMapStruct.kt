@@ -14,6 +14,8 @@ class MingleMapStruct(
             city = cityMapStruct.toDto(entity.city),
             title = entity.title,
             description = entity.description,
+            placeName = entity.placeName,
+            meetDateTime = entity.meetDateTime,
             latitude = entity.latitude,
             longitude = entity.longitude,
             createdDateTime = entity.createdDateTime,
