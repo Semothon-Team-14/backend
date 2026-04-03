@@ -36,6 +36,9 @@ class Mingle(
 
     @Column(name = "longitude", precision = 10, scale = 7)
     var longitude: BigDecimal? = null,
+
+    @Column(name = "target_participant_count")
+    var targetParticipantCount: Int? = null,
 ) : AuditLoggingBase() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
