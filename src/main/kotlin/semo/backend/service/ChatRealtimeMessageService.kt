@@ -26,12 +26,32 @@ class ChatRealtimeMessageService(
         val translations = if (senderNationality == null) {
             emptyList()
         } else {
+            val detectedLanguageCode = try {
+                openAiTranslationService.detectLanguageCode(message.content)
+            } catch (exception: Exception) {
+                log.warn(
+                    "CHAT LANGUAGE DETECTION FAILED chatMessageId={} senderUserId={} reason={}",
+                    message.id,
+                    userId,
+                    exception.message ?: exception::class.simpleName ?: "unknown",
+                )
+                null
+            }
+
             chatRoom.participants
                 .asSequence()
                 .filter { it.user.id != userId }
                 .mapNotNull { participant ->
                     val recipientNationality = participant.user.nationality ?: return@mapNotNull null
-                    if (recipientNationality.id == senderNationality.id) {
+                    val recipientPrimaryLanguageCode = openAiTranslationService
+                        .primaryLanguageCodeByCountryCode(recipientNationality.countryCode)
+
+                    if (
+                        recipientNationality.id == senderNationality.id ||
+                        (detectedLanguageCode != null &&
+                            recipientPrimaryLanguageCode != null &&
+                            detectedLanguageCode == recipientPrimaryLanguageCode)
+                    ) {
                         return@mapNotNull null
                     }
 
