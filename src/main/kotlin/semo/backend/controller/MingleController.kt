@@ -62,10 +62,11 @@ class MingleController(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createMingle(
+        @UserId userId: Long,
         @RequestBody request: CreateMingleRequest,
     ): CreateMingleResponse {
         return CreateMingleResponse(
-            mingle = mingleFacade.createMingle(request),
+            mingle = mingleFacade.createMingle(userId, request),
         )
     }
 
