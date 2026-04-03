@@ -13,6 +13,7 @@ import semo.backend.controller.response.GetChatRoomResponse
 import semo.backend.controller.response.GetChatRoomsResponse
 import semo.backend.controller.response.InitializeChatRoomResponse
 import semo.backend.controller.response.JoinMingleChatRoomResponse
+import semo.backend.controller.response.MarkChatRoomReadResponse
 import semo.backend.facade.ChatRoomFacade
 import semo.backend.security.UserId
 
@@ -58,6 +59,17 @@ class ChatRoomController(
     ): JoinMingleChatRoomResponse {
         return JoinMingleChatRoomResponse(
             chatRoom = chatRoomFacade.joinMingleChatRoom(userId, mingleId),
+        )
+    }
+
+    @PostMapping("/{chatRoomId}/read")
+    fun markChatRoomAsRead(
+        @UserId userId: Long,
+        @PathVariable chatRoomId: Long,
+    ): MarkChatRoomReadResponse {
+        return MarkChatRoomReadResponse(
+            chatRoomId = chatRoomId,
+            lastReadDateTime = chatRoomFacade.markChatRoomAsRead(userId, chatRoomId),
         )
     }
 }
