@@ -40,6 +40,7 @@ class SecurityConfig(
                     )
                     .permitAll()
                     .requestMatchers(HttpMethod.GET, "/nationalities", "/nationalities/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/keywords", "/keywords/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/users").permitAll()
                     .anyRequest()
                     .authenticated()
