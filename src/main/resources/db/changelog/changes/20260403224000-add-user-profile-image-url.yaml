@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260403224000-add-user-profile-image-url
+      author: codex
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: profile_image_url
+                  type: TEXT
