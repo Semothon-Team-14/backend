@@ -25,6 +25,7 @@ def sync_places_to_database(
     database_config: DatabaseConfig,
     cafes: list[SeedPlace],
     restaurants: list[SeedPlace],
+    city_representative_images: dict[int, str],
 ) -> None:
     if psycopg is None:
         raise RuntimeError(
@@ -64,6 +65,10 @@ def sync_places_to_database(
                 table_name="restaurant_images",
                 parent_column_name="restaurant_id",
                 places=restaurants,
+            )
+            _update_city_representative_images(
+                cursor,
+                city_representative_images=city_representative_images,
             )
             _reset_sequences(cursor)
 
@@ -137,4 +142,18 @@ def _reset_sequences(cursor: "psycopg.Cursor") -> None:
     )
     cursor.execute(
         "SELECT setval('restaurant_images_id_seq', COALESCE((SELECT MAX(id) FROM restaurant_images), 1), true)"
+    )
+
+
+def _update_city_representative_images(
+    cursor: "psycopg.Cursor",
+    *,
+    city_representative_images: dict[int, str],
+) -> None:
+    if not city_representative_images:
+        return
+
+    cursor.executemany(
+        "UPDATE cities SET representative_image_url = %s WHERE id = %s",
+        [(image_url, city_id) for city_id, image_url in city_representative_images.items()],
     )
