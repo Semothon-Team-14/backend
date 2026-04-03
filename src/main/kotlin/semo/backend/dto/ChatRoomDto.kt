@@ -9,6 +9,7 @@ data class ChatRoomDto(
     val mingleId: Long?,
     val participantUserIds: List<Long>,
     val otherParticipantLocal: Boolean? = null,
+    val otherParticipantTraveler: Boolean? = null,
     val unreadMessageCount: Long = 0,
     val createdDateTime: LocalDateTime,
     val updatedDateTime: LocalDateTime,
