@@ -2,15 +2,18 @@ package semo.backend.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.multipart.MultipartFile
 import semo.backend.config.argument.OptionalRequestBody
 import semo.backend.controller.request.CreateUserRequest
 import semo.backend.controller.request.UpdateUserRequest
@@ -18,6 +21,7 @@ import semo.backend.controller.response.CreateUserResponse
 import semo.backend.controller.response.DeleteUserResponse
 import semo.backend.controller.response.GetUserResponse
 import semo.backend.controller.response.GetUsersResponse
+import semo.backend.controller.response.UploadUserProfileImageResponse
 import semo.backend.controller.response.UpdateUserResponse
 import semo.backend.facade.UserFacade
 
@@ -50,6 +54,16 @@ class UserController(
     ): CreateUserResponse {
         return CreateUserResponse(
             user = userFacade.createUser(request),
+        )
+    }
+
+    @PostMapping("/{userId}/profile-image", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+    fun uploadProfileImage(
+        @PathVariable userId: Long,
+        @RequestPart("file") file: MultipartFile,
+    ): UploadUserProfileImageResponse {
+        return UploadUserProfileImageResponse(
+            user = userFacade.uploadProfileImage(userId, file),
         )
     }
 
