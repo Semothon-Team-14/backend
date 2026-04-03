@@ -43,3 +43,5 @@ databaseChangeLog:
       file: db/changelog/changes/20260401235900-add-locals-and-quick-match-target-type.yaml
   - include:
       file: db/changelog/changes/20260403165000-reseed-place-data-from-rds.yaml
+  - include:
+      file: db/changelog/changes/20260403173000-add-mingle-coordinate-columns.yaml
