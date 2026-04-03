@@ -9,6 +9,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
+import java.math.BigDecimal
 
 @Entity
 @Table(name = "mingles")
@@ -22,6 +23,12 @@ class Mingle(
 
     @Column(name = "description", length = 1000)
     var description: String? = null,
+
+    @Column(name = "latitude", precision = 10, scale = 7)
+    var latitude: BigDecimal? = null,
+
+    @Column(name = "longitude", precision = 10, scale = 7)
+    var longitude: BigDecimal? = null,
 ) : AuditLoggingBase() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
