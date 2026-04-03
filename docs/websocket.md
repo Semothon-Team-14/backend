@@ -54,6 +54,11 @@ Subscribe:
 }
 ```
 
+Translation behavior for incoming chat messages:
+- Server first detects the message language with OpenAI.
+- If detected language already matches a recipient's primary language (derived from recipient nationality), translation is skipped for that recipient.
+- Otherwise, server requests OpenAI translation, stores it in `chat_message_translations`, and includes it in `delivery.translations` for recipients.
+
 ## Quick Match Alerts
 Created/accepted quick-match alerts are published by city and by user.
 
@@ -160,6 +165,10 @@ client.activate();
 
 ## Related REST APIs
 - Read chat history: `GET /chatrooms/{chatRoomId}/messages`
+- Mark chat room as read: `POST /chatrooms/{chatRoomId}/read`
 - Create quick-match: `POST /quick-matches`
 - Accept quick-match: `POST /quick-matches/{quickMatchId}/accept`
 - Decline quick-match: `POST /quick-matches/{quickMatchId}/decline`
+
+Chat history response note:
+- `GET /chatrooms/{chatRoomId}/messages` includes each message's optional `translatedContent` for the requesting user when a stored translation exists.
