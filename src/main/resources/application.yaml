@@ -14,6 +14,9 @@ spring:
       enabled: true
       force: true
       charset: UTF-8
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 25MB
 
 server:
   tomcat:
