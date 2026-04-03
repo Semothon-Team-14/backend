@@ -8,6 +8,7 @@ data class ChatRoomDto(
     val directChat: Boolean,
     val mingleId: Long?,
     val participantUserIds: List<Long>,
+    val unreadMessageCount: Long = 0,
     val createdDateTime: LocalDateTime,
     val updatedDateTime: LocalDateTime,
 )
