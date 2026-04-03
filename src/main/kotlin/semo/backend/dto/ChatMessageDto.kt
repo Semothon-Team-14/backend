@@ -7,5 +7,6 @@ data class ChatMessageDto(
     val chatRoomId: Long,
     val senderUserId: Long,
     val content: String,
+    val translatedContent: String? = null,
     val createdDateTime: LocalDateTime,
 )
