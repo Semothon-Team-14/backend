@@ -12,4 +12,5 @@ data class UpdateTripRequest(
     val departureLandingDateTime: Optional<LocalDateTime>? = null,
     val userId: Optional<Long>? = null,
     val cityId: Optional<Long>? = null,
+    val fromCityId: Optional<Long>? = null,
 )
