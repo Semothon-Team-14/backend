@@ -8,6 +8,7 @@ data class CreateTripRequest(
     val startDate: LocalDate,
     val endDate: LocalDate,
     val cityId: Long,
+    val fromCityId: Long? = null,
     val departureDateTime: LocalDateTime? = null,
     val departureLandingDateTime: LocalDateTime? = null,
 )
