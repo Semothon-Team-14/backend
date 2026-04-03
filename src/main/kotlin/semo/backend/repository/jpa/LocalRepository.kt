@@ -12,6 +12,8 @@ interface LocalRepository : JpaRepository<Local, Long> {
 
     fun findByIdAndUserId(localId: Long, userId: Long): Local?
 
+    fun existsByUserId(userId: Long): Boolean
+
     fun existsByUserIdAndCityId(userId: Long, cityId: Long): Boolean
 
     fun existsByUserIdAndCityIdAndIdNot(userId: Long, cityId: Long, localId: Long): Boolean
