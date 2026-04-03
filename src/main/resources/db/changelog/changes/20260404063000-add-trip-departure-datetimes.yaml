@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260404063000-add-trip-departure-datetimes
+      author: codex
+      changes:
+        - addColumn:
+            tableName: trips
+            columns:
+              - column:
+                  name: departure_date_time
+                  type: timestamp
+              - column:
+                  name: departure_landing_date_time
+                  type: timestamp
