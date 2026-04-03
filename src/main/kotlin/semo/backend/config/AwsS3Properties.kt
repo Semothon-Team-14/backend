@@ -8,6 +8,7 @@ data class AwsS3Properties(
     var secretAccessKey: String = "",
     var region: String = "",
     var s3Bucket: String = "",
+    var placesBucket: String = "semothon-places",
     var profilePicturesBucket: String = "semothon-14-profile-pictures",
 ) {
     fun buildPublicUrl(key: String): String {
